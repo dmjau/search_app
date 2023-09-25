@@ -1,0 +1,21 @@
+repositories {
+    // MELI internal release libs
+    maven {
+        name 'AndroidInternalReleases'
+        url 'https://android.artifacts.furycloud.io/repository/releases'
+        credentials(PasswordCredentials)
+        content {
+            // only releases
+            includeVersionByRegex('com\\.mercadolibre\\..*', '.*', '^((?!EXPERIMENTAL-|LOCAL-).)*$')
+            includeVersionByRegex('com\\.mercadopago\\..*', '.*', '^((?!EXPERIMENTAL-|LOCAL-).)*$')
+            includeGroup 'com.bugsnag'
+        }
+    }
+
+    // catch all repositories
+    maven {
+        name 'AndroidExtra'
+        url 'https://android.artifacts.furycloud.io/repository/extra/'
+        credentials(PasswordCredentials)
+    }
+}
