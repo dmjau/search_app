@@ -4,7 +4,7 @@
     <application
         android:name="com.mercadolibre.pipsearch.android.app.MainApplication"
         android:icon="@mipmap/pip_search_app_ic_launcher"
-        android:label="@string/pip_search_meli_app_app_name"
+        android:label="@string/pip_search_app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Base">
 
