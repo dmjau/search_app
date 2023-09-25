@@ -2,7 +2,7 @@ package com.mercadolibre.pipsearch.android.app
 
 import android.os.Bundle
 import com.mercadolibre.android.commons.core.AbstractActivity
-import com.mercadolibre.android.pipsearch.R
+import com.mercadolibre.pipsearch.android.R
 
 /**
  * Main activity class

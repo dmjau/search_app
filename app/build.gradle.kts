@@ -12,7 +12,7 @@ val appVersionCode = properties["versionCode"].toString().toInt()
 val appVersionName = properties["versionName"].toString()
 
 android {
-    namespace = "com.mercadolibre.android.pipsearch"
+    namespace = "com.mercadolibre.pipsearch.android"
 
     defaultConfig {
         applicationId = appId
