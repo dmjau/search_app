@@ -12,7 +12,7 @@ val appVersionCode = properties["versionCode"].toString().toInt()
 val appVersionName = properties["versionName"].toString()
 
 android {
-    namespace = "com.mercadolibre.android.pip_search_meli_app"
+    namespace = "com.mercadolibre.android.pipsearch"
 
     defaultConfig {
         applicationId = appId
@@ -20,7 +20,7 @@ android {
         versionName = appVersionName
     }
 
-    resourcePrefix = "pip_search_meli_app_app"
+    resourcePrefix = "pip_search_app"
 
     buildTypes {
         getByName("debug") {

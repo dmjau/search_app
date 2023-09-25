@@ -1,4 +1,4 @@
-package com.mercadolibre.android.pip_search_meli_app.app
+package com.mercadolibre.pipsearch.android.app
 
 import android.app.Application
 import com.mercadolibre.android.configuration.manager.ConfigurationManager
