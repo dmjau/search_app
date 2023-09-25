@@ -11,7 +11,7 @@ class MainActivity : AbstractActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.pip_search_meli_app_app_activity_main);
+        setContentView(R.layout.pip_search_meli_app_app_main_activity);
 
     }
 }
