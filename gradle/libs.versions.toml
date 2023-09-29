@@ -18,6 +18,8 @@ dexCountPluginVersion = "1.0.3"
 ##################################################################################
 commons = "30.+"
 configurationManager = "8.+"
+andesUIComponentsVersion = "7.+"
+restClientLibVersion = "22.+"
 
 ##################################################################################
 # Misc libs
@@ -50,11 +52,13 @@ meli-everest = { module = "com.mercadolibre.android.everest:platform", version.r
 ##################################################################################
 # Meli libs
 ##################################################################################
+##################################################################################
 meli-commonsCore = { module ="com.mercadolibre.android.commons:core", version.ref = "commons"}
 meli-commonsUtils = { module ="com.mercadolibre.android.commons:utils", version.ref = "commons"}
 meli-configurationManager = { module ="com.mercadolibre.android:configuration-manager", version.ref = "configurationManager"}
 meli-testingCore = { module ="com.mercadolibre.android.testing:core", version.ref = "testing"}
-meli-ui = { module ="com.mercadolibre.android:ui", version.ref = "ui"}
+meli-andesUIComponents = { module ="com.mercadolibre.android.andesui:components", version.ref = "andesUIComponentsVersion"}
+meli-restClient = { module ="com.mercadolibre.android:restclient", version.ref = "restClientLibVersion"}
 
 ##################################################################################
 # Misc libs
