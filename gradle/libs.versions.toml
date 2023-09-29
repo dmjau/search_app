@@ -10,7 +10,7 @@ everestVersion = "1.+"
 gradleBuildToolsVersion = "7.2.2"
 meliPluginGradleVersion = "17.+"
 androidMavenGradlePlugin = "2.1"
-kotlinVersion = "1.5.32"
+kotlinVersion = "1.9.10"
 dexCountPluginVersion = "1.0.3"
 
 ##################################################################################

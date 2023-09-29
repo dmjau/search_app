@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.meli.commonsCore)
     implementation(libs.meli.commonsUtils)
     implementation(libs.meli.configurationManager)
-    implementation(libs.meli.ui)
 
     // Everest force
     api(enforcedPlatform(libs.meli.everest))
