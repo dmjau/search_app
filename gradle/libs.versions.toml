@@ -33,6 +33,8 @@ materialVersion="1.3.0"
 # Test libs
 ##################################################################################
 testing = "13.+"
+mockkVersion = "1.11.+"
+robolectricVersion = "4.8.+"
 
 
 [libraries]
@@ -54,7 +56,6 @@ meli-everest = { module = "com.mercadolibre.android.everest:platform", version.r
 ##################################################################################
 # Meli libs
 ##################################################################################
-##################################################################################
 meli-commonsCore = { module ="com.mercadolibre.android.commons:core", version.ref = "commons"}
 meli-commonsUtils = { module ="com.mercadolibre.android.commons:utils", version.ref = "commons"}
 meli-configurationManager = { module ="com.mercadolibre.android:configuration-manager", version.ref = "configurationManager"}
@@ -69,3 +70,9 @@ misc-appCompat = { module ="androidx.appcompat:appcompat", version.ref = "appCom
 misc-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayoutVersion" }
 misc-recyclerView = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerviewVersion" }
 misc-materialDesignUI = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+
+##################################################################################
+# Test libs
+##################################################################################
+misc-mockkTest = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
+misc-roboelectricTest = { module = "org.robolectric:robolectric", version.ref = "robolectricVersion" }

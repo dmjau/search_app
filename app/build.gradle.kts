@@ -75,4 +75,6 @@ dependencies {
 
     // Unit testing dependencies
     testImplementation(libs.meli.testingCore)
+    testImplementation(libs.misc.mockkTest)
+    testImplementation(libs.misc.roboelectricTest)
 }
