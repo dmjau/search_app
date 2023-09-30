@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.misc.appCompat)
     implementation(libs.misc.constraintLayout)
     implementation(libs.misc.recyclerView)
+    implementation(libs.misc.materialDesignUI)
 
     // Mercadolibre Libs
     implementation(libs.meli.commonsCore)
