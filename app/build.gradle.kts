@@ -18,6 +18,7 @@ android {
         applicationId = appId
         versionCode = appVersionCode
         versionName = appVersionName
+        targetSdk = 32
     }
 
     resourcePrefix = "pip_search_app"
@@ -77,4 +78,5 @@ dependencies {
     testImplementation(libs.meli.testingCore)
     testImplementation(libs.misc.mockkTest)
     testImplementation(libs.misc.roboelectricTest)
+    testImplementation(libs.misc.kotlinCoroutinesTest)
 }
