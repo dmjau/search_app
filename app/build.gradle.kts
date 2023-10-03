@@ -56,16 +56,11 @@ android {
 
 dependencies {
     implementation(libs.misc.appCompat)
-    implementation(libs.misc.constraintLayout)
-    implementation(libs.misc.recyclerView)
-    implementation(libs.misc.materialDesignUI)
 
     // Mercadolibre Libs
     implementation(libs.meli.commonsCore)
     implementation(libs.meli.commonsUtils)
     implementation(libs.meli.configurationManager)
-    implementation(libs.meli.andesUIComponents)
-    implementation(libs.meli.restClient)
 
     // Everest force
     api(enforcedPlatform(libs.meli.everest))

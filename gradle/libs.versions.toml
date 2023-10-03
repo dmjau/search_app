@@ -18,16 +18,11 @@ dexCountPluginVersion = "1.0.3"
 ##################################################################################
 commons = "30.+"
 configurationManager = "8.+"
-andesUIComponentsVersion = "7.+"
-restClientLibVersion = "21.+"
 
 ##################################################################################
 # Misc libs
 ##################################################################################
 appCompat = "1.3.1"
-constraintLayoutVersion = "2.0.4"
-recyclerviewVersion = "1.2.1"
-materialVersion="1.3.0"
 
 ##################################################################################
 # Test libs
@@ -61,16 +56,11 @@ meli-commonsCore = { module ="com.mercadolibre.android.commons:core", version.re
 meli-commonsUtils = { module ="com.mercadolibre.android.commons:utils", version.ref = "commons"}
 meli-configurationManager = { module ="com.mercadolibre.android:configuration-manager", version.ref = "configurationManager"}
 meli-testingCore = { module ="com.mercadolibre.android.testing:core", version.ref = "testing"}
-meli-andesUIComponents = { module ="com.mercadolibre.android.andesui:components", version.ref = "andesUIComponentsVersion"}
-meli-restClient = { module ="com.mercadolibre.android:restclient", version.ref = "restClientLibVersion"}
 
 ##################################################################################
 # Misc libs
 ##################################################################################
 misc-appCompat = { module ="androidx.appcompat:appcompat", version.ref = "appCompat" }
-misc-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayoutVersion" }
-misc-recyclerView = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerviewVersion" }
-misc-materialDesignUI = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 
 ##################################################################################
 # Test libs
