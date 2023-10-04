@@ -18,6 +18,7 @@ android {
         applicationId = appId
         versionCode = appVersionCode
         versionName = appVersionName
+        targetSdk = 32
     }
 
     resourcePrefix = "pip_search_app"
@@ -56,10 +57,10 @@ android {
 dependencies {
     implementation(libs.misc.appCompat)
 
+    // Mercadolibre Libs
     implementation(libs.meli.commonsCore)
     implementation(libs.meli.commonsUtils)
     implementation(libs.meli.configurationManager)
-    implementation(libs.meli.ui)
 
     // Everest force
     api(enforcedPlatform(libs.meli.everest))
@@ -70,4 +71,7 @@ dependencies {
 
     // Unit testing dependencies
     testImplementation(libs.meli.testingCore)
+    testImplementation(libs.misc.mockkTest)
+    testImplementation(libs.misc.roboelectricTest)
+    testImplementation(libs.misc.kotlinCoroutinesTest)
 }
