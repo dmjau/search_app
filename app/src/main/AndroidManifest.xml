@@ -8,7 +8,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Base">
 
-        <activity android:name="com.mercadolibre.pipsearch.android.app.MainActivity"
+        <activity android:name="com.mercadolibre.pipsearch.android.app.ui.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
