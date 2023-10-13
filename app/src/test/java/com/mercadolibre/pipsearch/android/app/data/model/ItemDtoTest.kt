@@ -17,7 +17,7 @@ class ItemDtoTest {
         )
 
         // then
-        assertEquals("title dto test", itemTest.title)
+        assertEquals("title dto item test", itemTest.title)
         assertEquals(1234.0, itemTest.price, 0.0)
         assertEquals("https://test_item_image.jpg", itemTest.thumbnail)
         assertEquals(listOfTags, itemTest.tags)
