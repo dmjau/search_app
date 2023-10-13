@@ -9,7 +9,12 @@ class ItemDtoTest {
     fun `Item DTO parses ok`() {
         // given
         val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
-        val itemTest = ItemDto("title dto item test", 1234.0, "https://test_item_image.jpg", listOfTags)
+        val itemTest = ItemDto(
+            "title dto item test",
+            1234.0,
+            "https://test_item_image.jpg",
+            listOfTags
+        )
 
         // then
         assertEquals("title dto test", itemTest.title)
