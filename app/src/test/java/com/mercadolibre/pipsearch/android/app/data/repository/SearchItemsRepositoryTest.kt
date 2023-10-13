@@ -7,6 +7,7 @@ import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.SocketPolicy
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -41,22 +42,57 @@ class SearchItemsRepositoryTest {
     }
 
     @Test
-    fun `test call service when response is success`() {
+    fun testCallServiceWhenResponseIsSuccess() {
+        // given
         val responseJson = """{"query": "mock response query"}"""
 
         val response = MockResponse()
             .setResponseCode(HttpURLConnection.HTTP_OK)
             .setBody(responseJson)
 
+        // when
         mockWebServer.enqueue(response)
 
         runBlocking {
+            // then
             val result = repository.getAll()
             assertTrue(result is RestClientResult.Success)
 
             (result as? RestClientResult.Success)?.data?.let { data ->
                 assertEquals("mock response query", data.query)
             }
+        }
+    }
+
+    @Test
+    fun testCallServiceWhenResponseIsError() {
+        // given
+        val response = MockResponse()
+            .setResponseCode(HttpURLConnection.HTTP_BAD_REQUEST)
+
+        // when
+        mockWebServer.enqueue(response)
+
+        runBlocking {
+            // then
+            val result = repository.getAll()
+            assertTrue(result is RestClientResult.Error)
+        }
+    }
+
+    @Test
+    fun testCallServiceWhenResponseIsException() {
+        // given
+        val response = MockResponse()
+            .setSocketPolicy(SocketPolicy.NO_RESPONSE)
+
+        // when
+        mockWebServer.enqueue(response)
+
+        runBlocking {
+            // then
+            val result = repository.getAll()
+            assertTrue(result is RestClientResult.Exception)
         }
     }
 }
