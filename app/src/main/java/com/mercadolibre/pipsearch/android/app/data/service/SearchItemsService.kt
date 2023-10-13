@@ -10,5 +10,5 @@ object SearchItemsService {
         .addConverterFactory(GsonConverterFactory.create())
         .create(SearchItemsApiService::class.java)
 
-    val ApiService = service
+    val searchItemService = service
 }
