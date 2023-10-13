@@ -1,5 +1,8 @@
 package com.mercadolibre.pipsearch.android.app.data.model
 
+import com.mercadolibre.android.commons.serialization.annotations.Model
+
+@Model
 data class ProductDto(
     val title: String,
     val price: Double,
