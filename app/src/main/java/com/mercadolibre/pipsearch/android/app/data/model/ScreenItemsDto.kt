@@ -3,9 +3,7 @@ package com.mercadolibre.pipsearch.android.app.data.model
 import com.mercadolibre.android.commons.serialization.annotations.Model
 
 @Model
-data class ProductDto(
-    val title: String,
-    val price: Double,
-    val thumbnail: String,
-    val tags: List<String>
+class ScreenItemsDto(
+    val query: String,
+    val results: List<ItemDto>
 )

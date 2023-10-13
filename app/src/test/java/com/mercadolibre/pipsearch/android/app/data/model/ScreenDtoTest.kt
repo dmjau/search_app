@@ -9,10 +9,10 @@ class ScreenDtoTest {
     fun `Screen DTO parses ok`() {
         // given
         val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
-        val productTest1 = ProductDto("productTest 1", 1111.0, "https://test_image_product_test_1.jpg", listOfTags)
-        val productTest2 = ProductDto("productTest 2", 2222.0, "https://test_image_product_test_2.jpg", listOfTags)
+        val productTest1 = ItemDto("productTest 1", 1111.0, "https://test_image_product_test_1.jpg", listOfTags)
+        val productTest2 = ItemDto("productTest 2", 2222.0, "https://test_image_product_test_2.jpg", listOfTags)
         val listOfProductsTest = listOf(productTest1, productTest2)
-        val screenTest = ScreenDto("search test", listOfProductsTest)
+        val screenTest = ScreenItemsDto("search test", listOfProductsTest)
 
         // then
         assertEquals("search test", screenTest.query)
