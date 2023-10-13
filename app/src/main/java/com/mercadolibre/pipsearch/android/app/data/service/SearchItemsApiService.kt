@@ -8,6 +8,10 @@ import retrofit2.http.GET
 
 interface SearchItemsApiService {
 
+    /**
+     * Get full screen with list of items
+     * @return full search screen
+     */
     @GET("sites/MLA/search?q=heineken")
     @ConverterFactory(ResponseFormat.JSON)
     suspend fun getSearchItems() : RestClientResult<ScreenItemsDto>
