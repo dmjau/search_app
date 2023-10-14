@@ -6,39 +6,47 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mercadolibre.android.restclient.extension.onError
-import com.mercadolibre.android.restclient.extension.onException
 import com.mercadolibre.android.restclient.extension.onSuccess
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
-import com.mercadolibre.pipsearch.android.app.data.service.RestClientApiHelper
+import com.mercadolibre.pipsearch.android.app.data.service.SearchItemsApiService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    searchItemsService: SearchItemsApiService
+) : ViewModel() {
 
-    private val searchItemsService = RestClientApiHelper.getRestClient()
     private val repository = SearchItemsRepository(searchItemsService)
     private val searchResults: MutableLiveData<List<ItemDto>> = MutableLiveData()
+    private val errorResult: MutableLiveData<String> = MutableLiveData()
+    private val exceptionResult: MutableLiveData<String> = MutableLiveData()
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { context, throwable ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Log.d("exception", throwable.message!!)
+        exceptionResult.postValue(throwable.message)
     }
 
-    fun getSearchResults() : LiveData<List<ItemDto>> {
+    fun getSearchResults(): LiveData<List<ItemDto>> {
         return searchResults
+    }
+
+    fun getErrorResult(): LiveData<String> {
+        return errorResult
+    }
+
+    fun getExceptionResult(): LiveData<String> {
+        return exceptionResult
     }
 
     fun fetchResults() {
         viewModelScope.launch(coroutineExceptionHandler) {
             repository.getAll()
                 .onSuccess {
-
+                    searchResults.postValue(it.results)
                 }
-                .onError { code, message ->
-
-                }
-                .onException {
-
+                .onError { _, message ->
+                    errorResult.postValue(message)
                 }
         }
     }
