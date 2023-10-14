@@ -19,7 +19,7 @@ class SearchItemsRepositoryTest {
 
     private lateinit var repository: SearchItemsRepository
     private lateinit var mockWebServer: MockWebServer
-    private lateinit var searchItemsApiService: SearchItemsApiService
+    private lateinit var mockWebApiService: SearchItemsApiService
 
     @Before
     fun setup() {
@@ -28,12 +28,12 @@ class SearchItemsRepositoryTest {
 
         val baseUrl = mockWebServer.url("/").toString()
 
-        searchItemsApiService = RepositoryFactory
+        mockWebApiService = RepositoryFactory
             .newBuilder(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .create(SearchItemsApiService::class.java)
 
-        repository = SearchItemsRepository(searchItemsApiService)
+        repository = SearchItemsRepository(mockWebApiService)
     }
 
     @After
