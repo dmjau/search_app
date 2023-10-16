@@ -13,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -37,12 +38,12 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `fetchResults should update searchResults on success`() = testDispatcher.runBlockingTest {
+    fun `fetchResults should update searchResults on success response`() = testDispatcher.runBlockingTest {
         // given
-        val mockListItems = ItemDto("Item 1", 10.0, "test", emptyList())
+        val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
             mockSearchItemsApiService.getSearchItems()
-        } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockListItems)))
+        } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockItem)))
 
         // when
         viewModel.fetchResults()
@@ -55,7 +56,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `fetchResults should update errorResult on error`() = testDispatcher.runBlockingTest {
+    fun `fetchResults should update errorResult on error response`() = testDispatcher.runBlockingTest {
         // given
         val errorMessage = "Error message"
         coEvery {
@@ -73,7 +74,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `fetchResults should not update searchResults on error`() = testDispatcher.runBlockingTest {
+    fun `fetchResults should update exceptionResult on exception response`() = testDispatcher.runBlockingTest {
         // given
         val errorMessage = "Error message"
         coEvery {
@@ -88,5 +89,60 @@ class MainViewModelTest {
 
         // then
         assertNotNull(reflectionExceptionResult)
+    }
+
+    @Test
+    fun `Get searchResults on success response`() = testDispatcher.runBlockingTest {
+        // given
+        val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+        coEvery {
+            mockSearchItemsApiService.getSearchItems()
+        } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockItem)))
+
+        // when
+        viewModel.fetchResults()
+
+        val searchResult = viewModel.getSearchResults()
+
+        // then
+        assertNotNull(searchResult)
+        assertEquals("query mock", searchResult.value?.query.toString())
+        assertEquals(mockItem, searchResult.value!!.results[0])
+    }
+
+    @Test
+    fun `Get errorResult on error response`() = testDispatcher.runBlockingTest {
+        // given
+        val errorMessage = "Error message"
+        coEvery {
+            mockSearchItemsApiService.getSearchItems()
+        } returns RestClientResult.Error(0, errorMessage)
+
+        // when
+        viewModel.fetchResults()
+
+        val errorResult = viewModel.getErrorResult()
+
+        // then
+        assertNotNull(errorResult)
+        assertEquals("Error message", errorResult.value.toString())
+    }
+
+    @Test
+    fun `Get exceptionResult on exception response`() = testDispatcher.runBlockingTest {
+        // given
+        val exceptionMessage = "Exception message"
+        coEvery {
+            mockSearchItemsApiService.getSearchItems()
+        } throws Exception(exceptionMessage)
+
+        // when
+        viewModel.fetchResults()
+
+        val exceptionResult = viewModel.getExceptionResult()
+
+        // then
+        assertNotNull(exceptionResult)
+        assertEquals("Exception message", exceptionResult.value)
     }
 }
