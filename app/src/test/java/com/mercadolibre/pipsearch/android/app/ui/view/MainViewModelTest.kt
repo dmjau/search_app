@@ -76,10 +76,10 @@ class MainViewModelTest {
     @Test
     fun `fetchResults should update exceptionResult on exception response`() = testDispatcher.runBlockingTest {
         // given
-        val errorMessage = "Error message"
+        val exceptionMessage = "Exception message"
         coEvery {
             mockSearchItemsApiService.getSearchItems()
-        } returns RestClientResult.Error(0, errorMessage)
+        } throws Exception(exceptionMessage)
 
         // when
         viewModel.fetchResults()
