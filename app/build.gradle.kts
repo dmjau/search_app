@@ -75,4 +75,5 @@ dependencies {
     testImplementation(libs.misc.roboelectricTest)
     testImplementation(libs.misc.kotlinCoroutinesTest)
     testImplementation(libs.misc.okhttp3Mockwebserver)
+    testImplementation(libs.misc.coreTesting)
 }

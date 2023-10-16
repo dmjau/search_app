@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mercadolibre.android.restclient.extension.onError
 import com.mercadolibre.android.restclient.extension.onSuccess
-import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.data.service.SearchItemsApiService
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -18,7 +18,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val repository = SearchItemsRepository(searchItemsService)
-    private val searchResults: MutableLiveData<List<ItemDto>> = MutableLiveData()
+    private val searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
     private val errorResult: MutableLiveData<String> = MutableLiveData()
     private val exceptionResult: MutableLiveData<String> = MutableLiveData()
 
@@ -27,7 +27,7 @@ class MainViewModel(
         exceptionResult.postValue(throwable.message)
     }
 
-    fun getSearchResults(): LiveData<List<ItemDto>> {
+    fun getSearchResults(): LiveData<ScreenItemsDto> {
         return searchResults
     }
 
@@ -43,7 +43,7 @@ class MainViewModel(
         viewModelScope.launch(coroutineExceptionHandler) {
             repository.getAll()
                 .onSuccess {
-                    searchResults.postValue(it.results)
+                    searchResults.postValue(it)
                 }
                 .onError { _, message ->
                     errorResult.postValue(message)
