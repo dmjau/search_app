@@ -38,58 +38,64 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `fetchResults should update searchResults on success response`() = testDispatcher.runBlockingTest {
-        // given
-        val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
-        coEvery {
-            mockSearchItemsApiService.getSearchItems()
-        } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockItem)))
+    fun `fetchResults should update searchResults on success response`() =
+        testDispatcher.runBlockingTest {
+            // given
+            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            coEvery {
+                mockSearchItemsApiService.getSearchItems()
+            } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockItem)))
 
-        // when
-        viewModel.fetchResults()
+            // when
+            viewModel.fetchResults()
 
-        val reflectionSearchResults =
-            ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "searchResults")
+            val reflectionSearchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "searchResults"
+                )
 
-        // then
-        assertNotNull(reflectionSearchResults)
-    }
-
-    @Test
-    fun `fetchResults should update errorResult on error response`() = testDispatcher.runBlockingTest {
-        // given
-        val errorMessage = "Error message"
-        coEvery {
-            mockSearchItemsApiService.getSearchItems()
-        } returns RestClientResult.Error(0, errorMessage)
-
-        // when
-        viewModel.fetchResults()
-
-        val reflectionErrorResult =
-            ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "errorResult")
-
-        // then
-        assertNotNull(reflectionErrorResult)
-    }
+            // then
+            assertNotNull(reflectionSearchResults)
+        }
 
     @Test
-    fun `fetchResults should update exceptionResult on exception response`() = testDispatcher.runBlockingTest {
-        // given
-        val exceptionMessage = "Exception message"
-        coEvery {
-            mockSearchItemsApiService.getSearchItems()
-        } throws Exception(exceptionMessage)
+    fun `fetchResults should update errorResult on error response`() =
+        testDispatcher.runBlockingTest {
+            // given
+            val errorMessage = "Error message"
+            coEvery {
+                mockSearchItemsApiService.getSearchItems()
+            } returns RestClientResult.Error(0, errorMessage)
 
-        // when
-        viewModel.fetchResults()
+            // when
+            viewModel.fetchResults()
 
-        val reflectionExceptionResult =
-            ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionResult")
+            val reflectionErrorResult =
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "errorResult")
 
-        // then
-        assertNotNull(reflectionExceptionResult)
-    }
+            // then
+            assertNotNull(reflectionErrorResult)
+        }
+
+    @Test
+    fun `fetchResults should update exceptionResult on exception response`() =
+        testDispatcher.runBlockingTest {
+            // given
+            val exceptionMessage = "Exception message"
+            coEvery {
+                mockSearchItemsApiService.getSearchItems()
+            } throws Exception(exceptionMessage)
+
+            // when
+            viewModel.fetchResults()
+
+            val reflectionExceptionResult =
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionResult")
+
+            // then
+            assertNotNull(reflectionExceptionResult)
+        }
 
     @Test
     fun `Get searchResults on success response`() = testDispatcher.runBlockingTest {
