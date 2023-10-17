@@ -44,7 +44,7 @@ class SearchItemsRepositoryTest {
     @Test
     fun testCallServiceWhenResponseIsSuccess() {
         // given
-        val responseJson = """{"query": "mock response query"}"""
+        val responseJson = """{"results": [{"title": "title dto item test"}]}"""
 
         val response = MockResponse()
             .setResponseCode(HttpURLConnection.HTTP_OK)
@@ -59,7 +59,7 @@ class SearchItemsRepositoryTest {
             assertTrue(result is RestClientResult.Success)
 
             (result as? RestClientResult.Success)?.data?.let { data ->
-                assertEquals("mock response query", data.query)
+                assertEquals("title dto item test", data.results[0].title)
             }
         }
     }
