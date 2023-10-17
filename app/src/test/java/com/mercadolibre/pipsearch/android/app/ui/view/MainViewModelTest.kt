@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mercadolibre.android.restclient.model.RestClientResult
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
-import com.mercadolibre.pipsearch.android.app.data.service.SearchItemsApiService
+import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -28,13 +28,15 @@ class MainViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val testDispatcher = TestCoroutineDispatcher()
-    private val mockSearchItemsApiService = mockk<SearchItemsApiService>(relaxed = true)
+    private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = MainViewModel(mockSearchItemsApiService)
+        viewModel = MainViewModel()
+
+        ReflectionHelpers.setField(viewModel, "repository", mockRepository)
     }
 
     @Test
@@ -43,7 +45,7 @@ class MainViewModelTest {
             // given
             val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
-                mockSearchItemsApiService.getSearchItems()
+                mockRepository.getAll()
             } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
             // when
@@ -65,7 +67,7 @@ class MainViewModelTest {
             // given
             val errorMessage = "Error message"
             coEvery {
-                mockSearchItemsApiService.getSearchItems()
+                mockRepository.getAll()
             } returns RestClientResult.Error(0, errorMessage)
 
             // when
@@ -84,7 +86,7 @@ class MainViewModelTest {
             // given
             val exceptionMessage = "Exception message"
             coEvery {
-                mockSearchItemsApiService.getSearchItems()
+                mockRepository.getAll()
             } throws Exception(exceptionMessage)
 
             // when
@@ -102,7 +104,7 @@ class MainViewModelTest {
         // given
         val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
-            mockSearchItemsApiService.getSearchItems()
+            mockRepository.getAll()
         } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
         // when
@@ -121,7 +123,7 @@ class MainViewModelTest {
         // given
         val errorMessage = "Error message"
         coEvery {
-            mockSearchItemsApiService.getSearchItems()
+            mockRepository.getAll()
         } returns RestClientResult.Error(0, errorMessage)
 
         // when
@@ -139,7 +141,7 @@ class MainViewModelTest {
         // given
         val exceptionMessage = "Exception message"
         coEvery {
-            mockSearchItemsApiService.getSearchItems()
+            mockRepository.getAll()
         } throws Exception(exceptionMessage)
 
         // when

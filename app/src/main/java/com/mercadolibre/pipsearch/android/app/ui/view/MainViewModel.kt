@@ -13,11 +13,9 @@ import com.mercadolibre.pipsearch.android.app.data.service.SearchItemsApiService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    searchItemsService: SearchItemsApiService
-) : ViewModel() {
+class MainViewModel : ViewModel() {
 
-    private val repository = SearchItemsRepository(searchItemsService)
+    private val repository = SearchItemsRepository()
     private val searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
     private val errorResult: MutableLiveData<String> = MutableLiveData()
     private val exceptionResult: MutableLiveData<String> = MutableLiveData()
