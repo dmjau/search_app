@@ -21,11 +21,9 @@ class ScreenItemsDtoTest {
             "https://test_image_item_test_2.jpg",
             listOfTags
         )
-        val listOfItemsTest = listOf(itemTest1, itemTest2)
-        val screenTest = ScreenItemsDto("screen items dto test", listOfItemsTest)
+        val screenTest = ScreenItemsDto(listOf(itemTest1, itemTest2))
 
         // then
-        assertEquals("screen items dto test", screenTest.query)
         assertEquals(itemTest1, screenTest.results[0])
         assertEquals(itemTest2, screenTest.results[1])
     }
