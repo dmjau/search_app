@@ -3,7 +3,7 @@ package com.mercadolibre.test;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import com.mercadolibre.android.testing.AbstractActivityTest;
-import com.mercadolibre.pipsearch.android.app.MainActivity;
+import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;

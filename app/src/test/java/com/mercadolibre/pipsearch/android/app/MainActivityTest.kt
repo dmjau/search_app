@@ -1,5 +1,6 @@
 package com.mercadolibre.pipsearch.android.app
 
+import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
