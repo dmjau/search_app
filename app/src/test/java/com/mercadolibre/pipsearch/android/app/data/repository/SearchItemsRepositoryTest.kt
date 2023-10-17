@@ -12,6 +12,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.robolectric.util.ReflectionHelpers
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 
@@ -33,7 +34,9 @@ class SearchItemsRepositoryTest {
             .addConverterFactory(GsonConverterFactory.create())
             .create(SearchItemsApiService::class.java)
 
-        repository = SearchItemsRepository(mockWebApiService)
+        repository = SearchItemsRepository()
+
+        ReflectionHelpers.setField(repository, "service", mockWebApiService)
     }
 
     @After
