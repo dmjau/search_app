@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="pip_search_app_ui_0_dp">0dp</dimen>
+    <dimen name="pip_search_app_ui_4_dp">4dp</dimen>
+    <dimen name="pip_search_app_ui_8_dp">8dp</dimen>
+    <dimen name="pip_search_app_ui_10_dp">10dp</dimen>
+    <dimen name="pip_search_app_ui_16_dp">16dp</dimen>
+    <dimen name="pip_search_app_ui_24_dp">24dp</dimen>
+    <dimen name="pip_search_app_ui_32_dp">32dp</dimen>
+    <dimen name="pip_search_app_ui_48_dp">48dp</dimen>
+    <dimen name="pip_search_app_ui_64_dp">64dp</dimen>
+</resources>

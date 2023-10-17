@@ -1,18 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.mercadolibre.pipsearch.android.app.ui.view.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pip_main_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pip_search_app_ui_64_dp"
+        android:background="@color/andes_yellow_ml_500">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.mercadolibre.android.andesui.searchbox.AndesSearchbox
+            android:id="@+id/pip_main_header_searchbox"
+            android:layout_width="@dimen/pip_search_app_ui_0_dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/pip_search_app_ui_10_dp"
+            android:paddingTop="@dimen/pip_search_app_ui_8_dp"
+            android:paddingEnd="@dimen/pip_search_app_ui_10_dp"
+            android:paddingBottom="@dimen/pip_search_app_ui_8_dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pip_main_header_cart_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pip_main_header_cart_container"
+            android:layout_width="@dimen/pip_search_app_ui_64_dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/pip_search_app_ui_16_dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pip_main_header_searchbox"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/pip_main_header_cart_icon"
+                android:layout_width="@dimen/pip_search_app_ui_24_dp"
+                android:layout_height="@dimen/pip_search_app_ui_24_dp"
+                android:layout_marginTop="@dimen/pip_search_app_ui_8_dp"
+                android:src="@drawable/pip_search_app_ic_cart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.mercadolibre.android.andesui.badge.AndesBadgePill
+                android:id="@+id/pip_main_header_cart_pill"
+                android:layout_width="@dimen/pip_search_app_ui_32_dp"
+                android:layout_height="@dimen/pip_search_app_ui_24_dp"
+                android:layout_marginBottom="@dimen/pip_search_app_ui_4_dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:andesBadgePillText="10" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/pip_main_body_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pip_main_body_recycler_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pip_main_body_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/andes_gray_070">
+
+            <ImageView
+                android:id="@+id/pip_main_body_image"
+                android:layout_width="@dimen/pip_search_app_ui_64_dp"
+                android:layout_height="@dimen/pip_search_app_ui_64_dp"
+                android:contentDescription="@string/pip_search_app_main_body_image_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.39"
+                tools:src="@drawable/pip_search_app_ic_alert" />
+
+            <com.mercadolibre.android.andesui.textview.AndesTextView
+                android:id="@+id/pip_main_body_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pip_search_app_ui_16_dp"
+                app:andesTextViewStyle="titleM"
+                app:layout_constraintEnd_toEndOf="@+id/pip_main_body_image"
+                app:layout_constraintStart_toStartOf="@+id/pip_main_body_image"
+                app:layout_constraintTop_toBottomOf="@+id/pip_main_body_image"
+                tools:text="Algo salió mal" />
+
+            <com.mercadolibre.android.andesui.textview.AndesTextView
+                android:id="@+id/pip_main_body_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pip_search_app_ui_8_dp"
+                app:andesTextViewStyle="bodyM"
+                app:layout_constraintEnd_toEndOf="@+id/pip_main_body_image"
+                app:layout_constraintStart_toStartOf="@+id/pip_main_body_image"
+                app:layout_constraintTop_toBottomOf="@+id/pip_main_body_title"
+                tools:text="Estamos trabajando para solucionatlo." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
