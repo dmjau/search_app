@@ -44,7 +44,7 @@ class MainViewModelTest {
             val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
                 mockSearchItemsApiService.getSearchItems()
-            } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockItem)))
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
             // when
             viewModel.fetchResults()
@@ -103,7 +103,7 @@ class MainViewModelTest {
         val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
             mockSearchItemsApiService.getSearchItems()
-        } returns RestClientResult.Success(ScreenItemsDto("query mock", listOf(mockItem)))
+        } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
         // when
         viewModel.fetchResults()
@@ -112,7 +112,7 @@ class MainViewModelTest {
 
         // then
         assertNotNull(searchResult)
-        assertEquals("query mock", searchResult.value?.query.toString())
+        assertEquals("Item 1", searchResult.value!!.results[0].title)
         assertEquals(mockItem, searchResult.value!!.results[0])
     }
 
