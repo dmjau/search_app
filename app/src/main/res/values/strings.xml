@@ -1,3 +1,4 @@
 <resources>
-    <string name="pip_search_app_name">My App</string>
+    <string name="pip_search_app_name">Surfing Meli</string>
+    <string name="pip_search_app_main_body_image_description">image body</string>
 </resources>
