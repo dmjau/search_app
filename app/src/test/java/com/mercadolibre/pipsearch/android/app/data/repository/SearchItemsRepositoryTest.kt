@@ -2,6 +2,7 @@ package com.mercadolibre.pipsearch.android.app.data.repository
 
 import com.mercadolibre.android.restclient.RepositoryFactory
 import com.mercadolibre.android.restclient.model.RestClientResult
+import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.service.SearchItemsApiService
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -57,13 +58,11 @@ class SearchItemsRepositoryTest {
         mockWebServer.enqueue(response)
 
         runBlocking {
-            // then
             val result = repository.getAll()
-            assertTrue(result is RestClientResult.Success)
 
-            (result as? RestClientResult.Success)?.data?.let { data ->
-                assertEquals("title dto item test", data.results[0].title)
-            }
+            // then
+            assertTrue(result is RestClientResult.Success)
+            assertEquals("title dto item test", cast(result).data.results[0].title)
         }
     }
 
@@ -98,4 +97,7 @@ class SearchItemsRepositoryTest {
             assertTrue(result is RestClientResult.Exception)
         }
     }
+
+    private fun cast(dataResult: RestClientResult<ScreenItemsDto>) =
+        dataResult as RestClientResult.Success
 }
