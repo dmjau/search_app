@@ -48,7 +48,7 @@ class SearchItemsRepositoryTest {
     @Test
     fun testCallServiceWhenResponseIsSuccess() {
         // given
-        val responseJson = """{"results": [{"title": "title dto item test"}]}"""
+        val responseJson = "{\"results\": [{\"title\": \"title dto item test\"}]}"
 
         val response = MockResponse()
             .setResponseCode(HttpURLConnection.HTTP_OK)
