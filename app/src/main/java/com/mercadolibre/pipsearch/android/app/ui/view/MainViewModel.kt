@@ -9,7 +9,6 @@ import com.mercadolibre.android.restclient.extension.onError
 import com.mercadolibre.android.restclient.extension.onSuccess
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
-import com.mercadolibre.pipsearch.android.app.data.service.SearchItemsApiService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
@@ -37,9 +36,9 @@ class MainViewModel : ViewModel() {
         return exceptionResult
     }
 
-    fun fetchResults() {
+    fun fetchResults(textToSearch: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
-            repository.getAll()
+            repository.getAll(textToSearch)
                 .onSuccess {
                     searchResults.postValue(it)
                 }
