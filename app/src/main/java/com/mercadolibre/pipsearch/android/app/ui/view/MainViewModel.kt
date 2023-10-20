@@ -1,6 +1,5 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,24 +15,18 @@ class MainViewModel : ViewModel() {
 
     private val repository = SearchItemsRepository()
     private val searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
-    private val errorResult: MutableLiveData<String> = MutableLiveData()
-    private val exceptionResult: MutableLiveData<String> = MutableLiveData()
+    private val exceptionOrErrorResult: MutableLiveData<String> = MutableLiveData()
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.d("exception", throwable.message!!)
-        exceptionResult.postValue(throwable.message)
+        exceptionOrErrorResult.postValue(throwable.message)
     }
 
     fun getSearchResults(): LiveData<ScreenItemsDto> {
         return searchResults
     }
 
-    fun getErrorResult(): LiveData<String> {
-        return errorResult
-    }
-
-    fun getExceptionResult(): LiveData<String> {
-        return exceptionResult
+    fun getExceptionOrErrorResult(): LiveData<String> {
+        return exceptionOrErrorResult
     }
 
     fun fetchResults(textToSearch: String) {
@@ -43,7 +36,7 @@ class MainViewModel : ViewModel() {
                     searchResults.postValue(it)
                 }
                 .onError { _, message ->
-                    errorResult.postValue(message)
+                    exceptionOrErrorResult.postValue(message)
                 }
         }
     }
