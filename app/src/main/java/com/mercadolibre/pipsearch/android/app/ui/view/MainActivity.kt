@@ -1,7 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
-import android.os.Message
 import androidx.activity.viewModels
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
