@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,17 +49,26 @@ class MainViewModelTest {
                 mockRepository.getAll(any())
             } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
+            val reflectionBeforeFetchSearchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "searchResults"
+                )
+
+            // verification before fetchResults()
+            assertNull(reflectionBeforeFetchSearchResults.value)
+
             // when
             viewModel.fetchResults("test")
 
-            val reflectionSearchResults =
+            val reflectionAfterFetchSearchResults =
                 ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
                     viewModel,
                     "searchResults"
                 )
 
             // then
-            assertNotNull(reflectionSearchResults)
+            assertNotNull(reflectionAfterFetchSearchResults.value)
         }
 
     @Test
@@ -70,14 +80,20 @@ class MainViewModelTest {
                 mockRepository.getAll(any())
             } returns RestClientResult.Error(0, errorMessage)
 
+            val reflectionBeforeFetchSearchResults =
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionOrErrorResult")
+
+            // verification before fetchResults()
+            assertNull(reflectionBeforeFetchSearchResults.value)
+
             // when
             viewModel.fetchResults("test")
 
-            val reflectionErrorResult =
-                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "errorResult")
+            val reflectionAfterFetchSearchResults =
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionOrErrorResult")
 
             // then
-            assertNotNull(reflectionErrorResult)
+            assertNotNull(reflectionAfterFetchSearchResults.value)
         }
 
     @Test
@@ -89,14 +105,23 @@ class MainViewModelTest {
                 mockRepository.getAll(any())
             } throws Exception(exceptionMessage)
 
+            val reflectionBeforeFetchSearchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "exceptionOrErrorResult"
+                )
+
+            // verification before fetchResults()
+            assertNull(reflectionBeforeFetchSearchResults.value)
+
             // when
             viewModel.fetchResults("test")
 
-            val reflectionExceptionResult =
-                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionResult")
+            val reflectionAfterFetchSearchResults =
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionOrErrorResult")
 
             // then
-            assertNotNull(reflectionExceptionResult)
+            assertNotNull(reflectionAfterFetchSearchResults.value)
         }
 
     @Test
@@ -129,7 +154,7 @@ class MainViewModelTest {
         // when
         viewModel.fetchResults("test")
 
-        val errorResult = viewModel.getErrorResult()
+        val errorResult = viewModel.getExceptionOrErrorResult()
 
         // then
         assertNotNull(errorResult)
@@ -147,7 +172,7 @@ class MainViewModelTest {
         // when
         viewModel.fetchResults("test")
 
-        val exceptionResult = viewModel.getExceptionResult()
+        val exceptionResult = viewModel.getExceptionOrErrorResult()
 
         // then
         assertNotNull(exceptionResult)
