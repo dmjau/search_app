@@ -14,29 +14,24 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
 
     private val repository = SearchItemsRepository()
-    private val searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
-    private val exceptionOrErrorResult: MutableLiveData<String> = MutableLiveData()
+    private val _searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
+    private val _exceptionOrErrorResult: MutableLiveData<String> = MutableLiveData()
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        exceptionOrErrorResult.postValue(throwable.message)
+        _exceptionOrErrorResult.postValue(throwable.message)
     }
 
-    fun getSearchResults(): LiveData<ScreenItemsDto> {
-        return searchResults
-    }
-
-    fun getExceptionOrErrorResult(): LiveData<String> {
-        return exceptionOrErrorResult
-    }
+    val searchResults: LiveData<ScreenItemsDto> = _searchResults
+    val exceptionOrErrorResult: LiveData<String> = _exceptionOrErrorResult
 
     fun fetchResults(textToSearch: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
             repository.getAll(textToSearch)
-                .onSuccess {
-                    searchResults.postValue(it)
+                .onSuccess { screenData ->
+                    _searchResults.postValue(screenData)
                 }
                 .onError { _, message ->
-                    exceptionOrErrorResult.postValue(message)
+                    _exceptionOrErrorResult.postValue(message)
                 }
         }
     }
