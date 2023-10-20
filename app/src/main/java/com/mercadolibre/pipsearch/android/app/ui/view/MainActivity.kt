@@ -31,16 +31,10 @@ class MainActivity : AbstractActivity() {
      *
      */
     private fun initSearchBox() {
-        val searchBox = binding.pipMainHeaderSearchbox
-
-        searchBox.onSearchListener = object : AndesSearchbox.OnSearchListener {
+        binding.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
             override fun onSearch(text: String) {
                 sendTextToSearch(text)
             }
-        }
-
-        searchBox.onSearchboxCloseClickedListener = AndesSearchbox.OnSearchboxCloseClickedListener {
-            // clean the result search list
         }
     }
 
@@ -57,6 +51,12 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun showSnackbar() {
-        AndesSnackbar(this, binding.root, AndesSnackbarType.ERROR, "Intenta nuevamente", AndesSnackbarDuration.SHORT).show()
+        AndesSnackbar(
+            this,
+            binding.root,
+            AndesSnackbarType.ERROR,
+            "Intenta nuevamente",
+            AndesSnackbarDuration.SHORT
+        ).show()
     }
 }
