@@ -26,6 +26,10 @@ class MainActivity : AbstractActivity() {
         initSearchBox()
     }
 
+    /**
+     * Instance and init searchbox listeners.
+     *
+     */
     private fun initSearchBox() {
         val searchBox = binding.pipMainHeaderSearchbox
 
@@ -40,15 +44,19 @@ class MainActivity : AbstractActivity() {
         }
     }
 
+    /**
+     * Receive text from Searchbox UI.
+     * Verify if it is too long, if it is not, send to search.
+     */
     private fun sendTextToSearch(text: String) {
         if (text.length < 100) {
             mainViewModel.fetchResults(text.lowercase())
         } else {
-            showSnackbar("No es posible realizar la búsqueda")
+            showSnackbar()
         }
     }
 
-    private fun showSnackbar(message: String) {
-        AndesSnackbar(this, binding.root, AndesSnackbarType.ERROR, message, AndesSnackbarDuration.SHORT).show()
+    private fun showSnackbar() {
+        AndesSnackbar(this, binding.root, AndesSnackbarType.ERROR, "Intenta nuevamente", AndesSnackbarDuration.SHORT).show()
     }
 }
