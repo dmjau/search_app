@@ -74,7 +74,7 @@ class MainViewModelTest {
             viewModel.fetchResults()
 
             val reflectionErrorResult =
-                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "errorResult")
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionOrErrorResult")
 
             // then
             assertNotNull(reflectionErrorResult)
@@ -93,7 +93,7 @@ class MainViewModelTest {
             viewModel.fetchResults()
 
             val reflectionExceptionResult =
-                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionResult")
+                ReflectionHelpers.getField<MutableLiveData<String>>(viewModel, "exceptionOrErrorResult")
 
             // then
             assertNotNull(reflectionExceptionResult)
@@ -129,7 +129,7 @@ class MainViewModelTest {
         // when
         viewModel.fetchResults()
 
-        val errorResult = viewModel.getErrorResult()
+        val errorResult = viewModel.getExceptionOrErrorResult()
 
         // then
         assertNotNull(errorResult)
@@ -147,7 +147,7 @@ class MainViewModelTest {
         // when
         viewModel.fetchResults()
 
-        val exceptionResult = viewModel.getExceptionResult()
+        val exceptionResult = viewModel.getExceptionOrErrorResult()
 
         // then
         assertNotNull(exceptionResult)
