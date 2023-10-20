@@ -39,6 +39,10 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun sendTextToSearch(text: String) {
-        var textoRecibido = text
+        if (text.length < 100) {
+            mainViewModel.fetchResults(text.lowercase())
+        } else {
+            // mostrar snackbar
+        }
     }
 }
