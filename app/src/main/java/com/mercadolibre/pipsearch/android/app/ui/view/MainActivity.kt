@@ -1,9 +1,12 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
-import android.widget.Toast
+import android.os.Message
 import androidx.activity.viewModels
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
+import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
+import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
+import com.mercadolibre.android.andesui.snackbar.type.AndesSnackbarType
 import com.mercadolibre.android.commons.core.AbstractActivity
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 
@@ -42,7 +45,11 @@ class MainActivity : AbstractActivity() {
         if (text.length < 100) {
             mainViewModel.fetchResults(text.lowercase())
         } else {
-            // mostrar snackbar
+            showSnackbar("No es posible realizar la búsqueda")
         }
+    }
+
+    private fun showSnackbar(message: String) {
+        AndesSnackbar(this, binding.root, AndesSnackbarType.ERROR, message, AndesSnackbarDuration.SHORT).show()
     }
 }

@@ -11,7 +11,7 @@ import org.robolectric.RobolectricTestRunner
 class MainActivityTest {
 
     @Test
-    fun `test MainActivity instance`() {
+    fun testMainActivityInstance() {
         // given
         val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
 
