@@ -27,10 +27,10 @@ class MainActivityTest {
     fun testMainActivityInstanceViewModel() {
         // given
         val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val mainViewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+        val reflectionActivityMainViewModel = ReflectionHelpers.getField<MainViewModel>(activity, "mainViewModel")
 
         // then
-        assertNotNull(mainViewModel)
+        assertNotNull(reflectionActivityMainViewModel)
     }
 
     @Test
