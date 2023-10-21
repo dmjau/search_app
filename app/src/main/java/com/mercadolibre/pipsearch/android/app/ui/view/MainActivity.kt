@@ -2,6 +2,7 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
@@ -15,13 +16,15 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private lateinit var binding: PipSearchAppMainActivityBinding
-    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = PipSearchAppMainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         initSearchBox()
     }
