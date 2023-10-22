@@ -39,9 +39,6 @@ class MainActivity : AbstractActivity() {
                 sendTextToSearch(text)
             }
         }
-
-        binding.pipMainHeaderSearchbox.onSearchboxCloseClickedListener =
-            AndesSearchbox.OnSearchboxCloseClickedListener {}
     }
 
     /**

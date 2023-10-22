@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,10 +29,10 @@ class MainActivityTest {
     fun testMainActivityInstanceViewModel() {
         // given
         val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionActivityMainViewModel = ReflectionHelpers.getField<MainViewModel>(activity, "mainViewModel")
+        val reflectionMainViewModel = ReflectionHelpers.getField<MainViewModel>(activity, "mainViewModel")
 
         // then
-        assertNotNull(reflectionActivityMainViewModel)
+        assertNotNull(reflectionMainViewModel)
     }
 
     @Test
@@ -42,5 +44,27 @@ class MainActivityTest {
         // then
         assertNotNull(reflectionActivityBinding)
         assertNotNull(reflectionActivityBinding.root)
+    }
+
+    @Test
+    fun testMainActivityTextToSearch() {
+        // given
+        val mockViewModel = mockk<MainViewModel>(relaxed = true)
+
+        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
+
+        ReflectionHelpers.setField(activity, "mainViewModel", mockViewModel)
+
+        val text = "test text"
+
+        val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+        sendTextToSearchMethod.isAccessible = true
+
+        sendTextToSearchMethod.invoke(activity, text)
+
+        // then
+        verify {
+            mockViewModel.fetchResults(any())
+        }
     }
 }
