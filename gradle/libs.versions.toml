@@ -32,6 +32,7 @@ mockkVersion = "1.11.+"
 robolectricVersion = "4.8.+"
 kotlinCoroutinesTestsVersion = "1.5.2"
 okhttp3MockwebserverVersion = "3.14.9"
+androidxArchCoreTestingVersion = "2.2.0"
 
 
 [libraries]
@@ -70,3 +71,4 @@ misc-mockkTest = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 misc-roboelectricTest = { module = "org.robolectric:robolectric", version.ref = "robolectricVersion" }
 misc-kotlinCoroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutinesTestsVersion" }
 misc-okhttp3Mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp3MockwebserverVersion" }
+misc-coreTesting = { module = "androidx.arch.core:core-testing", version.ref = "androidxArchCoreTestingVersion" }
