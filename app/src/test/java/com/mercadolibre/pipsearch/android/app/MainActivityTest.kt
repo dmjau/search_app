@@ -67,4 +67,26 @@ class MainActivityTest {
             mockViewModel.fetchResults(any())
         }
     }
+
+    @Test
+    fun testMainActivityTextToSearchWithLongText() {
+        // given
+        val mockViewModel = mockk<MainViewModel>(relaxed = true)
+
+        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
+
+        ReflectionHelpers.setField(activity, "mainViewModel", mockViewModel)
+
+        val text = "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
+
+        val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+        sendTextToSearchMethod.isAccessible = true
+
+        sendTextToSearchMethod.invoke(activity, text)
+
+        // then
+        verify(exactly = 0) {
+            mockViewModel.fetchResults(any())
+        }
+    }
 }
