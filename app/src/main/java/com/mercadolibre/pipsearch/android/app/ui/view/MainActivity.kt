@@ -15,7 +15,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainViewModel: MainViewModel? = null
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +34,12 @@ class MainActivity : AbstractActivity() {
      *
      */
     private fun initSearchBox() {
-        binding?.let {
-            it.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
+        binding!!.pipMainHeaderSearchbox.onSearchListener =
+            object : AndesSearchbox.OnSearchListener {
                 override fun onSearch(text: String) {
                     sendTextToSearch(text)
                 }
             }
-        }
     }
 
     private fun setInitialScreen() {
@@ -54,7 +53,7 @@ class MainActivity : AbstractActivity() {
      */
     private fun sendTextToSearch(text: String) {
         if (text.length < 100) {
-            mainViewModel?.fetchResults(text.lowercase())
+            mainViewModel.fetchResults(text.lowercase())
         } else {
             showSnackbar()
         }
@@ -71,6 +70,6 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun setMainTitle(title: String) {
-        binding?.pipMainBodyTitle?.append(title)
+        binding!!.pipMainBodyTitle.append(title)
     }
 }
