@@ -78,6 +78,6 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun setMainTitle(title: String) {
-        binding?.pipMainBodyTitle?.append(title, AndesColor(R.color.andes_gray_250_solid))
+        binding?.pipMainBodyTitle?.append(title)
     }
 }
