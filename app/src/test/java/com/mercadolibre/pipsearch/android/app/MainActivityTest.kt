@@ -8,6 +8,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -60,6 +61,24 @@ class MainActivityTest {
         // then
         assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
         assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+    }
+
+    @Test
+    fun testMainActivityNotSetListenerWithoutBinding() {
+        // given
+        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
+        var reflectionActivityBinding =
+            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+        assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
+        assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+
+        // when
+        ReflectionHelpers.setField(activity, "binding", null)
+        reflectionActivityBinding = ReflectionHelpers.getField(activity, "binding")
+
+        // then
+        assertNull(reflectionActivityBinding)
     }
 
     @Test
