@@ -22,7 +22,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private lateinit var mainViewModel: MainViewModel
+    private var mainViewModel: MainViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class MainActivity : AbstractActivity() {
      */
     private fun sendTextToSearch(text: String) {
         if (text.length < 100) {
-            mainViewModel.fetchResults(text.lowercase())
+            mainViewModel?.fetchResults(text.lowercase())
         } else {
             showSnackbar()
         }
