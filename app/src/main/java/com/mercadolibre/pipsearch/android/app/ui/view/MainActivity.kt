@@ -1,19 +1,12 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.view.View
-import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.mercadolibre.android.andesui.color.AndesColor
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
 import com.mercadolibre.android.andesui.snackbar.type.AndesSnackbarType
-import com.mercadolibre.android.andesui.textview.AndesTextView
-import com.mercadolibre.android.andesui.textview.style.AndesTextViewStyle
 import com.mercadolibre.android.commons.core.AbstractActivity
-import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 
 /**
