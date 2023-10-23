@@ -6,6 +6,7 @@ import com.mercadolibre.pipsearch.android.app.ui.view.MainViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -30,7 +31,8 @@ class MainActivityTest {
     fun testMainActivityInstanceViewModel() {
         // given
         val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionMainViewModel = ReflectionHelpers.getField<MainViewModel>(activity, "mainViewModel")
+        val reflectionMainViewModel =
+            ReflectionHelpers.getField<MainViewModel>(activity, "mainViewModel")
 
         // then
         assertNotNull(reflectionMainViewModel)
@@ -40,7 +42,8 @@ class MainActivityTest {
     fun testMainActivityInstanceBinding() {
         // given
         val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+        val reflectionActivityBinding =
+            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
         // then
         assertNotNull(reflectionActivityBinding)
@@ -51,7 +54,8 @@ class MainActivityTest {
     fun testMainActivityBindingSetListener() {
         // given
         val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+        val reflectionActivityBinding =
+            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
         // then
         assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
@@ -67,7 +71,8 @@ class MainActivityTest {
         ReflectionHelpers.setField(activity, "mainViewModel", mockViewModel)
 
         val text = "test text"
-        val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+        val sendTextToSearchMethod =
+            activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
         sendTextToSearchMethod.isAccessible = true
 
         // when
@@ -87,8 +92,10 @@ class MainActivityTest {
 
         ReflectionHelpers.setField(activity, "mainViewModel", mockViewModel)
 
-        val text = "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
-        val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+        val text =
+            "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
+        val sendTextToSearchMethod =
+            activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
         sendTextToSearchMethod.isAccessible = true
 
         // when
@@ -98,5 +105,19 @@ class MainActivityTest {
         verify(exactly = 0) {
             mockViewModel.fetchResults(any())
         }
+    }
+
+    @Test
+    fun testMainActivitySetInitialScreenTitle() {
+        // given
+        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
+        val reflectionActivityBinding =
+            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+        // then
+        assertEquals(
+            "Surfing Mercado Libre",
+            reflectionActivityBinding.pipMainBodyTitle.text.toString()
+        )
     }
 }
