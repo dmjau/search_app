@@ -34,7 +34,7 @@ class MainActivity : AbstractActivity() {
      *
      */
     private fun initSearchBox() {
-        binding?.let {
+        binding!!.let {
             it.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
                 override fun onSearch(text: String) {
                     sendTextToSearch(text)
