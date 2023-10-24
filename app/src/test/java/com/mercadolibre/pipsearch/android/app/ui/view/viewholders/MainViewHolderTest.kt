@@ -1,5 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view.viewholders
 
+import android.view.View
 import android.widget.LinearLayout
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.mercadolibre.android.commons.utils.generics.TestResourceParser
@@ -15,6 +16,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
     private val parent = LinearLayout(context)
     private val itemDataFull = "item_data_full.json"
+    private val itemDataWithoutTags = "item_data_without_tags.json"
 
     override fun setUp() {
         super.setUp()
@@ -48,6 +50,30 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
+                assertEquals(View.VISIBLE, binding.market.visibility)
+                assertEquals("SUPERMERCADO", binding.market.text.toString())
+            }
+        }
+    }
+
+    @Test
+    fun TestBindViewWithEmptyTagsList() {
+        // given
+        val mainViewHolder = MainViewHolder.instance(parent)
+        TestResourceParser.getTestResourceObject(itemDataWithoutTags, ItemDto::class.java).let { data ->
+
+            // when
+            mainViewHolder.bind(data!!)
+
+            ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
+
+                // then
+                assertEquals("Cerveza Heineken Rubia", binding.title.text)
+                assertEquals("12885.6", binding.price.text)
+                assertNotNull(binding.image)
+                assertNotNull(binding.image.drawable)
+                assertNotNull(binding.image.controller)
+                assertEquals(View.GONE, binding.market.visibility)
             }
         }
     }
