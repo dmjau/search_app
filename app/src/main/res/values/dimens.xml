@@ -5,8 +5,11 @@
     <dimen name="pip_search_app_ui_8_dp">8dp</dimen>
     <dimen name="pip_search_app_ui_10_dp">10dp</dimen>
     <dimen name="pip_search_app_ui_16_dp">16dp</dimen>
+    <dimen name="pip_search_app_ui_20_dp">20dp</dimen>
     <dimen name="pip_search_app_ui_24_dp">24dp</dimen>
     <dimen name="pip_search_app_ui_32_dp">32dp</dimen>
     <dimen name="pip_search_app_ui_48_dp">48dp</dimen>
     <dimen name="pip_search_app_ui_64_dp">64dp</dimen>
+    <dimen name="pip_search_app_ui_90_dp">90dp</dimen>
+    <dimen name="pip_search_app_ui_100_dp">100dp</dimen>
 </resources>
