@@ -1,8 +1,11 @@
 package com.mercadolibre.pipsearch.android.app.ui.view.viewholders
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mercadolibre.android.andesui.color.AndesColor
+import com.mercadolibre.android.andesui.textview.AndesTextView
 import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainListItemBinding
@@ -19,6 +22,9 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) :
 
             return MainViewHolder(binding)
         }
+
+        private const val TAG_MARKET = "supermarket_eligible"
+        private const val TEXT_MARKET = "SUPERMERCADO"
     }
 
     fun bind(itemData: ItemDto) {
@@ -26,6 +32,20 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) :
             image.setImageURI(itemData.thumbnail)
             price.text = itemData.price.toString()
             title.text = itemData.title
+            showMarketText(market, itemData.tags)
         }
+    }
+
+    private fun showMarketText(view: AndesTextView, tags: List<String>) {
+        if (verifyMarketTag(tags)) {
+            view.append(TEXT_MARKET, AndesColor(R.color.andes_red_500))
+            view.visibility = View.VISIBLE
+        } else {
+            view.visibility = View.GONE
+        }
+    }
+
+    private fun verifyMarketTag(tags: List<String>) : Boolean {
+        return tags.any { it == TAG_MARKET }
     }
 }
