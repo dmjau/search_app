@@ -2,4 +2,5 @@
     <string name="pip_search_app_name">Surfing Meli</string>
     <string name="pip_search_app_main_body_image_description">image body</string>
     <string name="pip_search_app_main_header_searchbox_placeholder">Buscar en Mercado Libre</string>
+    <string name="pip_search_app_main_view_holder_button_text">Add</string>
 </resources>
