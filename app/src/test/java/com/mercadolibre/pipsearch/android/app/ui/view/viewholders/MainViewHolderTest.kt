@@ -2,10 +2,14 @@ package com.mercadolibre.pipsearch.android.app.ui.view.viewholders
 
 import android.widget.LinearLayout
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.mercadolibre.android.commons.utils.generics.TestResourceParser
 import com.mercadolibre.android.testing.AbstractRobolectricTest
+import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainListItemBinding
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
+import org.robolectric.util.ReflectionHelpers
 
 class MainViewHolderTest : AbstractRobolectricTest() {
 
@@ -25,5 +29,26 @@ class MainViewHolderTest : AbstractRobolectricTest() {
         // then
         assertNotNull(mainViewHolder)
         assertEquals(MainViewHolder::class.java, mainViewHolder::class.java)
+    }
+
+    @Test
+    fun TestBindViewInMainViewHolder() {
+        // given
+        val mainViewHolder = MainViewHolder.instance(parent)
+        TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
+
+            // when
+            mainViewHolder.bind(data!!)
+
+            ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
+
+                // then
+                assertEquals("Cerveza Heineken Rubia", binding.title.text)
+                assertEquals("12885.6", binding.price.text)
+                assertNotNull(binding.image)
+                assertNotNull(binding.image.drawable)
+                assertNotNull(binding.image.controller)
+            }
+        }
     }
 }
