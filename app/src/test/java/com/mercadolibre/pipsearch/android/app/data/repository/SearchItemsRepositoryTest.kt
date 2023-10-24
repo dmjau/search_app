@@ -58,7 +58,7 @@ class SearchItemsRepositoryTest {
         mockWebServer.enqueue(response)
 
         runBlocking {
-            val result = repository.getAll()
+            val result = repository.getAll("test")
 
             // then
             assertTrue(result is RestClientResult.Success)
@@ -77,7 +77,7 @@ class SearchItemsRepositoryTest {
 
         runBlocking {
             // then
-            val result = repository.getAll()
+            val result = repository.getAll("test")
             assertTrue(result is RestClientResult.Error)
         }
     }
@@ -93,7 +93,7 @@ class SearchItemsRepositoryTest {
 
         runBlocking {
             // then
-            val result = repository.getAll()
+            val result = repository.getAll("test")
             assertTrue(result is RestClientResult.Exception)
         }
     }

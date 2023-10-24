@@ -24,9 +24,9 @@ class MainViewModel : ViewModel() {
     val searchResults: LiveData<ScreenItemsDto> = _searchResults
     val exceptionOrErrorResult: LiveData<String> = _exceptionOrErrorResult
 
-    fun fetchResults() {
+    fun fetchResults(textToSearch: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
-            repository.getAll()
+            repository.getAll(textToSearch)
                 .onSuccess { screenData ->
                     _searchResults.postValue(screenData)
                 }

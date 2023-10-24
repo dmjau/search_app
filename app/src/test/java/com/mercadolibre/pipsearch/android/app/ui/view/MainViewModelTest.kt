@@ -46,7 +46,7 @@ class MainViewModelTest {
             // given
             val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
-                mockRepository.getAll()
+                mockRepository.getAll(any())
             } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
             val reflectionBeforeFetchResults =
@@ -59,7 +59,7 @@ class MainViewModelTest {
             assertNull(reflectionBeforeFetchResults.value)
 
             // when
-            viewModel.fetchResults()
+            viewModel.fetchResults("test")
 
             val reflectionAfterFetchResults =
                 ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
@@ -77,7 +77,7 @@ class MainViewModelTest {
             // given
             val errorMessage = "Error message"
             coEvery {
-                mockRepository.getAll()
+                mockRepository.getAll(any())
             } returns RestClientResult.Error(0, errorMessage)
 
             val reflectionBeforeFetchResults =
@@ -90,7 +90,7 @@ class MainViewModelTest {
             assertNull(reflectionBeforeFetchResults.value)
 
             // when
-            viewModel.fetchResults()
+            viewModel.fetchResults("test")
 
             val reflectionAfterFetchResults =
                 ReflectionHelpers.getField<MutableLiveData<String>>(
@@ -108,7 +108,7 @@ class MainViewModelTest {
             // given
             val exceptionMessage = "Exception message"
             coEvery {
-                mockRepository.getAll()
+                mockRepository.getAll(any())
             } throws Exception(exceptionMessage)
 
             val reflectionBeforeFetchResults =
@@ -121,7 +121,7 @@ class MainViewModelTest {
             assertNull(reflectionBeforeFetchResults.value)
 
             // when
-            viewModel.fetchResults()
+            viewModel.fetchResults("test")
 
             val reflectionAfterFetchResults =
                 ReflectionHelpers.getField<MutableLiveData<String>>(
@@ -138,11 +138,11 @@ class MainViewModelTest {
         // given
         val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
-            mockRepository.getAll()
+            mockRepository.getAll(any())
         } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
         // when
-        viewModel.fetchResults()
+        viewModel.fetchResults("test")
 
         val searchResult = viewModel.searchResults
 
@@ -157,11 +157,11 @@ class MainViewModelTest {
         // given
         val errorMessage = "Error message"
         coEvery {
-            mockRepository.getAll()
+            mockRepository.getAll(any())
         } returns RestClientResult.Error(0, errorMessage)
 
         // when
-        viewModel.fetchResults()
+        viewModel.fetchResults("test")
 
         val errorResult = viewModel.exceptionOrErrorResult
 
@@ -175,11 +175,11 @@ class MainViewModelTest {
         // given
         val exceptionMessage = "Exception message"
         coEvery {
-            mockRepository.getAll()
+            mockRepository.getAll(any())
         } throws Exception(exceptionMessage)
 
         // when
-        viewModel.fetchResults()
+        viewModel.fetchResults("test")
 
         val exceptionResult = viewModel.exceptionOrErrorResult
 

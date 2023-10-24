@@ -13,5 +13,5 @@ class SearchItemsRepository {
     private val service: SearchItemsApiService = RestClientApiHelper.getRestClient()
 
     // Function to get all items from ApiService
-    suspend fun getAll() : RestClientResult<ScreenItemsDto> = service.getSearchItems()
+    suspend fun getAll(textToSearch: String) : RestClientResult<ScreenItemsDto> = service.getSearchItems(textToSearch)
 }
