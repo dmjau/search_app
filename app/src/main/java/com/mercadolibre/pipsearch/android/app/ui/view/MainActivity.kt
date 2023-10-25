@@ -1,7 +1,7 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
@@ -15,7 +15,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,15 +23,12 @@ class MainActivity : AbstractActivity() {
         binding = PipSearchAppMainActivityBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
         initSearchBox()
         setInitialScreen()
     }
 
     /**
      * Instance and init searchbox listeners.
-     *
      */
     private fun initSearchBox() {
         binding!!.pipMainHeaderSearchbox.onSearchListener =
@@ -49,13 +46,12 @@ class MainActivity : AbstractActivity() {
 
     /**
      * Receive text from Searchbox UI.
-     * Verify if it is too long, if it is not, send to search.
+     * Verify if it is too long or it is blank and send to search or show error message.
      */
     private fun sendTextToSearch(text: String) {
-        if (text.length < 100) {
-            mainViewModel.fetchResults(text)
-        } else {
-            showSnackbar()
+        when {
+            validateText(text) -> mainViewModel.fetchResults(text)
+            else -> showSnackbar()
         }
     }
 
@@ -72,4 +68,6 @@ class MainActivity : AbstractActivity() {
     private fun setMainTitle(title: String) {
         binding!!.pipMainBodyTitle.append(title)
     }
+
+    private fun validateText(text: String) = text.length < 100 && text.isNotBlank()
 }
