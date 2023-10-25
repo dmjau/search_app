@@ -16,15 +16,13 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private lateinit var mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = PipSearchAppMainActivityBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
-
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         initSearchBox()
     }
