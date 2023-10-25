@@ -53,7 +53,7 @@ class MainActivity : AbstractActivity() {
      */
     private fun sendTextToSearch(text: String) {
         if (text.length < 100) {
-            mainViewModel.fetchResults(text.lowercase())
+            mainViewModel.fetchResults(text)
         } else {
             showSnackbar()
         }
