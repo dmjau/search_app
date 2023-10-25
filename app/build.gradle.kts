@@ -82,4 +82,5 @@ dependencies {
     testImplementation(libs.misc.kotlinCoroutinesTest)
     testImplementation(libs.misc.okhttp3Mockwebserver)
     testImplementation(libs.misc.coreTesting)
+    testImplementation(libs.misc.coreKtx)
 }

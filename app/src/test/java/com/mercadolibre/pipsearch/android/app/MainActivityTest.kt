@@ -1,142 +1,254 @@
 package com.mercadolibre.pipsearch.android.app
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.test.core.app.launchActivity
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
+import com.mercadolibre.android.restclient.model.RestClientResult
+import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
+import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
+import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.util.ReflectionHelpers
 
+@ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
 class MainActivityTest {
+
+    @Rule
+    @JvmField
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    private val testDispatcher = TestCoroutineDispatcher()
+    private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
+    private lateinit var viewModel: MainViewModel
+
+    @Before
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
+    }
 
     @Test
     fun testMainActivityInstance() {
         // given
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
+        val mainActivity = launchActivity<MainActivity>()
 
         // then
-        assertNotNull(activity)
+        assertNotNull(mainActivity)
     }
 
     @Test
     fun testMainActivityInstanceViewModel() {
         // given
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionMainViewModel =
-            ReflectionHelpers.getField<MainViewModel>(activity, "mainViewModel")
+        launchActivity<MainActivity>().onActivity { activity ->
+            val mainViewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
 
-        // then
-        assertNotNull(reflectionMainViewModel)
+            // then
+            assertNotNull(mainViewModel)
+        }
     }
 
     @Test
     fun testMainActivityInstanceBinding() {
         // given
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionActivityBinding =
-            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+        launchActivity<MainActivity>().onActivity { activity ->
+            val reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
-        // then
-        assertNotNull(reflectionActivityBinding)
-        assertNotNull(reflectionActivityBinding.root)
+            // then
+            assertNotNull(reflectionActivityBinding)
+            assertNotNull(reflectionActivityBinding.root)
+        }
     }
 
     @Test
     fun testMainActivityBindingSetListener() {
         // given
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionActivityBinding =
-            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+        launchActivity<MainActivity>().onActivity { activity ->
+            val reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
-        // then
-        assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
-        assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+            // then
+            assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
+            assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+        }
     }
 
     @Test
     fun testMainActivityNotSetListenerWithoutBinding() {
         // given
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        var reflectionActivityBinding =
-            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+        launchActivity<MainActivity>().onActivity { activity ->
+            var reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
-        assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
-        assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+            assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
+            assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
 
-        // when
-        ReflectionHelpers.setField(activity, "binding", null)
-        reflectionActivityBinding = ReflectionHelpers.getField(activity, "binding")
+            // when
+            ReflectionHelpers.setField(activity, "binding", null)
+            reflectionActivityBinding = ReflectionHelpers.getField(activity, "binding")
 
-        // then
-        assertNull(reflectionActivityBinding)
-    }
-
-    @Test
-    fun testMainActivityTextToSearch() {
-        // given
-        val mockViewModel = mockk<MainViewModel>(relaxed = true)
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-
-        ReflectionHelpers.setField(activity, "mainViewModel", mockViewModel)
-
-        val text = "test text"
-        val sendTextToSearchMethod =
-            activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
-        sendTextToSearchMethod.isAccessible = true
-
-        // when
-        sendTextToSearchMethod.invoke(activity, text)
-
-        // then
-        verify {
-            mockViewModel.fetchResults(any())
+            // then
+            assertNull(reflectionActivityBinding)
         }
     }
 
     @Test
-    fun testMainActivityTextToSearchWithLongText() {
+    fun testMainActivityTextToSearchIntegratedWithMainViewModel() {
         // given
-        val mockViewModel = mockk<MainViewModel>(relaxed = true)
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
+        launchActivity<MainActivity>().onActivity { activity ->
+            // set mockRepository in the MainViewModel
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            ReflectionHelpers.setField(viewModel, "repository", mockRepository)
 
-        ReflectionHelpers.setField(activity, "mainViewModel", mockViewModel)
+            // set mockResponse
+            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            coEvery {
+                mockRepository.getAll(any())
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
-        val text =
-            "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
-        val sendTextToSearchMethod =
-            activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
-        sendTextToSearchMethod.isAccessible = true
+            val reflectionBeforeFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
 
-        // when
-        sendTextToSearchMethod.invoke(activity, text)
+            // verification before call viewmodel.fetchResults()
+            assertNull(reflectionBeforeFetchResults.value)
 
-        // then
-        verify(exactly = 0) {
-            mockViewModel.fetchResults(any())
+            // call viewmodel.fetchResults() in the MainActivity
+            val text = "test text"
+            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            sendTextToSearchMethod.isAccessible = true
+
+            // when
+            sendTextToSearchMethod.invoke(activity, text)
+
+            // then
+            val reflectionAfterFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // then
+            assertNotNull(reflectionAfterFetchResults.value)
+        }
+    }
+
+    @Test
+    fun testMainActivityTextToSearchWithLongTextIntegratedWithMainViewModel() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            // set mockRepository in the MainViewModel
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            ReflectionHelpers.setField(viewModel, "repository", mockRepository)
+
+            // set mockResponse
+            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            coEvery {
+                mockRepository.getAll(any())
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+
+            val reflectionBeforeFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // verification before call viewmodel.fetchResults()
+            assertNull(reflectionBeforeFetchResults.value)
+
+            // call viewmodel.fetchResults() in the MainActivity
+            val text = "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
+            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            sendTextToSearchMethod.isAccessible = true
+
+            // when
+            sendTextToSearchMethod.invoke(activity, text)
+
+            // then
+            val reflectionAfterFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // then
+            assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
+        }
+    }
+
+    @Test
+    fun testMainActivityTextToSearchWithBlankTextIntegratedWithMainViewModel() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            // set mockRepository in the MainViewModel
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            ReflectionHelpers.setField(viewModel, "repository", mockRepository)
+
+            // set mockResponse
+            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            coEvery {
+                mockRepository.getAll(any())
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+
+            val reflectionBeforeFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // verification before call viewmodel.fetchResults()
+            assertNull(reflectionBeforeFetchResults.value)
+
+            // call viewmodel.fetchResults() in the MainActivity
+            val text = ""
+            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            sendTextToSearchMethod.isAccessible = true
+
+            // when
+            sendTextToSearchMethod.invoke(activity, text)
+
+            // then
+            val reflectionAfterFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // then
+            assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
         }
     }
 
     @Test
     fun testMainActivitySetInitialScreenTitle() {
         // given
-        val activity = Robolectric.buildActivity(MainActivity::class.java).create().get()
-        val reflectionActivityBinding =
+        launchActivity<MainActivity>().onActivity { activity ->
+            val reflectionActivityBinding =
             ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
-        // then
-        assertEquals(
-            "Surfing Mercado Libre",
-            reflectionActivityBinding.pipMainBodyTitle.text.toString()
-        )
+            // then
+            assertEquals("Surfing Mercado Libre", reflectionActivityBinding.pipMainBodyTitle.text.toString())
+        }
     }
 }
