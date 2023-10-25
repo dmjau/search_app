@@ -41,13 +41,12 @@ class MainActivity : AbstractActivity() {
 
     /**
      * Receive text from Searchbox UI.
-     * Verify if it is too long, if it is not, send to search.
+     * Verify if it is too long or it is blank and send to search or show error message.
      */
     private fun sendTextToSearch(text: String) {
-        if (text.length < 100) {
-            mainViewModel.fetchResults(text)
-        } else {
-            showSnackbar()
+        when {
+            validateText(text) -> mainViewModel.fetchResults(text)
+            else -> showSnackbar()
         }
     }
 
@@ -60,4 +59,6 @@ class MainActivity : AbstractActivity() {
             AndesSnackbarDuration.SHORT
         ).show()
     }
+
+    private fun validateText(text: String) = text.length < 100 && text.isNotBlank()
 }

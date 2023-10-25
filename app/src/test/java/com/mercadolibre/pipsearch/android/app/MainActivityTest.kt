@@ -176,4 +176,47 @@ class MainActivityTest {
             assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
         }
     }
+
+    @Test
+    fun testMainActivityTextToSearchWithBlankTextIntegratedWithMainViewModel() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            // set mockRepository in the MainViewModel
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            ReflectionHelpers.setField(viewModel, "repository", mockRepository)
+
+            // set mockResponse
+            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            coEvery {
+                mockRepository.getAll(any())
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+
+            val reflectionBeforeFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // verification before call viewmodel.fetchResults()
+            assertNull(reflectionBeforeFetchResults.value)
+
+            // call viewmodel.fetchResults() in the MainActivity
+            val text = ""
+            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            sendTextToSearchMethod.isAccessible = true
+
+            // when
+            sendTextToSearchMethod.invoke(activity, text)
+
+            // then
+            val reflectionAfterFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
+
+            // then
+            assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
+        }
+    }
 }
