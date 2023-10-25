@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/pip_search_app_ui_10_dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/image"
@@ -23,6 +24,7 @@
         android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/pip_search_app_ui_10_dp"
+        app:andesTextViewStyle="titleS"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="@+id/image"
         tools:text="$200,00" />
@@ -42,16 +44,20 @@
         android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pip_search_app_ui_8_dp"
+        android:inputType="textMultiLine"
+        app:andesTextViewStyle="bodyS"
+        app:layout_constraintEnd_toEndOf="@+id/buttom_add_to_cart"
         app:layout_constraintStart_toStartOf="@+id/market"
         app:layout_constraintTop_toBottomOf="@+id/market"
         tools:text="Heineken Cerveza Litro Especial" />
 
     <com.mercadolibre.android.andesui.button.AndesButton
         android:id="@+id/buttom_add_to_cart"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/pip_search_app_ui_10_dp"
+        android:layout_marginTop="@dimen/pip_search_app_ui_20_dp"
         android:layout_marginEnd="@dimen/pip_search_app_ui_20_dp"
+        app:andesButtonSize="medium"
         app:andesButtonText="@string/pip_search_app_main_view_holder_button_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

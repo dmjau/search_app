@@ -45,7 +45,5 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) :
         }
     }
 
-    private fun verifyMarketTag(tags: List<String>) : Boolean {
-        return tags.any { it == TAG_MARKET }
-    }
+    private fun verifyMarketTag(tags: List<String>) = tags.any { it == TAG_MARKET }
 }
