@@ -34,11 +34,9 @@ class MainActivity : AbstractActivity() {
      *
      */
     private fun initSearchBox() {
-        binding!!.let {
-            it.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
-                override fun onSearch(text: String) {
-                    sendTextToSearch(text)
-                }
+        binding!!.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
+            override fun onSearch(text: String) {
+                sendTextToSearch(text)
             }
         }
     }
@@ -49,7 +47,7 @@ class MainActivity : AbstractActivity() {
      */
     private fun sendTextToSearch(text: String) {
         if (text.length < 100) {
-            mainViewModel.fetchResults(text.lowercase())
+            mainViewModel.fetchResults(text)
         } else {
             showSnackbar()
         }
