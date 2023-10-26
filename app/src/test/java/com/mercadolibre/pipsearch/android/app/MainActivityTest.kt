@@ -22,6 +22,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -270,6 +271,60 @@ class MainActivityTest {
             // then
             assertNotNull(reflectionMainAdapter)
             assertNotNull(reflectionBinding.pipMainBodyRecyclerContainer.layoutManager)
+        }
+    }
+
+    @Test
+    fun testMainActivitySetListOfItemsIntoAdapter() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            // set mockResponse
+            val mockItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
+            val mockItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
+            val mockListOfResults = listOf(mockItem1, mockItem2)
+            ReflectionHelpers.setField(activity, "listOfItems", mockListOfResults)
+
+            val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems")
+            showListOfItemsMethod.isAccessible = true
+
+            // when
+            showListOfItemsMethod.invoke(activity)
+
+            val reflectionAdapter = ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
+
+            // then
+            assertEquals(mockListOfResults.count(), reflectionAdapter.itemCount)
+
+            val reflectionListOftemsAdpater = ReflectionHelpers.getField<List<ItemDto>>(reflectionAdapter, "listOfItems")
+
+            // then
+            assertEquals(mockListOfResults, reflectionListOftemsAdpater)
+
+        }
+    }
+
+    @Test
+    fun testMainActivityShowRecyclerViewAndHideInitialScreen() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            var reflectionBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+            // asserts before init show recycler
+            assertEquals(GONE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
+            assertEquals(VISIBLE, reflectionBinding.pipMainBodyImageContainer.visibility)
+
+            val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems")
+            showListOfItemsMethod.isAccessible = true
+
+            // when
+            showListOfItemsMethod.invoke(activity)
+
+            reflectionBinding = ReflectionHelpers.getField(activity, "binding")
+
+            // asserts before init show recycler
+            assertEquals(VISIBLE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
+            assertEquals(GONE, reflectionBinding.pipMainBodyImageContainer.visibility)
         }
     }
 }
