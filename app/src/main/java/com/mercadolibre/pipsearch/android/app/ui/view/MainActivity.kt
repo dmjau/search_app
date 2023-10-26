@@ -2,7 +2,6 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
@@ -25,18 +24,24 @@ class MainActivity : AbstractActivity() {
         setContentView(binding!!.root)
 
         initSearchBox()
+        setInitialScreen()
     }
 
     /**
      * Instance and init searchbox listeners.
-     *
      */
     private fun initSearchBox() {
-        binding!!.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
-            override fun onSearch(text: String) {
-                sendTextToSearch(text)
+        binding!!.pipMainHeaderSearchbox.onSearchListener =
+            object : AndesSearchbox.OnSearchListener {
+                override fun onSearch(text: String) {
+                    sendTextToSearch(text)
+                }
             }
-        }
+    }
+
+    private fun setInitialScreen() {
+        val initialTitle = "Surfing Mercado Libre"
+        setMainTitle(initialTitle)
     }
 
     /**
@@ -58,6 +63,10 @@ class MainActivity : AbstractActivity() {
             "Intenta nuevamente",
             AndesSnackbarDuration.SHORT
         ).show()
+    }
+
+    private fun setMainTitle(title: String) {
+        binding!!.pipMainBodyTitle.append(title)
     }
 
     private fun validateText(text: String) = text.length < 100 && text.isNotBlank()

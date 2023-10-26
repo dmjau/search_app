@@ -37,15 +37,8 @@ class MainActivityTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val testDispatcher = TestCoroutineDispatcher()
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
-
-    @Before
-    fun setup() {
-        Dispatchers.setMain(testDispatcher)
-
-    }
 
     @Test
     fun testMainActivityInstance() {
@@ -71,7 +64,8 @@ class MainActivityTest {
     fun testMainActivityInstanceBinding() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
             assertNotNull(reflectionActivityBinding)
@@ -83,11 +77,31 @@ class MainActivityTest {
     fun testMainActivityBindingSetListener() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
             assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
             assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+        }
+    }
+
+    @Test
+    fun testMainActivityNotSetListenerWithoutBinding() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            var reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+            assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
+            assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+
+            // when
+            ReflectionHelpers.setField(activity, "binding", null)
+            reflectionActivityBinding = ReflectionHelpers.getField(activity, "binding")
+
+            // then
+            assertNull(reflectionActivityBinding)
         }
     }
 
@@ -217,6 +231,18 @@ class MainActivityTest {
 
             // then
             assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
+        }
+    }
+
+    @Test
+    fun testMainActivitySetInitialScreenTitle() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            val reflectionActivityBinding =
+            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+            // then
+            assertEquals("Surfing Mercado Libre", reflectionActivityBinding.pipMainBodyTitle.text.toString())
         }
     }
 }
