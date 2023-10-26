@@ -85,7 +85,7 @@ class MainActivity : AbstractActivity() {
         mainViewModel.exceptionOrErrorResult.observe(
             { lifecycle },
             {
-                val data = it
+                //val data = it
             }
         )
     }
@@ -95,6 +95,7 @@ class MainActivity : AbstractActivity() {
      */
     private fun setItemsToAdapter(listItems: List<ItemDto> = emptyList()) {
         mainAdapter.setItems(listItems)
+        binding!!.pipMainBodyRecyclerContainer.visibility = View.VISIBLE
         binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
