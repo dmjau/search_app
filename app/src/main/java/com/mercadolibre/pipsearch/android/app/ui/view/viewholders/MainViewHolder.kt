@@ -38,11 +38,16 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) :
 
     private fun showMarketText(view: AndesTextView, tags: List<String>) {
         if (verifyMarketTag(tags)) {
+            clearView(view)
             view.append(TEXT_MARKET, AndesColor(R.color.andes_red_500))
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.GONE
         }
+    }
+
+    private fun clearView(view: AndesTextView) {
+        view.text = ""
     }
 
     private fun verifyMarketTag(tags: List<String>) = tags.any { it == TAG_MARKET }
