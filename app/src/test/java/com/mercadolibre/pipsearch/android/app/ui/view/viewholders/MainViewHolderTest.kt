@@ -46,9 +46,6 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
-<<<<<<< HEAD
-                assertEquals("12885.6", binding.price.text)
-=======
                 assertEquals("12885.6", binding.price.text.toString())
                 assertEquals("$", binding.iconPrice.text.toString())
                 assertNotNull(binding.image)
@@ -90,7 +87,6 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertEquals("second item", binding.title.text.toString())
                 assertEquals("100.0", binding.price.text.toString())
                 assertEquals("$", binding.iconPrice.text.toString())
->>>>>>> feature/create_recycler_view
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
@@ -113,12 +109,8 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
-<<<<<<< HEAD
-                assertEquals("12885.6", binding.price.text)
-=======
                 assertEquals("12885.6", binding.price.text.toString())
                 assertEquals("$", binding.iconPrice.text.toString())
->>>>>>> feature/create_recycler_view
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)

@@ -1,5 +1,7 @@
 package com.mercadolibre.pipsearch.android.app
 
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
@@ -11,18 +13,15 @@ import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainViewModel
+import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -238,11 +237,38 @@ class MainActivityTest {
     fun testMainActivitySetInitialScreenTitle() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding =
+            val reflectionBinding =
             ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
-            assertEquals("Surfing Mercado Libre", reflectionActivityBinding.pipMainBodyTitle.text.toString())
+            assertEquals("Surfing Mercado Libre", reflectionBinding.pipMainBodyTitle.text.toString())
+        }
+    }
+
+    @Test
+    fun testMainActivityShowInitialScreenAndHideRecyclerView() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            val reflectionBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+            // then
+            assertEquals(GONE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
+            assertEquals(VISIBLE, reflectionBinding.pipMainBodyImageContainer.visibility)
+        }
+    }
+
+    @Test
+    fun testMainActivityCreateViewWithMainAdapterAndRecycler() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+            val reflectionActivityBinding =
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+
+            val reflectionMainAdapter = ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
+
+            // then
+            assertNotNull(reflectionMainAdapter)
         }
     }
 }

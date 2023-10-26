@@ -30,7 +30,7 @@ class MainActivity : AbstractActivity() {
 
         initSearchBox()
         setInitialScreen()
-        initRecyclerView()
+        initRecyclerViewAndAdapter()
         observe()
     }
 
@@ -38,8 +38,7 @@ class MainActivity : AbstractActivity() {
      * Instance and init searchbox listeners.
      */
     private fun initSearchBox() {
-        binding!!.pipMainHeaderSearchbox.onSearchListener =
-            object : AndesSearchbox.OnSearchListener {
+        binding!!.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
                 override fun onSearch(text: String) {
                     sendTextToSearch(text)
                 }
@@ -50,6 +49,7 @@ class MainActivity : AbstractActivity() {
      * Init screen before any search.
      */
     private fun setInitialScreen() {
+        showInitialScreenHideRecyclerView()
         val initialTitle = "Surfing Mercado Libre"
         setMainTitle(initialTitle)
     }
@@ -57,18 +57,23 @@ class MainActivity : AbstractActivity() {
     /**
      * Init recycler view.
      */
-    private fun initRecyclerView() {
-        initViewForRecycler()
+    private fun initRecyclerViewAndAdapter() {
         with(binding!!.pipMainBodyRecyclerContainer) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mainAdapter
         }
     }
 
-    private fun initViewForRecycler() {
+    private fun showRecyclerViewHideInitialScreen() {
         binding!!.pipMainBodyRecyclerContainer.removeAllViews()
-        binding!!.pipMainBodyRecyclerContainer.visibility = View.VISIBLE
+        binding!!.pipMainBodyRecyclerContainer.visibility= View.VISIBLE
         binding!!.pipMainBodyImageContainer.visibility = View.GONE
+    }
+
+    private fun showInitialScreenHideRecyclerView() {
+        binding!!.pipMainBodyImageContainer.removeAllViews()
+        binding!!.pipMainBodyRecyclerContainer.visibility= View.GONE
+        binding!!.pipMainBodyImageContainer.visibility = View.VISIBLE
     }
 
     /**
