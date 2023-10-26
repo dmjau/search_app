@@ -1,15 +1,9 @@
 package com.mercadolibre.pipsearch.android.app
 
-import android.view.KeyEvent
-import android.view.inputmethod.BaseInputConnection
-import android.widget.EditText
-import android.widget.ImageView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.launchActivity
-import com.mercadolibre.android.andesui.databinding.AndesLayoutSearchboxBinding
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.restclient.model.RestClientResult
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
@@ -90,34 +84,6 @@ class MainActivityTest {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
-
-            // then
-            assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
-            assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
-        }
-    }
-
-    @Test
-    fun testMainActivityBindingSetListener2() {
-        // given
-        launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
-
-
-            //reflectionActivityBinding.pipMainHeaderSearchbox.binding_field.andesSearchboxEdittext
-
-            var editTextFromView = ((reflectionActivityBinding.pipMainHeaderSearchbox.getChildAt(0) as ConstraintLayout).getChildAt(3) as EditText)
-
-            //var closeTextFromView = ((reflectionActivityBinding.pipMainHeaderSearchbox.getChildAt(0) as ConstraintLayout).getChildAt(4) as ImageView)
-
-            editTextFromView.setText("test prueba")
-
-            editTextFromView.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SEARCH))
-
-            //closeTextFromView.performClick()
-
-            //val inputConnection = BaseInputConnection(editTextFromView, true)
-            //inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SEARCH))
 
             // then
             assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
