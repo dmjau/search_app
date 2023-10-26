@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/pip_search_app_ui_10_dp"
         android:inputType="textNoSuggestions"
-        app:andesTextViewStyle="titleS"
+        app:andesTextViewStyle="bodyM"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="@+id/image"
         tools:text="$" />
@@ -35,7 +35,7 @@
         android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
         android:inputType="textNoSuggestions"
-        app:andesTextViewStyle="titleS"
+        app:andesTextViewStyle="bodyM"
         app:layout_constraintStart_toEndOf="@+id/icon_price"
         app:layout_constraintTop_toTopOf="@+id/icon_price"
         tools:text="200,00" />

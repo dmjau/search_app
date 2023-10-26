@@ -58,10 +58,17 @@ class MainActivity : AbstractActivity() {
      * Init recycler view.
      */
     private fun initRecyclerView() {
-        with(binding!!.pipMainBodyRecyclerContainer){
+        initViewForRecycler()
+        with(binding!!.pipMainBodyRecyclerContainer) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = mainAdapter
         }
+    }
+
+    private fun initViewForRecycler() {
+        binding!!.pipMainBodyRecyclerContainer.removeAllViews()
+        binding!!.pipMainBodyRecyclerContainer.visibility = View.VISIBLE
+        binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
     /**
@@ -95,8 +102,6 @@ class MainActivity : AbstractActivity() {
      */
     private fun setItemsToAdapter(listItems: List<ItemDto> = emptyList()) {
         mainAdapter.setItems(listItems)
-        binding!!.pipMainBodyRecyclerContainer.visibility = View.VISIBLE
-        binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
     /**
