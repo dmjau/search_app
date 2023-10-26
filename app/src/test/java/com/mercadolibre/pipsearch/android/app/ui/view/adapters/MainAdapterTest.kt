@@ -15,28 +15,34 @@ import org.junit.Test
 
 class MainAdapterTest : AbstractRobolectricTest() {
 
+    private lateinit var mainAdapter: MainAdapter
+
     override fun setUp() {
         super.setUp()
         Fresco.initialize(context)
+
+        this.mainAdapter = MainAdapter()
     }
 
     @Test
     fun testMainAdapterInstance() {
-        // given
-        val mainAdapter = MainAdapter(listOf())
-
-        // then
         assertNotNull(mainAdapter)
     }
 
     @Test
-    fun testMainAdapterCountItems() {
-        // given
-        val mainAdapter = MainAdapter(listOf())
+    fun testMainAdapterCountItemsOnInit() {
+        assertEquals(0, mainAdapter.itemCount)
+    }
+
+    @Test
+    fun testMainAdapterCountItemsInitialized() {
+        // when
+        mainAdapter.setItems(listOf())
 
         // then
         assertEquals(0, mainAdapter.itemCount)
     }
+
 
     @Test
     fun testSetListOfItemsInTheMainAdapter() {
@@ -51,7 +57,7 @@ class MainAdapterTest : AbstractRobolectricTest() {
         itemsMutableList.add(itemData)
         itemsMutableList.add(itemData)
 
-        val mainAdapter = MainAdapter(itemsMutableList)
+        mainAdapter.setItems(itemsMutableList)
 
         // then
         assertEquals(4, mainAdapter.itemCount)
@@ -60,7 +66,6 @@ class MainAdapterTest : AbstractRobolectricTest() {
     @Test
     fun testMainAdapterInstanceMainViewHolder() {
         // given
-        val mainAdapter = MainAdapter(listOf())
         val mainViewHolder = mainAdapter.onCreateViewHolder(
             LinearLayout(context),
             0
@@ -85,7 +90,7 @@ class MainAdapterTest : AbstractRobolectricTest() {
         every { mockMainViewHolder.bind(any()) } returns Unit
 
         // when
-        val mainAdapter = MainAdapter(itemsMutableList)
+        mainAdapter.setItems(itemsMutableList)
         mainAdapter.onBindViewHolder(mockMainViewHolder, 0)
 
         // then
