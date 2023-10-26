@@ -22,7 +22,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -299,7 +298,6 @@ class MainActivityTest {
 
             // then
             assertEquals(mockListOfResults, reflectionListOftemsAdpater)
-
         }
     }
 

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mercadolibre.android.andesui.color.AndesColor
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
 import com.mercadolibre.android.andesui.snackbar.type.AndesSnackbarType
 import com.mercadolibre.android.commons.core.AbstractActivity
+import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
@@ -65,7 +67,7 @@ class MainActivity : AbstractActivity() {
      */
     private fun setInitialScreen() {
         showInitialScreenHideRecyclerView()
-        setMainTitle(TITLE_INITIAL_SCREEN)
+        setMainTitle()
     }
 
     /**
@@ -90,7 +92,7 @@ class MainActivity : AbstractActivity() {
         mainViewModel.exceptionOrErrorResult.observe(
             { lifecycle },
             {
-                //val data = it
+                // added logic to manage errors views
             }
         )
     }
@@ -128,8 +130,8 @@ class MainActivity : AbstractActivity() {
         ).show()
     }
 
-    private fun setMainTitle(title: String) {
-        binding!!.pipMainBodyTitle.append(title)
+    private fun setMainTitle() {
+        binding!!.pipMainBodyTitle.append(TITLE_INITIAL_SCREEN, AndesColor(R.color.andes_gray_250))
     }
 
     private fun validateText(text: String) = text.length < 100 && text.isNotBlank()
@@ -141,7 +143,6 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun showInitialScreenHideRecyclerView() {
-        binding!!.pipMainBodyImageContainer.removeAllViews()
         binding!!.pipMainBodyRecyclerContainer.visibility= View.GONE
         binding!!.pipMainBodyImageContainer.visibility = View.VISIBLE
     }
