@@ -1,6 +1,7 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
@@ -17,8 +18,8 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
  */
 class MainActivity : AbstractActivity() {
 
-    private lateinit var mainAdapter: MainAdapter
     private var binding: PipSearchAppMainActivityBinding? = null
+    private var mainAdapter: MainAdapter = MainAdapter()
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,8 +93,9 @@ class MainActivity : AbstractActivity() {
     /**
      * Set items in the adapter from search result.
      */
-    private fun setItemsToAdapter(listItems: List<ItemDto>) {
-        mainAdapter = MainAdapter(listItems)
+    private fun setItemsToAdapter(listItems: List<ItemDto> = emptyList()) {
+        mainAdapter.setItems(listItems)
+        binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
     /**
