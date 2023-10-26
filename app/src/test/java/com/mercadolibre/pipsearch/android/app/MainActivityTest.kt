@@ -259,16 +259,17 @@ class MainActivityTest {
     }
 
     @Test
-    fun testMainActivityCreateViewWithMainAdapterAndRecycler() {
+    fun testMainActivityCreateViewWithMainAdapterAndRecyclerView() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding =
+            val reflectionBinding =
                 ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             val reflectionMainAdapter = ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
 
             // then
             assertNotNull(reflectionMainAdapter)
+            assertNotNull(reflectionBinding.pipMainBodyRecyclerContainer.layoutManager)
         }
     }
 }
