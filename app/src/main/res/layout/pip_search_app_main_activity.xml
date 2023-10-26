@@ -21,6 +21,7 @@
             android:paddingTop="@dimen/pip_search_app_ui_8_dp"
             android:paddingEnd="@dimen/pip_search_app_ui_10_dp"
             android:paddingBottom="@dimen/pip_search_app_ui_8_dp"
+            app:andesSearchboxPlaceholder="@string/pip_search_app_main_header_searchbox_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/pip_main_header_cart_container"
             app:layout_constraintStart_toStartOf="parent"

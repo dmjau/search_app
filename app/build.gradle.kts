@@ -45,6 +45,10 @@ android {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     testOptions {
         unitTests.apply {
             isIncludeAndroidResources = true
@@ -76,4 +80,5 @@ dependencies {
     testImplementation(libs.misc.kotlinCoroutinesTest)
     testImplementation(libs.misc.okhttp3Mockwebserver)
     testImplementation(libs.misc.coreTesting)
+    testImplementation(libs.misc.coreKtx)
 }

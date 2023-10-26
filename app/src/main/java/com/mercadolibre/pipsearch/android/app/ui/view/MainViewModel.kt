@@ -26,7 +26,7 @@ class MainViewModel : ViewModel() {
 
     fun fetchResults(textToSearch: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
-            repository.getAll(textToSearch)
+            repository.getAll(textToSearch.lowercase())
                 .onSuccess { screenData ->
                     _searchResults.postValue(screenData)
                 }
