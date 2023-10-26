@@ -46,7 +46,8 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
-                assertEquals("12885.6", binding.price.text)
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
@@ -68,7 +69,8 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
-                assertEquals("12885.6", binding.price.text)
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
@@ -83,7 +85,8 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
                 // then
                 assertEquals("second item", binding.title.text.toString())
-                assertEquals("100.0", binding.price.text)
+                assertEquals("100.0", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
@@ -106,7 +109,8 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
-                assertEquals("12885.6", binding.price.text)
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
