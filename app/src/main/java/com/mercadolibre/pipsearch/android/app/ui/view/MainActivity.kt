@@ -2,11 +2,14 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
 import com.mercadolibre.android.andesui.snackbar.type.AndesSnackbarType
 import com.mercadolibre.android.commons.core.AbstractActivity
+import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 
 /**
@@ -14,6 +17,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
  */
 class MainActivity : AbstractActivity() {
 
+    private lateinit var mainAdapter: MainAdapter
     private var binding: PipSearchAppMainActivityBinding? = null
     private val mainViewModel: MainViewModel by viewModels()
 
@@ -25,6 +29,8 @@ class MainActivity : AbstractActivity() {
 
         initSearchBox()
         setInitialScreen()
+        initRecyclerView()
+        observe()
     }
 
     /**
@@ -39,9 +45,55 @@ class MainActivity : AbstractActivity() {
             }
     }
 
+    /**
+     * Init screen before any search.
+     */
     private fun setInitialScreen() {
         val initialTitle = "Surfing Mercado Libre"
         setMainTitle(initialTitle)
+    }
+
+    /**
+     * Init recycler view.
+     */
+    private fun initRecyclerView() {
+        with(binding!!.pipMainBodyRecyclerContainer){
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = mainAdapter
+        }
+    }
+
+    /**
+     * Observes livedata variables from view model.
+     */
+    private fun observe() {
+        observeSerachResults()
+        observeExceptionsOrErrors()
+    }
+
+    private fun observeSerachResults() {
+        mainViewModel.searchResults.observe(
+            { lifecycle },
+            {
+                setItemsToAdapter(it.results)
+            }
+        )
+    }
+
+    private fun observeExceptionsOrErrors() {
+        mainViewModel.exceptionOrErrorResult.observe(
+            { lifecycle },
+            {
+                val data = it
+            }
+        )
+    }
+
+    /**
+     * Set items in the adapter from search result.
+     */
+    private fun setItemsToAdapter(listItems: List<ItemDto>) {
+        mainAdapter = MainAdapter(listItems)
     }
 
     /**
