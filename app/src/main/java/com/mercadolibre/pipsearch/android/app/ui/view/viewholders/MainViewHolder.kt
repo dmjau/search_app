@@ -25,11 +25,13 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) :
 
         private const val TAG_MARKET = "supermarket_eligible"
         private const val TEXT_MARKET = "SUPERMERCADO"
+        private const val AMOUNT_SYMBOL = "$"
     }
 
     fun bind(itemData: ItemDto) {
         binding.apply {
             image.setImageURI(itemData.thumbnail)
+            iconPrice.text = AMOUNT_SYMBOL
             price.text = itemData.price.toString()
             title.text = itemData.title
             showMarketText(market, itemData.tags)
@@ -38,11 +40,16 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) :
 
     private fun showMarketText(view: AndesTextView, tags: List<String>) {
         if (verifyMarketTag(tags)) {
+            clearView(view)
             view.append(TEXT_MARKET, AndesColor(R.color.andes_red_500))
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.GONE
         }
+    }
+
+    private fun clearView(view: AndesTextView) {
+        view.clear()
     }
 
     private fun verifyMarketTag(tags: List<String>) = tags.any { it == TAG_MARKET }
