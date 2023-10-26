@@ -46,7 +46,51 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
+<<<<<<< HEAD
                 assertEquals("12885.6", binding.price.text)
+=======
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
+                assertNotNull(binding.image)
+                assertNotNull(binding.image.drawable)
+                assertNotNull(binding.image.controller)
+                assertEquals(View.VISIBLE, binding.market.visibility)
+                assertEquals("SUPERMERCADO", binding.market.text.toString())
+            }
+        }
+    }
+
+    @Test
+    fun TestBindViewInMainViewHolderCleanTagView() {
+        // given
+        val mainViewHolder = MainViewHolder.instance(parent)
+        TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
+
+            // when set first ItemDto Data
+            mainViewHolder.bind(data!!)
+
+            ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
+                // then
+                assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
+                assertNotNull(binding.image)
+                assertNotNull(binding.image.drawable)
+                assertNotNull(binding.image.controller)
+                assertEquals(View.VISIBLE, binding.market.visibility)
+                assertEquals("SUPERMERCADO", binding.market.text.toString())
+            }
+
+            // when set second ItemDto Data
+            val secondItemDto = ItemDto("second item", 100.0, "http://test", listOf("supermarket_eligible", "no_tag_important"))
+            mainViewHolder.bind(secondItemDto)
+
+            ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
+                // then
+                assertEquals("second item", binding.title.text.toString())
+                assertEquals("100.0", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
+>>>>>>> feature/create_recycler_view
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
@@ -69,7 +113,12 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
+<<<<<<< HEAD
                 assertEquals("12885.6", binding.price.text)
+=======
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
+>>>>>>> feature/create_recycler_view
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)

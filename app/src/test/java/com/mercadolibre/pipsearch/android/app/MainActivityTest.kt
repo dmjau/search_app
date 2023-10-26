@@ -37,14 +37,8 @@ class MainActivityTest {
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val testDispatcher = TestCoroutineDispatcher()
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
-
-    @Before
-    fun setup() {
-        Dispatchers.setMain(testDispatcher)
-    }
 
     @Test
     fun testMainActivityInstance() {
