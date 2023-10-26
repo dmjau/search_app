@@ -45,7 +45,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
 
                 // then
-                assertEquals("Cerveza Heineken Rubia", binding.title.text)
+                assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
                 assertEquals("12885.6", binding.price.text)
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
@@ -68,7 +68,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
 
                 // then
-                assertEquals("Cerveza Heineken Rubia", binding.title.text)
+                assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
                 assertEquals("12885.6", binding.price.text)
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
