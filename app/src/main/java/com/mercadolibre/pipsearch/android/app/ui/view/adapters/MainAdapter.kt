@@ -5,9 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.viewholders.MainViewHolder
 
-class MainAdapter(
-    private var listOfItems: List<ItemDto>
-) : RecyclerView.Adapter<MainViewHolder>() {
+class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
+
+    private var listOfItems: List<ItemDto> = emptyList()
+
+    fun setItems(items: List<ItemDto>) {
+        this.listOfItems = items
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         return MainViewHolder.instance(parent)
