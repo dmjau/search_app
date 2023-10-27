@@ -234,7 +234,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testMainActivitySetInitialScreenTitle() {
+    fun testMainActivitySetBaseScreenTitle() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             val reflectionBinding =
@@ -246,7 +246,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testMainActivityShowInitialScreenAndHideRecyclerView() {
+    fun testMainActivityShowBaseScreenAndHideRecyclerView() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             val reflectionBinding =
@@ -274,7 +274,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testMainActivitySetListOfItemsIntoAdapter() {
+    fun testMainActivitySetListOfItemsInTheAdapter() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             // set mockResponse
@@ -302,7 +302,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun testMainActivityShowRecyclerViewAndHideInitialScreen() {
+    fun testMainActivityShowRecyclerViewAndHideBaseScreen() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             var reflectionBinding =

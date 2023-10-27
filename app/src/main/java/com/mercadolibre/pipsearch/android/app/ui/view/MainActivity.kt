@@ -36,7 +36,7 @@ class MainActivity : AbstractActivity() {
         setContentView(binding!!.root)
 
         initSearchBox()
-        setInitialScreen()
+        setBaseScreen()
         initRecyclerViewAndAdapter()
         observe()
     }
@@ -63,11 +63,11 @@ class MainActivity : AbstractActivity() {
     }
 
     /**
-     * Set initial screen before any search.
+     * Set base screen with initial title before any search.
      */
-    private fun setInitialScreen() {
-        showInitialScreenHideRecyclerView()
-        setMainTitle()
+    private fun setBaseScreen() {
+        showBaseScreenHideRecyclerView()
+        setBaseTitle(TITLE_INITIAL_SCREEN, R.color.andes_gray_250)
     }
 
     /**
@@ -101,7 +101,7 @@ class MainActivity : AbstractActivity() {
      * Init Use Case when receive results of search to show.
      */
     private fun showListOfItems() {
-        showRecyclerViewHideInitialScreen()
+        showRecyclerViewHideBaseScreen()
         setItemsToAdapter()
     }
 
@@ -130,19 +130,19 @@ class MainActivity : AbstractActivity() {
         ).show()
     }
 
-    private fun setMainTitle() {
-        binding!!.pipMainBodyTitle.append(TITLE_INITIAL_SCREEN, AndesColor(R.color.andes_gray_250))
+    private fun setBaseTitle(title: String, color: Int) {
+        binding!!.pipMainBodyTitle.append(title, AndesColor(color))
     }
 
     private fun validateText(text: String) = text.length < 100 && text.isNotBlank()
 
-    private fun showRecyclerViewHideInitialScreen() {
+    private fun showRecyclerViewHideBaseScreen() {
         binding!!.pipMainBodyRecyclerContainer.removeAllViews()
         binding!!.pipMainBodyRecyclerContainer.visibility= View.VISIBLE
         binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
-    private fun showInitialScreenHideRecyclerView() {
+    private fun showBaseScreenHideRecyclerView() {
         binding!!.pipMainBodyRecyclerContainer.visibility= View.GONE
         binding!!.pipMainBodyImageContainer.visibility = View.VISIBLE
     }
