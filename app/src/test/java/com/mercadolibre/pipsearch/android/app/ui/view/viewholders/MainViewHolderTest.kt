@@ -26,7 +26,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestInstanceMainViewHolder() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
+        val mainViewHolder = MainViewHolder(parent)
 
         // then
         assertNotNull(mainViewHolder)
@@ -36,7 +36,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestBindViewInMainViewHolder() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
+        val mainViewHolder = MainViewHolder(parent)
         TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
 
             // when
@@ -60,7 +60,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestBindViewInMainViewHolderCleanTagView() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
+        val mainViewHolder = MainViewHolder(parent)
         TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
 
             // when set first ItemDto Data
@@ -99,7 +99,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestBindViewWithEmptyTagsList() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
+        val mainViewHolder = MainViewHolder(parent)
         TestResourceParser.getTestResourceObject(itemDataWithoutTags, ItemDto::class.java).let { data ->
 
             // when
