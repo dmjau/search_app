@@ -31,11 +31,15 @@ class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private fun showMarketText(view: AndesTextView, tags: List<String>) {
         if (verifyMarketTag(tags)) {
             clearView(view)
-            view.append(TEXT_MARKET, AndesColor(R.color.andes_red_500))
+            setMarketText(view)
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.GONE
         }
+    }
+
+    private fun setMarketText(view: AndesTextView) {
+        view.append(TEXT_MARKET, AndesColor(R.color.andes_red_500))
     }
 
     private fun clearView(view: AndesTextView) {
