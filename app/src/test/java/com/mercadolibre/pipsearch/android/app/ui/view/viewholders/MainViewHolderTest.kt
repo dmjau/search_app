@@ -1,34 +1,37 @@
 package com.mercadolibre.pipsearch.android.app.ui.view.viewholders
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.mercadolibre.android.commons.utils.generics.TestResourceParser
 import com.mercadolibre.android.testing.AbstractRobolectricTest
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainListItemBinding
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Test
 import org.robolectric.util.ReflectionHelpers
 
 class MainViewHolderTest : AbstractRobolectricTest() {
 
-    private val parent = LinearLayout(context)
+    private lateinit var view: View
+    private lateinit var mainViewHolder: MainViewHolder
     private val itemDataFull = "item_data_full.json"
     private val itemDataWithoutTags = "item_data_without_tags.json"
 
+    @Before
     override fun setUp() {
         super.setUp()
         Fresco.initialize(context)
+        view = LayoutInflater.from(context).inflate(R.layout.pip_search_app_main_list_item, null)
+        mainViewHolder = MainViewHolder(view)
     }
 
     @Test
     fun TestInstanceMainViewHolder() {
-        // given
-        val mainViewHolder = MainViewHolder.instance(parent)
-
-        // then
         assertNotNull(mainViewHolder)
         assertEquals(MainViewHolder::class.java, mainViewHolder::class.java)
     }
@@ -36,7 +39,6 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestBindViewInMainViewHolder() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
         TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
 
             // when
@@ -60,7 +62,6 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestBindViewInMainViewHolderCleanTagView() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
         TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
 
             // when set first ItemDto Data
@@ -99,7 +100,6 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     @Test
     fun TestBindViewWithEmptyTagsList() {
         // given
-        val mainViewHolder = MainViewHolder.instance(parent)
         TestResourceParser.getTestResourceObject(itemDataWithoutTags, ItemDto::class.java).let { data ->
 
             // when
