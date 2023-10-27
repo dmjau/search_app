@@ -37,6 +37,7 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
         if (verifyMarketTag(tags)) {
             clearTextView(view)
             setMarketText(view)
+            showButtonAddToCart()
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.GONE
@@ -52,4 +53,8 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
     }
 
     private fun verifyMarketTag(tags: List<String>) = tags.any { it == TAG_MARKET }
+
+    private fun showButtonAddToCart() {
+        binding.buttomAddToCart.visibility = View.VISIBLE
+    }
 }
