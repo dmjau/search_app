@@ -17,8 +17,8 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val layoutIngflater = LayoutInflater.from(parent.context).inflate(R.layout.pip_search_app_main_list_item, parent, false)
-        return MainViewHolder(layoutIngflater)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return MainViewHolder.instance(layoutInflater, parent)
     }
 
     override fun getItemCount() = listOfItems.size
