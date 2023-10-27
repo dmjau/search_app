@@ -1,8 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view.viewholders
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mercadolibre.android.andesui.color.AndesColor
 import com.mercadolibre.android.andesui.textview.AndesTextView

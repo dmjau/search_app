@@ -1,5 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view.viewholders
 
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -9,18 +10,22 @@ import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainListItemBinding
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Test
 import org.robolectric.util.ReflectionHelpers
 
 class MainViewHolderTest : AbstractRobolectricTest() {
 
-    private val parent = LinearLayout(context)
+    private lateinit var view: View
+    private lateinit var mainViewHolder: MainViewHolder
     private val itemDataFull = "item_data_full.json"
     private val itemDataWithoutTags = "item_data_without_tags.json"
 
+    @Before
     override fun setUp() {
         super.setUp()
         Fresco.initialize(context)
+        view = LayoutInflater.from(context).inflate(R)
     }
 
     @Test

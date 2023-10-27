@@ -8,24 +8,23 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/image"
-        android:layout_width="@dimen/pip_search_app_ui_90_dp"
-        android:layout_height="@dimen/pip_search_app_ui_100_dp"
+        android:layout_width="@dimen/pip_search_app_ui_64_dp"
+        android:layout_height="@dimen/pip_search_app_ui_64_dp"
         android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
         android:layout_marginTop="@dimen/pip_search_app_ui_20_dp"
         android:layout_marginEnd="@dimen/pip_search_app_ui_20_dp"
         android:layout_marginBottom="@dimen/pip_search_app_ui_20_dp"
-        android:scaleType="fitCenter"
-        app:actualImageScaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/andes_ui_placeholder_imagen_20" />
 
     <com.mercadolibre.android.andesui.textview.AndesTextView
         android:id="@+id/icon_price"
         android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/pip_search_app_ui_10_dp"
+        android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
         android:inputType="textNoSuggestions"
-        app:andesTextViewStyle="titleS"
+        app:andesTextViewStyle="bodyM"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="@+id/image"
         tools:text="$" />
@@ -35,7 +34,7 @@
         android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
         android:inputType="textNoSuggestions"
-        app:andesTextViewStyle="titleS"
+        app:andesTextViewStyle="bodyM"
         app:layout_constraintStart_toEndOf="@+id/icon_price"
         app:layout_constraintTop_toTopOf="@+id/icon_price"
         tools:text="200,00" />
