@@ -57,6 +57,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image.controller)
                 assertEquals(View.VISIBLE, binding.market.visibility)
                 assertEquals("SUPERMERCADO", binding.market.text.toString())
+                assertEquals(View.VISIBLE, binding.buttomAddToCart.visibility)
             }
         }
     }
@@ -80,6 +81,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image.controller)
                 assertEquals(View.VISIBLE, binding.market.visibility)
                 assertEquals("SUPERMERCADO", binding.market.text.toString())
+                assertEquals(View.VISIBLE, binding.buttomAddToCart.visibility)
             }
 
             // when set second ItemDto Data
@@ -96,6 +98,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image.controller)
                 assertEquals(View.VISIBLE, binding.market.visibility)
                 assertEquals("SUPERMERCADO", binding.market.text.toString())
+                assertEquals(View.VISIBLE, binding.buttomAddToCart.visibility)
             }
         }
     }
@@ -119,6 +122,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
                 assertEquals(View.GONE, binding.market.visibility)
+                assertEquals(View.GONE, binding.buttomAddToCart.visibility)
             }
         }
     }
