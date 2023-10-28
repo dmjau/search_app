@@ -14,6 +14,17 @@
         android:layout_height="@dimen/pip_search_app_ui_64_dp"
         android:background="@color/andes_yellow_ml_500">
 
+        <ImageView
+            android:id="@+id/pip_cart_header_back"
+            android:layout_width="@dimen/pip_search_app_ui_36_dp"
+            android:layout_height="@dimen/pip_search_app_ui_36_dp"
+            android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
+            android:src="@drawable/andes_ui_arrow_left_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/andes_ui_arrow_left_20" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -40,12 +51,13 @@
                 android:layout_width="@dimen/pip_search_app_ui_64_dp"
                 android:layout_height="@dimen/pip_search_app_ui_64_dp"
                 android:contentDescription="@string/pip_search_app_main_body_image_description"
+                android:src="@drawable/pip_search_app_ic_cart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.39"
-                tools:src="@drawable/pip_search_app_ic_alert" />
+                tools:src="@drawable/pip_search_app_ic_cart" />
 
             <com.mercadolibre.android.andesui.textview.AndesTextView
                 android:id="@+id/pip_cart_body_title"
@@ -56,7 +68,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/pip_cart_body_image"
                 app:layout_constraintStart_toStartOf="@+id/pip_cart_body_image"
                 app:layout_constraintTop_toBottomOf="@+id/pip_cart_body_image"
-                tools:text="Algo salió mal" />
+                tools:text="Tu carrito está vacio" />
 
             <com.mercadolibre.android.andesui.textview.AndesTextView
                 android:id="@+id/pip_cart_body_subtitle"
@@ -67,7 +79,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/pip_cart_body_image"
                 app:layout_constraintStart_toStartOf="@+id/pip_cart_body_image"
                 app:layout_constraintTop_toBottomOf="@+id/pip_cart_body_title"
-                tools:text="Estamos trabajando para solucionatlo." />
+                tools:text="Volvé a la pantalla de search para agregar ítems." />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
