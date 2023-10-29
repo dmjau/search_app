@@ -21,11 +21,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.mercadolibre.pipsearch.android.app.ui.view.CartActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
+        <activity android:name="com.mercadolibre.pipsearch.android.app.ui.view.CartActivity">
+
         </activity>
     </application>
 
