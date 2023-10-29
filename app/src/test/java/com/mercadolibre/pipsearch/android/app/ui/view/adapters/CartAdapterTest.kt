@@ -21,7 +21,7 @@ class CartAdapterTest : AbstractRobolectricTest() {
         super.setUp()
         Fresco.initialize(context)
 
-        this.cartAdapter = CartAdapter()
+        this.cartAdapter = CartAdapter { }
     }
 
     @Test
@@ -86,13 +86,13 @@ class CartAdapterTest : AbstractRobolectricTest() {
         itemsMutableList.add(itemData)
 
         val mockCartViewHolder = mockk<CartViewHolder>()
-        every { mockCartViewHolder.bind(any()) } returns Unit
+        every { mockCartViewHolder.bind(any(), any()) } returns Unit
 
         // when
         cartAdapter.setItems(itemsMutableList)
         cartAdapter.onBindViewHolder(mockCartViewHolder, 0)
 
         // then
-        verify { mockCartViewHolder.bind(any()) }
+        verify { mockCartViewHolder.bind(any(), any()) }
     }
 }

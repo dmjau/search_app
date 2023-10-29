@@ -20,7 +20,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private var binding: PipSearchAppCartActivityBinding? = null
-    private var cartAdapter: CartAdapter = CartAdapter()
+    private var cartAdapter: CartAdapter = CartAdapter { itemDto -> onItemDelete(itemDto) }
     private val cartViewModel: CartViewModel by viewModels()
     private var intent: Intent? = null
 
@@ -77,9 +77,14 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
+    private fun onItemDelete(item: ItemDto) {
+        // do nothing
+    }
+
     private fun setBaseTitle(title: String) {
         binding!!.pipCartBodyTitle.append(title)
     }
+
     private fun setBaseSubtitle(subtitle: String) {
         binding!!.pipCartBodySubtitle.append(subtitle)
     }
