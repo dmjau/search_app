@@ -1,5 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -28,6 +29,7 @@ class MainActivity : AbstractActivity() {
     private var mainAdapter: MainAdapter = MainAdapter()
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
+    private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class MainActivity : AbstractActivity() {
         initSearchBox()
         setBaseScreen()
         initRecyclerViewAndAdapter()
+        initCartActivity()
         observe()
     }
 
@@ -45,6 +48,7 @@ class MainActivity : AbstractActivity() {
      * Instance and init searchbox listeners.
      */
     private fun initSearchBox() {
+        intent = Intent(this, CartActivity::class.java)
         binding!!.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
                 override fun onSearch(text: String) {
                     sendTextToSearch(text)
@@ -68,6 +72,12 @@ class MainActivity : AbstractActivity() {
     private fun setBaseScreen() {
         showBaseScreenHideRecyclerView()
         setBaseTitle(TITLE_INITIAL_SCREEN, R.color.andes_gray_250)
+    }
+
+    private fun initCartActivity() {
+        binding!!.pipMainHeaderCartIcon.setOnClickListener {
+            startActivity(intent)
+        }
     }
 
     /**

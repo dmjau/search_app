@@ -62,7 +62,6 @@
                 android:layout_width="@dimen/pip_search_app_ui_64_dp"
                 android:layout_height="@dimen/pip_search_app_ui_64_dp"
                 android:contentDescription="@string/pip_search_app_main_body_image_description"
-                android:src="@drawable/pip_search_app_ic_cart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
