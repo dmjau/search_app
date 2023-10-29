@@ -53,6 +53,7 @@
 
     <com.mercadolibre.android.andesui.button.AndesButton
         android:id="@+id/buttom_delete"
+        app:andesButtonHierarchy="quiet"
         android:layout_width="@dimen/pip_search_app_ui_0_dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pip_search_app_ui_20_dp"
