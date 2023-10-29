@@ -23,13 +23,19 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
         }
     }
 
-    fun bind(itemData: ItemDto) {
+    fun bind(
+        itemData: ItemDto,
+        onItemDataClickListener: (ItemDto) -> Unit
+    ) {
         binding.apply {
             image.setImageURI(itemData.thumbnail)
             iconPrice.text = AMOUNT_SYMBOL
             price.text = itemData.price.toString()
             title.text = itemData.title
             showMarketText(market, itemData.tags)
+            buttomAddToCart.setOnClickListener {
+                onItemDataClickListener(itemData)
+            }
         }
     }
 

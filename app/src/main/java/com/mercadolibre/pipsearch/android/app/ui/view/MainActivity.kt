@@ -3,6 +3,7 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mercadolibre.android.andesui.color.AndesColor
@@ -27,7 +28,7 @@ class MainActivity : AbstractActivity() {
     }
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainAdapter: MainAdapter = MainAdapter()
+    private var mainAdapter: MainAdapter = MainAdapter { itemDto -> onItemToAddCart(itemDto) }
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
     private var intent: Intent? = null
@@ -137,6 +138,10 @@ class MainActivity : AbstractActivity() {
             validateText(text) -> mainViewModel.fetchResults(text)
             else -> showSnackbar()
         }
+    }
+
+    private fun onItemToAddCart(item: ItemDto) {
+        Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
     }
 
     private fun showSnackbar() {

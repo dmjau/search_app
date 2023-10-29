@@ -44,7 +44,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             val mainViewHolder = MainViewHolder.instance(layoutInflater, parent)
 
             // when
-            mainViewHolder.bind(data!!)
+            mainViewHolder.bind(data!!) { }
 
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
 
@@ -69,7 +69,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             val mainViewHolder = MainViewHolder.instance(layoutInflater, parent)
 
             // when set first ItemDto Data
-            mainViewHolder.bind(data!!)
+            mainViewHolder.bind(data!!) { }
 
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
                 // then
@@ -86,7 +86,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
             // when set second ItemDto Data
             val secondItemDto = ItemDto("second item", 100.0, "http://test", listOf("supermarket_eligible", "no_tag_important"))
-            mainViewHolder.bind(secondItemDto)
+            mainViewHolder.bind(secondItemDto) { }
 
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
                 // then
@@ -110,7 +110,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
             val mainViewHolder = MainViewHolder.instance(layoutInflater, parent)
 
             // when
-            mainViewHolder.bind(data!!)
+            mainViewHolder.bind(data!!) { }
 
             ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
 
@@ -123,6 +123,29 @@ class MainViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image.controller)
                 assertEquals(View.GONE, binding.market.visibility)
                 assertEquals(View.GONE, binding.buttomAddToCart.visibility)
+            }
+        }
+    }
+
+    @Test
+    fun TestReturnItemDataWhenButtonIsClicked() {
+        // given
+        TestResourceParser.getTestResourceObject(itemDataWithoutTags, ItemDto::class.java).let { data ->
+            val mainViewHolder = MainViewHolder.instance(layoutInflater, parent)
+
+            lateinit var itemDataFromView: ItemDto
+
+            mainViewHolder.bind(data!!) { itemData ->
+                itemDataFromView = itemData
+            }
+
+            ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
+
+                // when
+                binding.buttomAddToCart.performClick()
+
+                // then
+                assertEquals(itemDataFromView, data)
             }
         }
     }

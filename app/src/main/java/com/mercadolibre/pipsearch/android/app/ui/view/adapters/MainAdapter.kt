@@ -7,7 +7,7 @@ import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.viewholders.MainViewHolder
 
-class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
+class MainAdapter(private val onItemDataClickListener: (ItemDto) -> Unit) : RecyclerView.Adapter<MainViewHolder>() {
 
     private var listOfItems: List<ItemDto> = emptyList()
 
@@ -25,6 +25,6 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val itemData = listOfItems[position]
-        holder.bind(itemData)
+        holder.bind(itemData, onItemDataClickListener)
     }
 }

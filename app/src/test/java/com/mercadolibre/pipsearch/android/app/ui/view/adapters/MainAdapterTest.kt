@@ -21,7 +21,7 @@ class MainAdapterTest : AbstractRobolectricTest() {
         super.setUp()
         Fresco.initialize(context)
 
-        this.mainAdapter = MainAdapter()
+        this.mainAdapter = MainAdapter { }
     }
 
     @Test
@@ -87,13 +87,13 @@ class MainAdapterTest : AbstractRobolectricTest() {
         itemsMutableList.add(itemData)
 
         val mockMainViewHolder = mockk<MainViewHolder>()
-        every { mockMainViewHolder.bind(any()) } returns Unit
+        every { mockMainViewHolder.bind(any(), any()) } returns Unit
 
         // when
         mainAdapter.setItems(itemsMutableList)
         mainAdapter.onBindViewHolder(mockMainViewHolder, 0)
 
         // then
-        verify { mockMainViewHolder.bind(any()) }
+        verify { mockMainViewHolder.bind(any(), any()) }
     }
 }
