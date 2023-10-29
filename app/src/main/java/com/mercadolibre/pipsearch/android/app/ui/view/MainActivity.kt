@@ -141,7 +141,7 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun onItemToAddCart(item: ItemDto) {
-        Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
+        // do nothing
     }
 
     private fun showSnackbar() {
