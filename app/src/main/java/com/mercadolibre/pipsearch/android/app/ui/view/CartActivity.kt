@@ -4,6 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 
 class CartActivity : AppCompatActivity() {
@@ -15,6 +18,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private var binding: PipSearchAppCartActivityBinding? = null
+    private var cartAdapter: CartAdapter = CartAdapter()
     private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +30,7 @@ class CartActivity : AppCompatActivity() {
         setTitleHeader()
         setBaseScreen()
         linkedWithMainActivity()
+        initRecyclerViewAndAdapter()
     }
 
     /**
@@ -56,6 +61,16 @@ class CartActivity : AppCompatActivity() {
             startActivity(intent)
         } else {
             startActivity(intent)
+        }
+    }
+
+    /**
+     * Init recycler view and adapter.
+     */
+    private fun initRecyclerViewAndAdapter() {
+        with(binding!!.pipCartBodyRecyclerContainer) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = cartAdapter
         }
     }
 

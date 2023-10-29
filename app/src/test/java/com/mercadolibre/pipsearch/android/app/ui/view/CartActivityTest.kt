@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.test.core.app.launchActivity
+import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -76,6 +77,21 @@ class CartActivityTest {
 
             // then
             assertNotNull(reflectionIntent)
+        }
+    }
+
+    @Test
+    fun testCartActivityCreateViewWithCartAdapterAndRecyclerView() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+            val reflectionBinding =
+                ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
+
+            val reflectionAdapter = ReflectionHelpers.getField<CartAdapter>(activity, "cartAdapter")
+
+            // then
+            assertNotNull(reflectionAdapter)
+            assertNotNull(reflectionBinding.pipCartBodyRecyclerContainer.layoutManager)
         }
     }
 }
