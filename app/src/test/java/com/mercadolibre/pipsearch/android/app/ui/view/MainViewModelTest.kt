@@ -6,6 +6,7 @@ import com.mercadolibre.android.restclient.model.RestClientResult
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

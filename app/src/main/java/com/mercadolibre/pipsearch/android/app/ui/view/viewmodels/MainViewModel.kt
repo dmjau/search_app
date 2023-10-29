@@ -1,4 +1,4 @@
-package com.mercadolibre.pipsearch.android.app.ui.view
+package com.mercadolibre.pipsearch.android.app.ui.view.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

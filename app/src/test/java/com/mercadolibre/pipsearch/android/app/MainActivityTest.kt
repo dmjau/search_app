@@ -13,7 +13,7 @@ import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
-import com.mercadolibre.pipsearch.android.app.ui.view.MainViewModel
+import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 import io.mockk.coEvery

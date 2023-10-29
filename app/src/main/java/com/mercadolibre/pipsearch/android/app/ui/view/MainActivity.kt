@@ -14,6 +14,7 @@ import com.mercadolibre.android.commons.core.AbstractActivity
 import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
+import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding
 
 /**
