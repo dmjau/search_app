@@ -334,11 +334,17 @@ class MainActivityTest {
             val reflectionBinding =
                 ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
+            var reflectionIntent = ReflectionHelpers.getField<Intent>(activity, "intent")
+
+            // then
+            assertNull(reflectionIntent)
+
             // when
             reflectionBinding.pipMainHeaderCartIcon.performClick()
 
-            val reflectionIntent = ReflectionHelpers.getField<Intent>(activity, "intent")
+            reflectionIntent = ReflectionHelpers.getField(activity, "intent")
 
+            // then
             assertNotNull(reflectionIntent)
         }
     }

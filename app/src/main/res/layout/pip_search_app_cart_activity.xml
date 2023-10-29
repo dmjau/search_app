@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/pip_cart_header_back"
-            android:layout_width="@dimen/pip_search_app_ui_36_dp"
-            android:layout_height="@dimen/pip_search_app_ui_36_dp"
+            android:layout_width="@dimen/pip_search_app_ui_24_dp"
+            android:layout_height="@dimen/pip_search_app_ui_24_dp"
             android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
             android:src="@drawable/andes_ui_arrow_left_20"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/pip_search_app_ui_16_dp"
-                app:andesTextViewStyle="titleM"
+                app:andesTextViewStyle="bodyL"
                 app:layout_constraintEnd_toEndOf="@+id/pip_cart_body_image"
                 app:layout_constraintStart_toStartOf="@+id/pip_cart_body_image"
                 app:layout_constraintTop_toBottomOf="@+id/pip_cart_body_image"
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/pip_search_app_ui_8_dp"
-                app:andesTextViewStyle="bodyM"
+                app:andesTextViewStyle="bodyS"
                 app:layout_constraintEnd_toEndOf="@+id/pip_cart_body_image"
                 app:layout_constraintStart_toStartOf="@+id/pip_cart_body_image"
                 app:layout_constraintTop_toBottomOf="@+id/pip_cart_body_title"

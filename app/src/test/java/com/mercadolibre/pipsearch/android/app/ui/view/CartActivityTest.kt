@@ -1,11 +1,13 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
+import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.test.core.app.launchActivity
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -54,6 +56,26 @@ class CartActivityTest {
             // then
             assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
+        }
+    }
+
+    @Test
+    fun testCartActivityInitMainActivity() {
+        launchActivity<CartActivity>().onActivity { activity ->
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
+
+            var reflectionIntent = ReflectionHelpers.getField<Intent>(activity, "intent")
+
+            // then
+            assertNull(reflectionIntent)
+
+            // when
+            reflectionBinding.pipCartHeaderBack.performClick()
+
+            reflectionIntent = ReflectionHelpers.getField(activity, "intent")
+
+            // then
+            assertNotNull(reflectionIntent)
         }
     }
 }

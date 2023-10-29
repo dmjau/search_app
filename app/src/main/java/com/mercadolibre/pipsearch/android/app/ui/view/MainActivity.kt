@@ -39,8 +39,8 @@ class MainActivity : AbstractActivity() {
 
         initSearchBox()
         setBaseScreen()
+        linkedWithCartActivity()
         initRecyclerViewAndAdapter()
-        initCartActivity()
         observe()
     }
 
@@ -48,7 +48,6 @@ class MainActivity : AbstractActivity() {
      * Instance and init searchbox listeners.
      */
     private fun initSearchBox() {
-        intent = Intent(this, CartActivity::class.java)
         binding!!.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
                 override fun onSearch(text: String) {
                     sendTextToSearch(text)
@@ -74,8 +73,17 @@ class MainActivity : AbstractActivity() {
         setBaseTitle(TITLE_INITIAL_SCREEN, R.color.andes_gray_250)
     }
 
-    private fun initCartActivity() {
+    private fun linkedWithCartActivity() {
         binding!!.pipMainHeaderCartIcon.setOnClickListener {
+            setIntentAndStartCartActivity()
+        }
+    }
+
+    private fun setIntentAndStartCartActivity() {
+        if (intent == null) {
+            intent = Intent(this, CartActivity::class.java)
+            startActivity(intent)
+        } else {
             startActivity(intent)
         }
     }

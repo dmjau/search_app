@@ -1,5 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -14,6 +15,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private var binding: PipSearchAppCartActivityBinding? = null
+    private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +24,8 @@ class CartActivity : AppCompatActivity() {
         setContentView(binding!!.root)
 
         setTitleHeader()
-        initBaseScreen()
+        setBaseScreen()
+        linkedWithMainActivity()
     }
 
     /**
@@ -35,10 +38,25 @@ class CartActivity : AppCompatActivity() {
     /**
      * Set base screen with initial title before any search.
      */
-    private fun initBaseScreen() {
+    private fun setBaseScreen() {
         showBaseScreenHideRecyclerView()
         setBaseTitle(CART_BODY_TITLE)
         setBaseSubtitle(CART_BODY_SUBTITLE)
+    }
+
+    private fun linkedWithMainActivity() {
+        binding!!.pipCartHeaderBack.setOnClickListener {
+            setIntentAndStartMainActivity()
+        }
+    }
+
+    private fun setIntentAndStartMainActivity() {
+        if (intent == null) {
+            intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        } else {
+            startActivity(intent)
+        }
     }
 
     private fun setBaseTitle(title: String) {
