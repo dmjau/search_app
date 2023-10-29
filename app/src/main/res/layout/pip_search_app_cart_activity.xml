@@ -26,6 +26,7 @@
             tools:src="@drawable/andes_ui_arrow_left_20" />
 
         <com.mercadolibre.android.andesui.textview.AndesTextView
+            android:id="@+id/pip_cart_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:andesTextViewStyle="titleXs"
