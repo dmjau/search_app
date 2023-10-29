@@ -25,6 +25,16 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/andes_ui_arrow_left_20" />
 
+        <com.mercadolibre.android.andesui.textview.AndesTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:andesTextViewStyle="titleXs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Carrito" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
