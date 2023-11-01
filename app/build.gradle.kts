@@ -60,6 +60,8 @@ android {
 
 dependencies {
     implementation(libs.misc.appCompat)
+    implementation(libs.misc.recyclerView)
+    implementation(libs.misc.fresco)
 
     // Mercadolibre Libs
     implementation(libs.meli.commonsCore)
