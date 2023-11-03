@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mercadolibre.android.andesui.color.AndesColor
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.andesui.snackbar.AndesSnackbar
 import com.mercadolibre.android.andesui.snackbar.duration.AndesSnackbarDuration
 import com.mercadolibre.android.andesui.snackbar.type.AndesSnackbarType
+import com.mercadolibre.android.andesui.textview.color.AndesTextViewColor
 import com.mercadolibre.android.commons.core.AbstractActivity
 import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
@@ -19,10 +19,6 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
  * Main activity class
  */
 class MainActivity : AbstractActivity() {
-
-    companion object {
-        const val TITLE_INITIAL_SCREEN = "Surfing Mercado Libre"
-    }
 
     private var binding: PipSearchAppMainActivityBinding? = null
     private var mainAdapter: MainAdapter = MainAdapter()
@@ -45,7 +41,8 @@ class MainActivity : AbstractActivity() {
      * Instance and init searchbox listeners.
      */
     private fun initSearchBox() {
-        binding!!.pipMainHeaderSearchbox.onSearchListener = object : AndesSearchbox.OnSearchListener {
+        binding!!.pipMainHeaderSearchbox.onSearchListener =
+            object : AndesSearchbox.OnSearchListener {
                 override fun onSearch(text: String) {
                     sendTextToSearch(text)
                 }
@@ -67,7 +64,10 @@ class MainActivity : AbstractActivity() {
      */
     private fun setBaseScreen() {
         showBaseScreenHideRecyclerView()
-        setBaseTitle(TITLE_INITIAL_SCREEN, R.color.andes_gray_250)
+        setBaseTitle(
+            R.string.pip_search_app_main_title_initial_text,
+            AndesTextViewColor.Disabled
+        )
     }
 
     /**
@@ -130,20 +130,21 @@ class MainActivity : AbstractActivity() {
         ).show()
     }
 
-    private fun setBaseTitle(title: String, color: Int) {
-        binding!!.pipMainBodyTitle.append(title, AndesColor(color))
+    private fun setBaseTitle(title: Int, color: AndesTextViewColor) {
+        binding!!.pipMainBodyTitle.text = getString(title)
+        binding!!.pipMainBodyTitle.setTextColor(color)
     }
 
     private fun validateText(text: String) = text.length < 100 && text.isNotBlank()
 
     private fun showRecyclerViewHideBaseScreen() {
         binding!!.pipMainBodyRecyclerContainer.removeAllViews()
-        binding!!.pipMainBodyRecyclerContainer.visibility= View.VISIBLE
+        binding!!.pipMainBodyRecyclerContainer.visibility = View.VISIBLE
         binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
     private fun showBaseScreenHideRecyclerView() {
-        binding!!.pipMainBodyRecyclerContainer.visibility= View.GONE
+        binding!!.pipMainBodyRecyclerContainer.visibility = View.GONE
         binding!!.pipMainBodyImageContainer.visibility = View.VISIBLE
     }
 }
