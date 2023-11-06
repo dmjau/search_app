@@ -131,15 +131,19 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun setBaseTitle(title: Int, color: AndesTextViewColor) {
-        binding!!.pipMainBodyTitle.text = getString(title)
-        binding!!.pipMainBodyTitle.setTextColor(color)
+        binding!!.pipMainBodyTitle.apply {
+            this.text = getString(title)
+            this.setTextColor(color)
+        }
     }
 
     private fun validateText(text: String) = text.length < 100 && text.isNotBlank()
 
     private fun showRecyclerViewHideBaseScreen() {
-        binding!!.pipMainBodyRecyclerContainer.removeAllViews()
-        binding!!.pipMainBodyRecyclerContainer.visibility = View.VISIBLE
+        binding!!.pipMainBodyRecyclerContainer.apply {
+            this.removeAllViews()
+            this.visibility = View.VISIBLE
+        }
         binding!!.pipMainBodyImageContainer.visibility = View.GONE
     }
 
