@@ -80,21 +80,19 @@ class MainActivity : AbstractActivity() {
 
     private fun observeSerachResults() {
         mainViewModel.searchResults.observe(
-            { lifecycle },
-            {
-                listOfItems = it.results
-                showListOfItems()
-            }
-        )
+            this
+        ) {
+            listOfItems = it.results
+            showListOfItems()
+        }
     }
 
     private fun observeExceptionsOrErrors() {
         mainViewModel.exceptionOrErrorResult.observe(
-            { lifecycle },
-            {
-                // added logic to manage errors views
-            }
-        )
+            this
+        ) {
+            // added logic to manage errors views
+        }
     }
 
     /**
