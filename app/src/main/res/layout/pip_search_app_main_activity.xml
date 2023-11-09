@@ -100,7 +100,6 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/pip_search_app_ui_16_dp"
                 app:andesTextViewStyle="titleM"
-                app:andesTextViewTextColor="disabled"
                 app:layout_constraintEnd_toEndOf="@+id/pip_main_body_image"
                 app:layout_constraintStart_toStartOf="@+id/pip_main_body_image"
                 app:layout_constraintTop_toBottomOf="@+id/pip_main_body_image"
