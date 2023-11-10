@@ -4,15 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 
 class CartActivity : AppCompatActivity() {
-
-    companion object {
-        const val CART_HEADER_TITLE = "Carrito"
-        const val CART_BODY_TITLE = "El carrito está vacío"
-        const val CART_BODY_SUBTITLE = "Volvé a la pantalla de principal para buscar ítems."
-    }
 
     private var binding: PipSearchAppCartActivityBinding? = null
     private var intent: Intent? = null
@@ -32,7 +27,9 @@ class CartActivity : AppCompatActivity() {
      * Set base screen with initial title before any search.
      */
     private fun setTitleHeader() {
-        binding!!.pipCartHeaderText.text = CART_HEADER_TITLE
+        binding!!.pipCartHeaderText.apply {
+            this.text = getString(R.string.pip_search_app_cart_header_title_text)
+        }
     }
 
     /**
@@ -40,8 +37,8 @@ class CartActivity : AppCompatActivity() {
      */
     private fun setBaseScreen() {
         showBaseScreenHideRecyclerView()
-        setBaseTitle(CART_BODY_TITLE)
-        setBaseSubtitle(CART_BODY_SUBTITLE)
+        setBaseTitle(R.string.pip_search_app_cart_body_title_text)
+        setBaseSubtitle(R.string.pip_search_app_cart_body_subtitle_text)
     }
 
     private fun linkedWithMainActivity() {
@@ -59,11 +56,15 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBaseTitle(title: String) {
-        binding!!.pipCartBodyTitle.append(title)
+    private fun setBaseTitle(title: Int) {
+        binding!!.pipCartBodyTitle.apply {
+            this.text = getString(title)
+        }
     }
-    private fun setBaseSubtitle(subtitle: String) {
-        binding!!.pipCartBodySubtitle.append(subtitle)
+    private fun setBaseSubtitle(subtitle: Int) {
+        binding!!.pipCartBodySubtitle.apply {
+            this.text = getString(subtitle)
+        }
     }
 
     private fun showBaseScreenHideRecyclerView() {
