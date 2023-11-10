@@ -93,7 +93,6 @@ class MainActivity : AbstractActivity() {
      */
     private fun observe() {
         observeSerachResults()
-        observeExceptionsOrErrors()
     }
 
     private fun observeSerachResults() {
@@ -102,14 +101,6 @@ class MainActivity : AbstractActivity() {
         ) {
             listOfItems = it.results
             showListOfItems()
-        }
-    }
-
-    private fun observeExceptionsOrErrors() {
-        mainViewModel.exceptionOrErrorResult.observe(
-            this
-        ) {
-            // added logic to manage errors views
         }
     }
 
