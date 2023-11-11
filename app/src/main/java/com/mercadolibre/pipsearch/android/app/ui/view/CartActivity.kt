@@ -33,7 +33,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     /**
-     * Set base screen with initial title before any search.
+     * Set base screen with initial title and subtitle.
      */
     private fun setBaseScreen() {
         showBaseScreenHideRecyclerView()
