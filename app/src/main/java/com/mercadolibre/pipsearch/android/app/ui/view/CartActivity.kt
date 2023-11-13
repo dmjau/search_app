@@ -23,15 +23,6 @@ class CartActivity : AppCompatActivity() {
     }
 
     /**
-     * Set base screen with initial title before any search.
-     */
-    private fun setTitleHeader() {
-        binding!!.pipCartHeaderText.apply {
-            this.text = getString(R.string.pip_search_app_cart_header_title_text)
-        }
-    }
-
-    /**
      * Set base screen with initial title and subtitle.
      */
     private fun setBaseScreen() {
@@ -50,15 +41,18 @@ class CartActivity : AppCompatActivity() {
         startActivity(Intent(this, MainActivity::class.java))
     }
 
+    /**
+     * Set base screen attributes.
+     */
+    private fun setTitleHeader() {
+        binding!!.pipCartHeaderText.text = getString(R.string.pip_search_app_cart_header_title_text)
+    }
+
     private fun setBaseTitle(title: Int) {
-        binding!!.pipCartBodyTitle.apply {
-            this.text = getString(title)
-        }
+        binding!!.pipCartBodyTitle.text = getString(title)
     }
     private fun setBaseSubtitle(subtitle: Int) {
-        binding!!.pipCartBodySubtitle.apply {
-            this.text = getString(subtitle)
-        }
+        binding!!.pipCartBodySubtitle.text = getString(subtitle)
     }
 
     private fun showBaseScreenHideRecyclerView() {
