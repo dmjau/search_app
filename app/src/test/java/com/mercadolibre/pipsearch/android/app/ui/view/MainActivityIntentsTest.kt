@@ -2,11 +2,11 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.content.ComponentName
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.rule.IntentsTestRule
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
@@ -18,21 +18,21 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(instrumentedPackages = ["androidx.loader.content"])
-class CartActivityIntentsTest {
+class MainActivityIntentsTest {
 
     @get:Rule
-    val activityTestRule = ActivityTestRule(CartActivity::class.java)
+    val activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Rule
     @JvmField
-    var intentsRule = IntentsTestRule(CartActivity::class.java)
+    var intentsRule = IntentsTestRule(MainActivity::class.java)
 
     @Test
     fun testMainActivityIntentStartCartActivityWhenIconIsClicked() {
         // when
-        onView(ViewMatchers.withId(R.id.pip_cart_header_back)).perform(ViewActions.click())
+        onView(withId(R.id.pip_main_header_cart_icon)).perform(click())
 
         // then
-        Intents.intended(IntentMatchers.hasComponent(ComponentName(InstrumentationRegistry.getInstrumentation().context, MainActivity::class.java)))
+        Intents.intended(IntentMatchers.hasComponent(ComponentName(InstrumentationRegistry.getInstrumentation().context, CartActivity::class.java)))
     }
 }

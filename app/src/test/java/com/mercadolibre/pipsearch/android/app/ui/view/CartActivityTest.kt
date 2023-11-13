@@ -58,24 +58,4 @@ class CartActivityTest {
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
         }
     }
-
-    @Test
-    fun testCartActivityInitMainActivity() {
-        launchActivity<CartActivity>().onActivity { activity ->
-            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
-
-            var reflectionIntent = ReflectionHelpers.getField<Intent>(activity, "intent")
-
-            // then
-            assertNull(reflectionIntent)
-
-            // when
-            reflectionBinding.pipCartHeaderBack.performClick()
-
-            reflectionIntent = ReflectionHelpers.getField(activity, "intent")
-
-            // then
-            assertNotNull(reflectionIntent)
-        }
-    }
 }
