@@ -25,7 +25,6 @@ class MainActivity : AbstractActivity() {
     private var mainAdapter: MainAdapter = MainAdapter()
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
-    private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,12 +79,7 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun setIntentAndStartCartActivity() {
-        if (intent == null) {
-            intent = Intent(this, CartActivity::class.java)
-            startActivity(intent)
-        } else {
-            startActivity(intent)
-        }
+        startActivity(Intent(this, CartActivity::class.java))
     }
 
     /**

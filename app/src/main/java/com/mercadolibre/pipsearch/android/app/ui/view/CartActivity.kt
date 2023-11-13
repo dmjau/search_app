@@ -10,7 +10,6 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBi
 class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
-    private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,12 +47,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun setIntentAndStartMainActivity() {
-        if (intent == null) {
-            intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        } else {
-            startActivity(intent)
-        }
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun setBaseTitle(title: Int) {
