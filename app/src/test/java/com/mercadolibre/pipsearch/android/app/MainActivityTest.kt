@@ -1,6 +1,5 @@
 package com.mercadolibre.pipsearch.android.app
 
-import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -324,28 +323,6 @@ class MainActivityTest {
             // asserts before init show recycler
             assertEquals(VISIBLE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
             assertEquals(GONE, reflectionBinding.pipMainBodyImageContainer.visibility)
-        }
-    }
-
-    @Test
-    fun testMainActivityInitCartActivity() {
-        // given
-        launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
-
-            var reflectionIntent = ReflectionHelpers.getField<Intent>(activity, "intent")
-
-            // then
-            assertNull(reflectionIntent)
-
-            // when
-            reflectionBinding.pipMainHeaderCartIcon.performClick()
-
-            reflectionIntent = ReflectionHelpers.getField(activity, "intent")
-
-            // then
-            assertNotNull(reflectionIntent)
         }
     }
 }

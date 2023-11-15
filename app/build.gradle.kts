@@ -83,4 +83,6 @@ dependencies {
     testImplementation(libs.misc.okhttp3Mockwebserver)
     testImplementation(libs.misc.coreTesting)
     testImplementation(libs.misc.coreKtx)
+    testImplementation(libs.misc.espresso)
+    testImplementation(libs.misc.espressoIntents)
 }
