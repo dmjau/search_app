@@ -1,25 +1,17 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
+import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 
 class CartActivity : AppCompatActivity() {
 
-    companion object {
-        const val CART_HEADER_TITLE = "Carrito"
-        const val CART_BODY_TITLE = "El carrito está vacío"
-        const val CART_BODY_SUBTITLE = "Volvé a la pantalla de principal para buscar ítems."
-    }
-
     private var binding: PipSearchAppCartActivityBinding? = null
     private var cartAdapter: CartAdapter = CartAdapter()
-    private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,39 +21,43 @@ class CartActivity : AppCompatActivity() {
 
         setTitleHeader()
         setBaseScreen()
-        linkedWithMainActivity()
+        setBackToMainActivityListener()
         initRecyclerViewAndAdapter()
     }
 
     /**
-     * Set base screen with initial title before any search.
-     */
-    private fun setTitleHeader() {
-        binding!!.pipCartHeaderText.text = CART_HEADER_TITLE
-    }
-
-    /**
-     * Set base screen with initial title before any search.
+     * Set base screen with initial title and subtitle.
      */
     private fun setBaseScreen() {
         showBaseScreenHideRecyclerView()
-        setBaseTitle(CART_BODY_TITLE)
-        setBaseSubtitle(CART_BODY_SUBTITLE)
+        setBaseTitle(R.string.pip_search_app_cart_body_title_text)
+        setBaseSubtitle(R.string.pip_search_app_cart_body_subtitle_text)
     }
 
-    private fun linkedWithMainActivity() {
+    private fun setBackToMainActivityListener() {
         binding!!.pipCartHeaderBack.setOnClickListener {
-            setIntentAndStartMainActivity()
+            finish()
         }
     }
 
-    private fun setIntentAndStartMainActivity() {
-        if (intent == null) {
-            intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        } else {
-            startActivity(intent)
-        }
+    /**
+     * Set base screen attributes.
+     */
+    private fun setTitleHeader() {
+        binding!!.pipCartHeaderText.text = getString(R.string.pip_search_app_cart_header_title_text)
+    }
+
+    private fun setBaseTitle(title: Int) {
+        binding!!.pipCartBodyTitle.text = getString(title)
+    }
+
+    private fun setBaseSubtitle(subtitle: Int) {
+        binding!!.pipCartBodySubtitle.text = getString(subtitle)
+    }
+
+    private fun showBaseScreenHideRecyclerView() {
+        binding!!.pipCartBodyRecyclerContainer.visibility = View.GONE
+        binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
     }
 
     /**
@@ -73,17 +69,4 @@ class CartActivity : AppCompatActivity() {
             adapter = cartAdapter
         }
     }
-
-    private fun setBaseTitle(title: String) {
-        binding!!.pipCartBodyTitle.append(title)
-    }
-    private fun setBaseSubtitle(subtitle: String) {
-        binding!!.pipCartBodySubtitle.append(subtitle)
-    }
-
-    private fun showBaseScreenHideRecyclerView() {
-        binding!!.pipCartBodyRecyclerContainer.visibility = View.GONE
-        binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
-    }
-
 }
