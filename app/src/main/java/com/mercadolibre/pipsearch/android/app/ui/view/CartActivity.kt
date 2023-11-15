@@ -18,7 +18,7 @@ class CartActivity : AppCompatActivity() {
 
         setTitleHeader()
         setBaseScreen()
-        linkedWithMainActivity()
+        setBackToMainActivityListener()
     }
 
     /**
@@ -30,7 +30,7 @@ class CartActivity : AppCompatActivity() {
         setBaseSubtitle(R.string.pip_search_app_cart_body_subtitle_text)
     }
 
-    private fun linkedWithMainActivity() {
+    private fun setBackToMainActivityListener() {
         binding!!.pipCartHeaderBack.setOnClickListener {
             finish()
         }
