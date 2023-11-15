@@ -1,6 +1,5 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -33,12 +32,8 @@ class CartActivity : AppCompatActivity() {
 
     private fun linkedWithMainActivity() {
         binding!!.pipCartHeaderBack.setOnClickListener {
-            setIntentAndStartMainActivity()
+            finish()
         }
-    }
-
-    private fun setIntentAndStartMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
     }
 
     /**
@@ -59,5 +54,4 @@ class CartActivity : AppCompatActivity() {
         binding!!.pipCartBodyRecyclerContainer.visibility = View.GONE
         binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
     }
-
 }
