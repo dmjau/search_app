@@ -14,8 +14,6 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
 
     companion object {
         private const val TAG_MARKET = "supermarket_eligible"
-        private const val TEXT_MARKET = "SUPERMERCADO"
-        private const val AMOUNT_SYMBOL = "$"
 
         fun instance(layoutInflater: LayoutInflater, parent: ViewGroup) : MainViewHolder {
             val binding = PipSearchAppMainListItemBinding.inflate(layoutInflater, parent, false)
@@ -26,7 +24,6 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
     fun bind(itemData: ItemDto) {
         binding.apply {
             image.setImageURI(itemData.thumbnail)
-            iconPrice.text = AMOUNT_SYMBOL
             price.text = itemData.price.toString()
             title.text = itemData.title
             showMarketText(market, itemData.tags)
@@ -35,21 +32,11 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
 
     private fun showMarketText(view: AndesTextView, tags: List<String>) {
         if (verifyMarketTag(tags)) {
-            clearTextView(view)
-            setMarketText(view)
             showButtonAddToCart()
             view.visibility = View.VISIBLE
         } else {
             view.visibility = View.GONE
         }
-    }
-
-    private fun setMarketText(view: AndesTextView) {
-        view.append(TEXT_MARKET, AndesColor(R.color.andes_red_500))
-    }
-
-    private fun clearTextView(view: AndesTextView) {
-        view.clear()
     }
 
     private fun verifyMarketTag(tags: List<String>) = tags.any { it == TAG_MARKET }
