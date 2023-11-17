@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
         android:inputType="textNoSuggestions"
+        android:text="@string/pip_search_app_amount_symbol"
         app:andesTextViewStyle="bodyM"
-        android:text="@string/pip_search_app_cart_view_holder_amount_symbol"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="@+id/image"
         tools:text="$" />
