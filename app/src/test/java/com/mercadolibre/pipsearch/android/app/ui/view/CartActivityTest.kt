@@ -98,7 +98,7 @@ class CartActivityTest {
     }
 
     @Test
-    fun testCartActivityInstanceViewModel() {
+    fun testCartActivityInstanceCartViewModel() {
         // given
         launchActivity<CartActivity>().onActivity { activity ->
             viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
