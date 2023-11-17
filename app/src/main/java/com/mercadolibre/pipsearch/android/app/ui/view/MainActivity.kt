@@ -23,7 +23,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainAdapter: MainAdapter = MainAdapter { itemDto -> onItemToAddCart(itemDto) }
+    private var mainAdapter: MainAdapter = MainAdapter { itemDto -> {  } }
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
 
@@ -120,10 +120,6 @@ class MainActivity : AbstractActivity() {
             validateText(text) -> mainViewModel.fetchResults(text)
             else -> showSnackbar()
         }
-    }
-
-    private fun onItemToAddCart(item: ItemDto) {
-        // do nothing
     }
 
     private fun showSnackbar() {
