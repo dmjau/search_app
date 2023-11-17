@@ -1,17 +1,27 @@
 package com.mercadolibre.pipsearch.android.app
 
-import android.content.Intent
+import android.content.ComponentName
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.launchActivity
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.rule.IntentsTestRule
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import com.mercadolibre.android.andesui.searchbox.AndesSearchbox
 import com.mercadolibre.android.restclient.model.RestClientResult
+import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.ui.view.CartActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainViewModel
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
@@ -27,15 +37,24 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import org.robolectric.util.ReflectionHelpers
 
 @ExperimentalCoroutinesApi
 @RunWith(RobolectricTestRunner::class)
+@Config(instrumentedPackages = ["androidx.loader.content"])
 class MainActivityTest {
 
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val activityTestRule = ActivityTestRule(MainActivity::class.java)
+
+    @Rule
+    @JvmField
+    var intentsRule = IntentsTestRule(MainActivity::class.java)
 
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
@@ -325,5 +344,15 @@ class MainActivityTest {
             assertEquals(VISIBLE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
             assertEquals(GONE, reflectionBinding.pipMainBodyImageContainer.visibility)
         }
+    }
+
+    @Test
+    fun testMainActivityIntentStartCartActivityWhenIconIsClicked() {
+        // when
+        Espresso.onView(ViewMatchers.withId(R.id.pip_main_header_cart_icon))
+            .perform(ViewActions.click())
+
+        // then
+        Intents.intended(IntentMatchers.hasComponent(ComponentName(InstrumentationRegistry.getInstrumentation().context, CartActivity::class.java)))
     }
 }
