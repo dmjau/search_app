@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
         android:inputType="textNoSuggestions"
+        android:text="@string/pip_search_app_amount_symbol"
         app:andesTextViewStyle="bodyM"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="@+id/image"
@@ -44,7 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pip_search_app_ui_8_dp"
         android:inputType="textNoSuggestions"
+        android:text="@string/pip_search_app_main_view_holder_market_text"
         android:visibility="gone"
+        app:andesTextViewTextColor="negative"
         app:layout_constraintStart_toStartOf="@+id/icon_price"
         app:layout_constraintTop_toBottomOf="@+id/price"
         tools:text="Supermercado" />
