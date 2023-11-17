@@ -25,11 +25,6 @@ class CartAdapterTest : AbstractRobolectricTest() {
     }
 
     @Test
-    fun testCartAdapterInstance() {
-        assertNotNull(cartAdapter)
-    }
-
-    @Test
     fun testCartAdapterCountItemsOnInit() {
         assertEquals(0, cartAdapter.itemCount)
     }
@@ -71,8 +66,8 @@ class CartAdapterTest : AbstractRobolectricTest() {
         )
 
         // then
-        val expectedClassName = "com.mercadolibre.pipsearch.android.app.ui.view.viewholders.CartViewHolder"
-        assertEquals(expectedClassName, cartViewHolder.javaClass.canonicalName)
+        val expectedType = CartViewHolder::class.javaObjectType
+        assertEquals(expectedType, cartViewHolder.javaClass)
     }
 
     @Test
