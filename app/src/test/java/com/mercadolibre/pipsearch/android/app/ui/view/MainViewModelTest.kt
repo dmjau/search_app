@@ -188,4 +188,46 @@ class MainViewModelTest {
         assertNotNull(exceptionResult)
         assertEquals("Exception message", exceptionResult.value)
     }
+
+    @Test
+    fun SetItemsInTheListItemsOnCart() {
+        // given
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+        var reflectionItemsOnCart =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                viewModel,
+                "_itemsOnCart"
+            )
+
+
+        // before add item
+        assertEquals(emptyList<ItemDto>(), reflectionItemsOnCart.value)
+
+        // when
+        viewModel.addItemsOnCart(testItem)
+
+        reflectionItemsOnCart =
+            ReflectionHelpers.getField(
+                viewModel,
+                "_itemsOnCart"
+            )
+
+        // then
+        assertEquals(testItem, reflectionItemsOnCart.value?.get(0))
+    }
+
+    @Test
+    fun GetListItemsOnCartFromPublicValItemsOnCart() {
+        // given
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+
+        // before add item
+        assertEquals(emptyList<ItemDto>(), viewModel.itemsOnCart.value)
+
+        // when
+        viewModel.addItemsOnCart(testItem)
+
+        // then
+        assertEquals(testItem, viewModel.itemsOnCart.value?.get(0))
+    }
 }
