@@ -8,4 +8,5 @@
     <string name="pip_search_app_cart_header_title_text">Carrito</string>
     <string name="pip_search_app_cart_body_title_text">El carrito está vacío</string>
     <string name="pip_search_app_cart_body_subtitle_text">Volvé a la pantalla de principal para buscar ítems.</string>
+    <string name="pip_search_app_cart_view_holder_amount_symbol">$</string>
 </resources>
