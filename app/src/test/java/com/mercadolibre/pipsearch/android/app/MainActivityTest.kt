@@ -371,4 +371,40 @@ class MainActivityTest {
             )
         )
     }
+
+    @Test
+    fun testMainActivityAddItemDataOnCart() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            val mockItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+
+            // call viewmodel.addItemsOnCart(itemData) in the MainActivity
+            val onItemToAddToCartMethod =
+                activity.javaClass.getDeclaredMethod("onItemToAddToCart", ItemDto::class.java)
+            onItemToAddToCartMethod.isAccessible = true
+
+            // when
+            onItemToAddToCartMethod.invoke(activity, mockItem1)
+
+            var reflectionItemsOnCart =
+                ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                    viewModel,
+                    "_itemsOnCart"
+                )
+
+            // then first item was added
+            assertEquals(1, reflectionItemsOnCart.value!!.size)
+
+            // when
+            onItemToAddToCartMethod.invoke(activity, mockItem2)
+
+            reflectionItemsOnCart = ReflectionHelpers.getField(viewModel, "_itemsOnCart")
+
+            // then second item was added
+            assertEquals(2, reflectionItemsOnCart.value!!.size)
+        }
+    }
 }

@@ -23,7 +23,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainAdapter: MainAdapter = MainAdapter { itemDto -> {  } }
+    private var mainAdapter: MainAdapter = MainAdapter { itemData -> onItemToAddToCart(itemData) }
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
 
@@ -112,14 +112,21 @@ class MainActivity : AbstractActivity() {
     }
 
     /**
-     * Receive text from Searchbox UI.
-     * Verify if it is too long or it is blank and send to search or show error message.
+     * Receives text from Searchbox UI.
+     * Verify if text is too long or it is blank and sends to search or show error message.
      */
     private fun sendTextToSearch(text: String) {
         when {
             validateText(text) -> mainViewModel.fetchResults(text)
             else -> showSnackbar()
         }
+    }
+
+    /**
+     * Receives data (ItemDto) from search results list UI and sends to ViewModel to add to cart.
+     */
+    private fun onItemToAddToCart(itemData: ItemDto) {
+        mainViewModel.addItemsOnCart(itemData)
     }
 
     private fun showSnackbar() {
