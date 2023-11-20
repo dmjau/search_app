@@ -213,7 +213,7 @@ class MainViewModelTest {
             )
 
         // then
-        assertEquals(testItem, reflectionItemsOnCart.value?.get(0))
+        assertEquals(testItem, reflectionItemsOnCart.value!![0])
     }
 
     @Test
@@ -228,6 +228,6 @@ class MainViewModelTest {
         viewModel.addItemsOnCart(testItem)
 
         // then
-        assertEquals(testItem, viewModel.itemsOnCart.value?.get(0))
+        assertEquals(testItem, viewModel.itemsOnCart.value!![0])
     }
 }
