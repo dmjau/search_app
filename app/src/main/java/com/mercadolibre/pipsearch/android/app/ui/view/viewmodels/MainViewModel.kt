@@ -40,9 +40,7 @@ class MainViewModel : ViewModel() {
 
     fun addItemsOnCart(item: ItemDto) {
         val currentList = _itemsOnCart.value
-        currentList?.add(item)
-        currentList?.let {
-            _itemsOnCart.value = it
-        }
+        currentList!!.add(item)
+        _itemsOnCart.value = currentList
     }
 }
