@@ -17,7 +17,7 @@ class MainViewModel : ViewModel() {
     private val repository = SearchItemsRepository()
     private val _searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
     private val _exceptionOrErrorResult: MutableLiveData<String> = MutableLiveData()
-    private val _itemsOnCart: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+    private val _itemsOnCart: MutableLiveData<MutableList<ItemDto>> = MutableLiveData()
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _exceptionOrErrorResult.postValue(throwable.message)
     }
@@ -39,8 +39,8 @@ class MainViewModel : ViewModel() {
     }
 
     fun addItemsOnCart(item: ItemDto) {
-        val currentList = _itemsOnCart.value
-        currentList!!.add(item)
+        val currentList = _itemsOnCart.value ?: mutableListOf()
+        currentList.add(item)
         _itemsOnCart.value = currentList
     }
 }

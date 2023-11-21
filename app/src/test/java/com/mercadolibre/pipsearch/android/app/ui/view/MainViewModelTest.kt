@@ -201,7 +201,7 @@ class MainViewModelTest {
 
 
         // before add item
-        assertEquals(emptyList<ItemDto>(), reflectionItemsOnCart.value)
+        assertNull(reflectionItemsOnCart.value)
 
         // when
         viewModel.addItemsOnCart(testItem)
@@ -222,7 +222,7 @@ class MainViewModelTest {
         val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
 
         // before add item
-        assertEquals(emptyList<ItemDto>(), viewModel.itemsOnCart.value)
+        assertNull(viewModel.itemsOnCart.value)
 
         // when
         viewModel.addItemsOnCart(testItem)
