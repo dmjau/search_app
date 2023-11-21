@@ -9,6 +9,7 @@ import com.mercadolibre.android.restclient.extension.onSuccess
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
@@ -42,5 +43,11 @@ class MainViewModel : ViewModel() {
         val currentList = _itemsOnCart.value ?: mutableListOf()
         currentList.add(item)
         _itemsOnCart.value = currentList
+
+        updateItemsOnCartManager()
+    }
+
+    private fun updateItemsOnCartManager() {
+        CartManager.getInstance().updateItemList(_itemsOnCart.value)
     }
 }

@@ -6,6 +6,7 @@ import com.mercadolibre.android.restclient.model.RestClientResult
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -229,5 +230,27 @@ class MainViewModelTest {
 
         // then
         assertEquals(testItem, viewModel.itemsOnCart.value!![0])
+    }
+
+    @Test
+    fun TestUpdateListItemsOnCartManager() {
+        // given
+        val cartManager = CartManager.getInstance()
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+        var reflectionListItemsOnCart =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
+
+        // before add item
+        assertNull(viewModel.itemsOnCart.value)
+        assertNull(reflectionListItemsOnCart.value)
+
+        // when
+        viewModel.addItemsOnCart(testItem)
+
+        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
+
+        // then
+        assertEquals(testItem, viewModel.itemsOnCart.value!![0])
+        assertEquals(1, reflectionListItemsOnCart.value!!.size)
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,11 +40,11 @@ class CartManagerTest {
         var reflectionListItemsOnCart =
             ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
 
-        assertEquals(emptyList<ItemDto>(), reflectionListItemsOnCart.value)
+        assertNull(reflectionListItemsOnCart.value)
 
         // when
         mockMutableListOfItems.add(mockItem1)
-        cartManager!!.updateItemList(mockMutableListOfItems)
+        cartManager.updateItemList(mockMutableListOfItems)
 
         reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
 
