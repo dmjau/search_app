@@ -1,13 +1,11 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
-import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.test.core.app.launchActivity
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
