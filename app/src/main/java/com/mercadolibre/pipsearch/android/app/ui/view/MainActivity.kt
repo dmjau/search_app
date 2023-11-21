@@ -1,5 +1,6 @@
 package com.mercadolibre.pipsearch.android.app.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -33,6 +34,7 @@ class MainActivity : AbstractActivity() {
 
         initSearchBox()
         setBaseScreen()
+        linkedWithCartActivity()
         initRecyclerViewAndAdapter()
         observe()
     }
@@ -70,12 +72,21 @@ class MainActivity : AbstractActivity() {
         )
     }
 
+    private fun linkedWithCartActivity() {
+        binding!!.pipMainHeaderCartIcon.setOnClickListener {
+            setIntentAndStartCartActivity()
+        }
+    }
+
+    private fun setIntentAndStartCartActivity() {
+        startActivity(Intent(this, CartActivity::class.java))
+    }
+
     /**
      * Observes livedata variables from view model.
      */
     private fun observe() {
         observeSerachResults()
-        observeExceptionsOrErrors()
     }
 
     private fun observeSerachResults() {
@@ -84,14 +95,6 @@ class MainActivity : AbstractActivity() {
         ) {
             listOfItems = it.results
             showListOfItems()
-        }
-    }
-
-    private fun observeExceptionsOrErrors() {
-        mainViewModel.exceptionOrErrorResult.observe(
-            this
-        ) {
-            // added logic to manage errors views
         }
     }
 

@@ -1,11 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mercadolibre.android.pip_search_meli_app.app">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="com.mercadolibre.pipsearch.android.app.MainApplication"
         android:icon="@mipmap/pip_search_app_ic_launcher"
         android:label="@string/pip_search_app_name"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Base">
 
         <activity android:name="com.mercadolibre.pipsearch.android.app.ui.view.MainActivity"
@@ -15,6 +19,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name="com.mercadolibre.pipsearch.android.app.ui.view.CartActivity">
+
         </activity>
     </application>
 

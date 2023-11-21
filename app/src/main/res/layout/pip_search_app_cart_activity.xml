@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pip_cart_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mercadolibre.pipsearch.android.app.ui.view.CartActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pip_cart_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pip_search_app_ui_64_dp"
+        android:background="@color/andes_yellow_ml_500">
+
+        <ImageView
+            android:id="@+id/pip_cart_header_back"
+            android:layout_width="@dimen/pip_search_app_ui_24_dp"
+            android:layout_height="@dimen/pip_search_app_ui_24_dp"
+            android:layout_marginStart="@dimen/pip_search_app_ui_20_dp"
+            android:src="@drawable/andes_ui_arrow_left_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/andes_ui_arrow_left_20" />
+
+        <com.mercadolibre.android.andesui.textview.AndesTextView
+            android:id="@+id/pip_cart_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:andesTextViewStyle="titleXs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Carrito" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/pip_cart_body_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pip_cart_body_recycler_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/pip_cart_body_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/andes_gray_070">
+
+            <ImageView
+                android:id="@+id/pip_cart_body_image"
+                android:layout_width="@dimen/pip_search_app_ui_64_dp"
+                android:layout_height="@dimen/pip_search_app_ui_64_dp"
+                android:contentDescription="@string/pip_search_app_main_body_image_description"
+                android:src="@drawable/pip_search_app_ic_cart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.39"
+                tools:src="@drawable/pip_search_app_ic_cart" />
+
+            <com.mercadolibre.android.andesui.textview.AndesTextView
+                android:id="@+id/pip_cart_body_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pip_search_app_ui_16_dp"
+                app:andesTextViewStyle="bodyL"
+                app:layout_constraintEnd_toEndOf="@+id/pip_cart_body_image"
+                app:layout_constraintStart_toStartOf="@+id/pip_cart_body_image"
+                app:layout_constraintTop_toBottomOf="@+id/pip_cart_body_image"
+                tools:text="El carrito está vacío." />
+
+            <com.mercadolibre.android.andesui.textview.AndesTextView
+                android:id="@+id/pip_cart_body_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/pip_search_app_ui_8_dp"
+                app:andesTextViewStyle="bodyS"
+                app:layout_constraintEnd_toEndOf="@+id/pip_cart_body_image"
+                app:layout_constraintStart_toStartOf="@+id/pip_cart_body_image"
+                app:layout_constraintTop_toBottomOf="@+id/pip_cart_body_title"
+                tools:text="Volvé a la pantalla de principal para buscar ítems." />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
