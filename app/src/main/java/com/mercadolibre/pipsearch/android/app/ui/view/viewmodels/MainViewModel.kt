@@ -2,7 +2,9 @@ package com.mercadolibre.pipsearch.android.app.ui.view.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.mercadolibre.android.restclient.extension.onError
 import com.mercadolibre.android.restclient.extension.onSuccess
@@ -47,7 +49,17 @@ class MainViewModel : ViewModel() {
         updateItemsOnCartManager()
     }
 
+    private val cartManager = CartManager.getInstance()
+
     private fun updateItemsOnCartManager() {
-        CartManager.getInstance().updateItemList(_itemsOnCart.value)
+        cartManager.updateItemList(_itemsOnCart.value)
+    }
+
+    private fun updateItemsOnCartFromCartManager() {
+        _itemsOnCart.value = cartManager.itemsOnCart.value
+    }
+
+    init {
+        updateItemsOnCartFromCartManager()
     }
 }

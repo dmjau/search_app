@@ -237,20 +237,20 @@ class MainViewModelTest {
         // given
         val cartManager = CartManager.getInstance()
         val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
-        var reflectionListItemsOnCart =
+        var reflectionListItemsOnCartManager =
             ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
 
         // before add item
         assertNull(viewModel.itemsOnCart.value)
-        assertNull(reflectionListItemsOnCart.value)
+        assertNull(reflectionListItemsOnCartManager.value)
 
         // when
         viewModel.addItemsOnCart(testItem)
 
-        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
+        reflectionListItemsOnCartManager = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
 
         // then
         assertEquals(testItem, viewModel.itemsOnCart.value!![0])
-        assertEquals(1, reflectionListItemsOnCart.value!!.size)
+        assertEquals(1, reflectionListItemsOnCartManager.value!!.size)
     }
 }
