@@ -421,7 +421,7 @@ class MainActivityTest {
                 ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "_itemsOnCart")
 
             // then
-            assertEquals("0", reflectionBinding.pipMainHeaderCartPill.text)
+            assertNull(reflectionBinding.pipMainHeaderCartPill.text)
 
             // added first item
             mutableListItemsOnCart.add(mockItem1)
