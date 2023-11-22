@@ -236,13 +236,17 @@ class MainViewModelTest {
     fun TestUpdateListItemsOnCartManager() {
         // given
         val cartManager = CartManager.getInstance()
-        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+        val resetMutableLiveData: MutableLiveData<MutableList<ItemDto>> = MutableLiveData()
+        ReflectionHelpers.setField(cartManager, "_itemsOnCart", resetMutableLiveData)
+
         var reflectionListItemsOnCartManager =
             ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
 
         // before add item
         assertNull(viewModel.itemsOnCart.value)
         assertNull(reflectionListItemsOnCartManager.value)
+
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
 
         // when
         viewModel.addItemsOnCart(testItem)
@@ -252,28 +256,5 @@ class MainViewModelTest {
         // then
         assertEquals(testItem, viewModel.itemsOnCart.value!![0])
         assertEquals(1, reflectionListItemsOnCartManager.value!!.size)
-    }
-
-    @Test
-    fun TestUpdateListItemsFromCartManagerWhenInitMainViewModel() {
-        // given
-        val cartManager = CartManager.getInstance()
-        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
-        val mockMutableListOfItems: MutableList<ItemDto> = mutableListOf()
-        mockMutableListOfItems.add(testItem)
-        cartManager.updateItemList(mockMutableListOfItems)
-
-        val reflectionListItemsOnCartManager =
-            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
-
-        // before test item on cart in the main view model
-        assertEquals(1, reflectionListItemsOnCartManager.value!!.size)
-
-        // when
-        val mainViewModelTest = MainViewModel()
-
-        // then
-        assertEquals(testItem, mainViewModelTest.itemsOnCart.value!![0])
-        assertEquals(mainViewModelTest.itemsOnCart.value, cartManager.itemsOnCart.value)
     }
 }

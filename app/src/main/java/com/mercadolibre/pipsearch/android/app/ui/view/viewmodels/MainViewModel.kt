@@ -52,13 +52,4 @@ class MainViewModel : ViewModel() {
     private fun updateItemsOnCartManager() {
         cartManager.updateItemList(_itemsOnCart.value)
     }
-
-    private fun initItemsOnCartFromCartManager() {
-        val currentList = cartManager.itemsOnCart.value ?: mutableListOf()
-        _itemsOnCart.value = currentList
-    }
-
-    init {
-        initItemsOnCartFromCartManager()
-    }
 }
