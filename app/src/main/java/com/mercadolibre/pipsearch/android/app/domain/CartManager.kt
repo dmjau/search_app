@@ -19,7 +19,17 @@ class CartManager {
     private val _itemsOnCart: MutableLiveData<MutableList<ItemDto>> = MutableLiveData()
     val itemsOnCart: LiveData<MutableList<ItemDto>> = _itemsOnCart
 
-    fun updateItemList(itemList: MutableList<ItemDto>? = mutableListOf()) {
-        _itemsOnCart.value = itemList
+    fun addItemToCart(item: ItemDto) {
+        _itemsOnCart.value?.let {
+            it.add(item)
+            _itemsOnCart.postValue(it)
+        }
+    }
+
+    fun removeItemFromCart(item: ItemDto) {
+        _itemsOnCart.value?.let {
+            it.remove(item)
+            _itemsOnCart.postValue(it)
+        }
     }
 }

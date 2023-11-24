@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.viewholders.CartViewHolder
 
-class CartAdapter : RecyclerView.Adapter<CartViewHolder>() {
+class CartAdapter(private val onItemDataClickListener: (ItemDto) -> Unit) : RecyclerView.Adapter<CartViewHolder>() {
 
     private var listOfItems: List<ItemDto> = emptyList()
 
@@ -24,6 +24,6 @@ class CartAdapter : RecyclerView.Adapter<CartViewHolder>() {
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val itemData = listOfItems[position]
-        holder.bind(itemData)
+        holder.bind(itemData, onItemDataClickListener)
     }
 }
