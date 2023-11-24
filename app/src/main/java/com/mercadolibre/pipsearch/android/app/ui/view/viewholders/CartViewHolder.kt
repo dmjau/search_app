@@ -9,8 +9,6 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartListItemBi
 class CartViewHolder(private val binding: PipSearchAppCartListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        private const val AMOUNT_SYMBOL = "$"
-
         fun instance(layoutInflater: LayoutInflater, parent: ViewGroup) : CartViewHolder {
             val binding = PipSearchAppCartListItemBinding.inflate(layoutInflater, parent, false)
             return CartViewHolder(binding)
@@ -23,7 +21,6 @@ class CartViewHolder(private val binding: PipSearchAppCartListItemBinding) : Rec
     ) {
         binding.apply {
             image.setImageURI(itemData.thumbnail)
-            iconPrice.text = AMOUNT_SYMBOL
             price.text = itemData.price.toString()
             title.text = itemData.title
             buttomDelete.setOnClickListener {

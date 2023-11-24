@@ -27,7 +27,6 @@ class MainActivity : AbstractActivity() {
     private var mainAdapter: MainAdapter = MainAdapter { itemDto -> onItemToAddCart(itemDto) }
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
-    private var intent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,12 +81,7 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun setIntentAndStartCartActivity() {
-        if (intent == null) {
-            intent = Intent(this, CartActivity::class.java)
-            startActivity(intent)
-        } else {
-            startActivity(intent)
-        }
+        startActivity(Intent(this, CartActivity::class.java))
     }
 
     /**
@@ -95,7 +89,6 @@ class MainActivity : AbstractActivity() {
      */
     private fun observe() {
         observeSerachResults()
-        observeExceptionsOrErrors()
     }
 
     private fun observeSerachResults() {
@@ -104,14 +97,6 @@ class MainActivity : AbstractActivity() {
         ) {
             listOfItems = it.results
             showListOfItems()
-        }
-    }
-
-    private fun observeExceptionsOrErrors() {
-        mainViewModel.exceptionOrErrorResult.observe(
-            this
-        ) {
-            // added logic to manage errors views
         }
     }
 
