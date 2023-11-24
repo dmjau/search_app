@@ -59,7 +59,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `fetchResults should update searchResults on success response`() =
+    fun testFetchResultsShouldUpdateSearchResultsOnSuccessResponse() =
         testDispatcher.runBlockingTest {
             // given
             val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
@@ -90,7 +90,7 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `fetchResults should update errorResult on error response`() =
+    fun testFetchResultsShouldUpdateErrorResultOnErrorResponse() =
         testDispatcher.runBlockingTest {
             // given
             val errorMessage = "Error message"
@@ -121,7 +121,7 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `fetchResults should update exceptionResult on exception response`() =
+    fun testFetchResultsShouldUpdateExceptionResultOnExceptionResponse() =
         testDispatcher.runBlockingTest {
             // given
             val exceptionMessage = "Exception message"
@@ -152,7 +152,7 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `Get searchResults on success response`() = testDispatcher.runBlockingTest {
+    fun testGetSearchResultsOnSuccessResponse() = testDispatcher.runBlockingTest {
         // given
         val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
@@ -171,7 +171,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Get errorResult on error response`() = testDispatcher.runBlockingTest {
+    fun testGetErrorResultOnErrorResponse() = testDispatcher.runBlockingTest {
         // given
         val errorMessage = "Error message"
         coEvery {
@@ -189,7 +189,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Get exceptionResult on exception response`() = testDispatcher.runBlockingTest {
+    fun testGetExceptionResultOnExceptionResponse() = testDispatcher.runBlockingTest {
         // given
         val exceptionMessage = "Exception message"
         coEvery {
