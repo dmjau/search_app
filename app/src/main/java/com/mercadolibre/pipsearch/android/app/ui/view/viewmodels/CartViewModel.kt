@@ -11,8 +11,9 @@ class CartViewModel : ViewModel() {
     val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
 
     fun removeItemFromCart(item: ItemDto) {
-        val currentList = _selectedItems.value.orEmpty().toMutableList()
-        currentList.remove(item)
-        _selectedItems.postValue(currentList)
+        _selectedItems.value?.let {
+            it.remove(item)
+            _selectedItems.postValue(it)
+        }
     }
 }

@@ -135,6 +135,6 @@ class CartViewModelTest {
         reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "_selectedItems")
 
         // then
-        assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
+        assertNull(reflectionSelectedItems.value)
     }
 }
