@@ -26,20 +26,15 @@ class CartActivity : AppCompatActivity() {
 
         setTitleHeader()
         setBaseScreen()
-        initRecyclerViewAndAdapter()
-    }
-
-    /**
-     * Set base screen with initial title before any search.
-     */
-    private fun setTitleeHeader() {
         setBackToMainActivityListener()
+        initRecyclerViewAndAdapter()
     }
 
     /**
      * Set base screen with initial title and subtitle.
      */
     private fun setBaseScreen() {
+        showBaseScreenHideRecyclerView()
         setBaseTitle(R.string.pip_search_app_cart_body_title_text)
         setBaseSubtitle(R.string.pip_search_app_cart_body_subtitle_text)
     }
@@ -57,6 +52,19 @@ class CartActivity : AppCompatActivity() {
         binding!!.pipCartHeaderText.text = getString(R.string.pip_search_app_cart_header_title_text)
     }
 
+    private fun setBaseTitle(title: Int) {
+        binding!!.pipCartBodyTitle.text = getString(title)
+    }
+
+    private fun setBaseSubtitle(subtitle: Int) {
+        binding!!.pipCartBodySubtitle.text = getString(subtitle)
+    }
+
+    private fun showBaseScreenHideRecyclerView() {
+        binding!!.pipCartBodyRecyclerContainer.visibility = View.GONE
+        binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
+    }
+
     /**
      * Init recycler view and adapter.
      */
@@ -69,17 +77,5 @@ class CartActivity : AppCompatActivity() {
 
     private fun onItemDelete(item: ItemDto) {
         // do nothing
-    }
-
-    private fun setBaseTitle(title: Int) {
-        binding!!.pipCartBodyTitle.text = getString(title)
-    }
-    private fun setBaseSubtitle(subtitle: Int) {
-        binding!!.pipCartBodySubtitle.text = getString(subtitle)
-    }
-
-    private fun showBaseScreenHideRecyclerView() {
-        binding!!.pipCartBodyRecyclerContainer.visibility = View.GONE
-        binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
     }
 }
