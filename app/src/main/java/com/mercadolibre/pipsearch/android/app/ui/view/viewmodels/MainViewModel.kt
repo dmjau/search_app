@@ -2,6 +2,7 @@ package com.mercadolibre.pipsearch.android.app.ui.view.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mercadolibre.android.restclient.extension.onError
@@ -16,14 +17,27 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
 
     private val repository = SearchItemsRepository()
+    private val cartManager = CartManager.getInstance()
+
     private val _searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
     private val _exceptionOrErrorResult: MutableLiveData<String> = MutableLiveData()
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _exceptionOrErrorResult.postValue(throwable.message)
     }
 
+    private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+    private val itemsObserver: Observer<MutableList<ItemDto>> = Observer { itemsOnCart ->
+        _selectedItems.postValue(itemsOnCart)
+    }
+
+
     val searchResults: LiveData<ScreenItemsDto> = _searchResults
     val exceptionOrErrorResult: LiveData<String> = _exceptionOrErrorResult
+    val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
+
+    init {
+        cartManager.itemsOnCart.observeForever(itemsObserver)
+    }
 
     fun fetchResults(textToSearch: String) {
         viewModelScope.launch(coroutineExceptionHandler) {
@@ -37,7 +51,12 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-    val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
+    fun addItemToCart(item: ItemDto) {
+        cartManager.addItemToCart(item)
+    }
 
+    override fun onCleared() {
+        cartManager.itemsOnCart.removeObserver(itemsObserver)
+        super.onCleared()
+    }
 }

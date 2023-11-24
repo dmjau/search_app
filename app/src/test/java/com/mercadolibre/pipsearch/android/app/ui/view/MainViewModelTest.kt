@@ -233,4 +233,48 @@ class MainViewModelTest {
             observer.onChanged(any())
         }
     }
+
+    @Test
+    fun testSetItemsInTheListSelectedItems() {
+        // given
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+        //val resetMutableLiveData: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+        //ReflectionHelpers.setField(viewModel, "_selectedItems", resetMutableLiveData)
+
+        var reflectionSelectedItems =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                viewModel,
+                "_selectedItems"
+            )
+
+        // before add item
+        assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
+
+        // when
+        viewModel.addItemToCart(testItem)
+
+        reflectionSelectedItems =
+            ReflectionHelpers.getField(
+                viewModel,
+                "_selectedItems"
+            )
+
+        // then
+        assertEquals(testItem, viewModel.selectedItems.value)
+    }
+
+    @Test
+    fun testGetListItemsOnCartFromPublicValItemsOnCart() {
+        // given
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+
+        // before add item
+        assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
+
+        // when
+        viewModel.addItemToCart(testItem)
+
+        // then
+        assertEquals(testItem, viewModel.selectedItems.value!![0])
+    }
 }
