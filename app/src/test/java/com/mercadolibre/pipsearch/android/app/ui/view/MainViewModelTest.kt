@@ -2,18 +2,24 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mercadolibre.android.restclient.model.RestClientResult
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -33,12 +39,23 @@ class MainViewModelTest {
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
 
+    @MockK(relaxed = true)
+    private lateinit var observer: Observer<MutableList<ItemDto>>
+
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
         viewModel = MainViewModel()
 
+        viewModel.selectedItems.observeForever(observer)
         ReflectionHelpers.setField(viewModel, "repository", mockRepository)
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
+        viewModel.selectedItems.removeObserver(observer)
     }
 
     @Test
@@ -190,44 +207,29 @@ class MainViewModelTest {
     }
 
     @Test
-    fun SetItemsInTheListItemsOnCart() {
+    fun testOnChangePublicListSelectedItemsLiveData() {
         // given
-        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
-        var reflectionItemsOnCart =
-            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
-                viewModel,
-                "_itemsOnCart"
-            )
+        val mockItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
+        val mockItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
+        val mockItemsList = mutableListOf<ItemDto>()
+        mockItemsList.add(mockItem1)
+        mockItemsList.add(mockItem2)
 
+        val mockMutableLiveDataSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+        mockMutableLiveDataSelectedItems.postValue(mockItemsList)
+
+        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "_selectedItems")
 
         // before add item
-        assertEquals(emptyList<ItemDto>(), reflectionItemsOnCart.value)
+        assertEquals(emptyList<ItemDto>(), reflectionSelectedItems.value)
+        assertEquals(emptyList<ItemDto>(), viewModel.selectedItems.value)
 
         // when
-        viewModel.addItemsOnCart(testItem)
-
-        reflectionItemsOnCart =
-            ReflectionHelpers.getField(
-                viewModel,
-                "_itemsOnCart"
-            )
+        ReflectionHelpers.setField(viewModel, "selectedItems", mockMutableLiveDataSelectedItems)
 
         // then
-        assertEquals(testItem, reflectionItemsOnCart.value?.get(0))
-    }
-
-    @Test
-    fun GetListItemsOnCartFromPublicValItemsOnCart() {
-        // given
-        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
-
-        // before add item
-        assertEquals(emptyList<ItemDto>(), viewModel.itemsOnCart.value)
-
-        // when
-        viewModel.addItemsOnCart(testItem)
-
-        // then
-        assertEquals(testItem, viewModel.itemsOnCart.value?.get(0))
+        verify(exactly = 1) {
+            observer.onChanged(any())
+        }
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -36,11 +37,12 @@ class CartViewModelTest {
 
     @After
     fun tearDown() {
+        unmockkAll()
         viewModel.selectedItems.removeObserver(observer)
     }
 
     @Test
-    fun testOnChangePublicListOfItemsLiveData() {
+    fun testOnChangePublicListSelectedItemsLiveData() {
         // given
         val mockItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
         val mockItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
@@ -51,10 +53,10 @@ class CartViewModelTest {
         val mockMutableLiveDataSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
         mockMutableLiveDataSelectedItems.postValue(mockItemsList)
 
-        val reflectionItemsOnTheList = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "_selectedItems")
+        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "_selectedItems")
 
         // before delete items
-        assertEquals(mutableListOf<ItemDto>(), reflectionItemsOnTheList.value)
+        assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
         assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
 
         // when
