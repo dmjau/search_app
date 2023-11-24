@@ -16,4 +16,8 @@ class CartViewModel : ViewModel() {
             _selectedItems.postValue(it)
         }
     }
+
+    fun setInitialSelectedItems(itemsList: MutableList<ItemDto>) {
+        _selectedItems.postValue(itemsList)
+    }
 }
