@@ -42,7 +42,7 @@ class CartViewHolderTest : AbstractRobolectricTest() {
             val cartViewHolder = CartViewHolder.instance(layoutInflater, parent)
 
             // when
-            cartViewHolder.bind(data!!)
+            cartViewHolder.bind(data!!) { }
 
             ReflectionHelpers.getField<PipSearchAppCartListItemBinding>(cartViewHolder, "binding").let { binding ->
 
@@ -53,6 +53,29 @@ class CartViewHolderTest : AbstractRobolectricTest() {
                 assertNotNull(binding.image)
                 assertNotNull(binding.image.drawable)
                 assertNotNull(binding.image.controller)
+            }
+        }
+    }
+
+    @Test
+    fun TestReturnItemDataWhenButtonIsClicked() {
+        // given
+        TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
+            val cartViewHolder = CartViewHolder.instance(layoutInflater, parent)
+
+            lateinit var itemDataFromView: ItemDto
+
+            cartViewHolder.bind(data!!) { itemData ->
+                itemDataFromView = itemData
+            }
+
+            ReflectionHelpers.getField<PipSearchAppCartListItemBinding>(cartViewHolder, "binding").let { binding ->
+
+                // when
+                binding.buttomDelete.performClick()
+
+                // then
+                assertEquals(itemDataFromView, data)
             }
         }
     }
