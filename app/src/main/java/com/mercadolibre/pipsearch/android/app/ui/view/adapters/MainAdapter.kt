@@ -3,7 +3,6 @@ package com.mercadolibre.pipsearch.android.app.ui.view.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.viewholders.MainViewHolder
 

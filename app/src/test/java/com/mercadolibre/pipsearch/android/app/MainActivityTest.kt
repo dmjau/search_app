@@ -149,7 +149,8 @@ class MainActivityTest {
 
             // call viewmodel.fetchResults() in the MainActivity
             val text = "test text"
-            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            val sendTextToSearchMethod =
+                activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
             sendTextToSearchMethod.isAccessible = true
 
             // when
@@ -191,8 +192,10 @@ class MainActivityTest {
             assertNull(reflectionBeforeFetchResults.value)
 
             // call viewmodel.fetchResults() in the MainActivity
-            val text = "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
-            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            val text =
+                "This is a long text with 100 caracters for test function send to text in the view model and probe how it is work in this use case"
+            val sendTextToSearchMethod =
+                activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
             sendTextToSearchMethod.isAccessible = true
 
             // when
@@ -235,7 +238,8 @@ class MainActivityTest {
 
             // call viewmodel.fetchResults() in the MainActivity
             val text = ""
-            val sendTextToSearchMethod = activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
+            val sendTextToSearchMethod =
+                activity.javaClass.getDeclaredMethod("sendTextToSearch", String::class.java)
             sendTextToSearchMethod.isAccessible = true
 
             // when
@@ -258,10 +262,13 @@ class MainActivityTest {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             val reflectionBinding =
-            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
-            assertEquals("Surfing Mercado Libre", reflectionBinding.pipMainBodyTitle.text.toString())
+            assertEquals(
+                "Surfing Mercado Libre",
+                reflectionBinding.pipMainBodyTitle.text.toString()
+            )
         }
     }
 
@@ -285,7 +292,8 @@ class MainActivityTest {
             val reflectionBinding =
                 ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
-            val reflectionMainAdapter = ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
+            val reflectionMainAdapter =
+                ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
 
             // then
             assertNotNull(reflectionMainAdapter)
@@ -314,7 +322,8 @@ class MainActivityTest {
             // then
             assertEquals(mockListOfResults.count(), reflectionAdapter.itemCount)
 
-            val reflectionListOftemsAdpater = ReflectionHelpers.getField<List<ItemDto>>(reflectionAdapter, "listOfItems")
+            val reflectionListOftemsAdpater =
+                ReflectionHelpers.getField<List<ItemDto>>(reflectionAdapter, "listOfItems")
 
             // then
             assertEquals(mockListOfResults, reflectionListOftemsAdpater)
@@ -353,6 +362,13 @@ class MainActivityTest {
             .perform(ViewActions.click())
 
         // then
-        Intents.intended(IntentMatchers.hasComponent(ComponentName(InstrumentationRegistry.getInstrumentation().context, CartActivity::class.java)))
+        Intents.intended(
+            IntentMatchers.hasComponent(
+                ComponentName(
+                    InstrumentationRegistry.getInstrumentation().context,
+                    CartActivity::class.java
+                )
+            )
+        )
     }
 }
