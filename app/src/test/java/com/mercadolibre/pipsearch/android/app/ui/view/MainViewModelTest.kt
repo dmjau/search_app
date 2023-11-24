@@ -226,7 +226,7 @@ class MainViewModelTest {
         assertEquals(emptyList<ItemDto>(), viewModel.selectedItems.value)
 
         // when
-        ReflectionHelpers.setField(viewModel, "selectedItems", reflectionSelectedItems)
+        ReflectionHelpers.setField(viewModel, "selectedItems", mockMutableLiveDataSelectedItems)
 
         // then
         verify(exactly = 1) {
