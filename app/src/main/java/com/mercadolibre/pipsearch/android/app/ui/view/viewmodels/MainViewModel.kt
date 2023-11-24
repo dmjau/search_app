@@ -39,8 +39,4 @@ class MainViewModel : ViewModel() {
 
     private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
     val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
-
-    fun addItemToCart(item: ItemDto) {
-        // Send data to CartManager in next prs
-    }
 }
