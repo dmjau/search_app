@@ -15,7 +15,6 @@ class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
     private var cartAdapter: CartAdapter = CartAdapter { itemDto -> onItemDelete(itemDto) }
-    private val cartViewModel: CartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
