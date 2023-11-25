@@ -39,6 +39,7 @@ class MainViewModelTest {
     private val testDispatcher = TestCoroutineDispatcher()
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
+    private lateinit var cartManager: CartManager
 
     @MockK(relaxed = true)
     private lateinit var observer: Observer<MutableList<ItemDto>>
@@ -51,12 +52,15 @@ class MainViewModelTest {
 
         viewModel.selectedItems.observeForever(observer)
         ReflectionHelpers.setField(viewModel, "repository", mockRepository)
+
+        cartManager = CartManager
     }
 
     @After
     fun tearDown() {
         unmockkAll()
         viewModel.selectedItems.removeObserver(observer)
+        cartManager.resetState()
     }
 
     @Test
@@ -238,8 +242,6 @@ class MainViewModelTest {
     fun testSetItemsInTheListSelectedItems() {
         // given
         val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
-        //val resetMutableLiveData: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-        //ReflectionHelpers.setField(viewModel, "_selectedItems", resetMutableLiveData)
 
         var reflectionSelectedItems =
             ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
@@ -260,7 +262,8 @@ class MainViewModelTest {
             )
 
         // then
-        assertEquals(testItem, viewModel.selectedItems.value)
+        assertEquals(testItem, reflectionSelectedItems.value!![0])
+        assertEquals(testItem, viewModel.selectedItems.value!![0])
     }
 
     @Test

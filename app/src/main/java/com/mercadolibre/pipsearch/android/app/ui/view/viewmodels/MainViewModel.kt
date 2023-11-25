@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
 
     private val repository = SearchItemsRepository()
-    private val cartManager = CartManager.getInstance()
+    private val cartManager = CartManager
 
     private val _searchResults: MutableLiveData<ScreenItemsDto> = MutableLiveData()
     private val _exceptionOrErrorResult: MutableLiveData<String> = MutableLiveData()
