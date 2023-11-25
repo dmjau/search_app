@@ -20,16 +20,19 @@ class CartManager {
     val itemsOnCart: LiveData<MutableList<ItemDto>> = _itemsOnCart
 
     fun addItemToCart(item: ItemDto) {
-        _itemsOnCart.value?.let {
-            it.add(item)
-            _itemsOnCart.postValue(it)
-        }
+        val currentList = _itemsOnCart.value.orEmpty().toMutableList()
+        currentList.add(item)
+        _itemsOnCart.postValue(currentList)
     }
 
     fun removeItemFromCart(item: ItemDto) {
-        _itemsOnCart.value?.let {
-            it.remove(item)
-            _itemsOnCart.postValue(it)
-        }
+        val currentList = _itemsOnCart.value.orEmpty().toMutableList()
+        currentList.remove(item)
+        _itemsOnCart.postValue(currentList)
+    }
+
+    fun resetState() {
+        val currentList = mutableListOf<ItemDto>()
+        _itemsOnCart.postValue(currentList)
     }
 }
