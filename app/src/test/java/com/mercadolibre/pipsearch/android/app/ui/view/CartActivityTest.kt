@@ -54,7 +54,9 @@ class CartActivityTest {
 
     @Test
     fun testCartActivityInstanceBinding() {
+        // given
         launchActivity<CartActivity>().onActivity { activity ->
+
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
 
             // then
@@ -65,7 +67,9 @@ class CartActivityTest {
 
     @Test
     fun testCartActivitySetBaseScreenTexts() {
+        // given
         launchActivity<CartActivity>().onActivity { activity ->
+
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
 
             // then
@@ -77,7 +81,9 @@ class CartActivityTest {
 
     @Test
     fun testCartActivityShowBaseScreenAndHideReclerView() {
+        // given
         launchActivity<CartActivity>().onActivity { activity ->
+
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
 
             // then
@@ -88,7 +94,9 @@ class CartActivityTest {
 
     @Test
     fun testCartActivityCallFinishWhenClickButtonBack() {
+        // given
         launchActivity<CartActivity>().onActivity { activity ->
+
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
 
             // when
@@ -103,9 +111,8 @@ class CartActivityTest {
     fun testCartActivityCreateViewWithCartAdapterAndRecyclerView() {
         // given
         launchActivity<CartActivity>().onActivity { activity ->
-            val reflectionBinding =
-                ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
 
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
             val reflectionAdapter = ReflectionHelpers.getField<CartAdapter>(activity, "cartAdapter")
 
             // then
@@ -234,5 +241,28 @@ class CartActivityTest {
             // then
             assertEquals(0, reflectionItemsOnTheList.size)
         }
+    }
+
+    @Test
+    fun testCheckCartIsNotEmpty() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            var reflectionItemsOnTheList =
+                ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+
+            // initial list
+            assertEquals(0, reflectionItemsOnTheList.size)
+
+            // when
+            cartManager.addItemToCart(mockItem1)
+
+            reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
+
+            // then
+            assertEquals(1, reflectionItemsOnTheList.size)
+        }
+
     }
 }
