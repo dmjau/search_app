@@ -6,15 +6,18 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.launchActivity
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.CartViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -28,6 +31,17 @@ class CartActivityTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: CartViewModel
+    private lateinit var cartManager: CartManager
+
+    @Before
+    fun setup() {
+        cartManager = CartManager
+    }
+
+    @After
+    fun tearDown() {
+        cartManager.resetState()
+    }
 
     @Test
     fun testCartActivityInstance() {
@@ -194,6 +208,26 @@ class CartActivityTest {
             // then
             assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
+        }
+    }
+
+    @Test
+    fun testCheckCartIsNotEmpty() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            var reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+
+            // initial list
+            assertEquals(0, reflectionItemsOnTheList.size)
+
+            // when
+            cartManager.addItemToCart(mockItem1)
+
+            reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
+
+            assertEquals(1, reflectionItemsOnTheList.size)
         }
     }
 }
