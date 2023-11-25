@@ -1,4 +1,4 @@
-package com.mercadolibre.pipsearch.android.app.ui.view
+package com.mercadolibre.pipsearch.android.app.ui.view.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,6 @@ import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.domain.CartManager
-import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
