@@ -147,4 +147,53 @@ class CartActivityTest {
             }
         }
     }
+
+    @Test
+    fun testShowRecyclerAndHideBaseScreenWhenListOfItemsIsNotEmpty() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
+            val reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+
+            // initial list
+            assertEquals(0, reflectionItemsOnTheList.size)
+
+            // add items on the list
+            val itemsOnCart: MutableList<ItemDto> = mutableListOf()
+            val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
+            val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTags)
+
+            itemsOnCart.add(itemTest1)
+
+            ReflectionHelpers.setField(activity, "itemsOnCart", itemsOnCart)
+
+            val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems")
+            showListOfItemsMethod.isAccessible = true
+
+            // when
+            showListOfItemsMethod.invoke(activity)
+
+            // then
+            assertEquals(VISIBLE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
+            assertEquals(GONE, reflectionBinding.pipCartBodyImageContainer.visibility)
+        }
+    }
+
+    @Test
+    fun testShowBaseScreenWhenListOfItemsEmpty() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
+            val reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+
+            // initial list
+            assertEquals(0, reflectionItemsOnTheList.size)
+
+            // then
+            assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
+            assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
+        }
+    }
 }
