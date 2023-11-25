@@ -5,6 +5,7 @@ import android.view.View.VISIBLE
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.launchActivity
+import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.CartViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
@@ -105,6 +106,51 @@ class CartActivityTest {
 
             // then
             assertNotNull(viewModel)
+        }
+    }
+
+    @Test
+    fun testCartActivityOnItemDeleteMethodChangeItemsList() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            var reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+
+            // initial list
+            assertEquals(0, reflectionItemsOnTheList.size)
+
+            // add items on the list
+            val itemsOnCart: MutableList<ItemDto> = mutableListOf()
+            val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
+            val itemTest1 = ItemDto(
+                "itemTest 1",
+                1111.0,
+                "https://test_image_item_test_1.jpg",
+                listOfTags
+            )
+            val itemTest2 = ItemDto(
+                "itemTest 2",
+                2222.0,
+                "https://test_image_item_test_2.jpg",
+                listOfTags
+            )
+
+            itemsOnCart.add(itemTest1)
+            itemsOnCart.add(itemTest2)
+
+            ReflectionHelpers.setField(activity, "itemsOnCart", itemsOnCart)
+
+            val onItemDeleteMethod = activity.javaClass.getDeclaredMethod("onItemDelete", ItemDto::class.java)
+            onItemDeleteMethod.isAccessible = true
+
+            // when
+            onItemDeleteMethod.invoke(activity, itemTest2)
+
+            // with items on the list
+            reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
+
+            // then
+            assertEquals(1, reflectionItemsOnTheList.size)
         }
     }
 }

@@ -128,7 +128,8 @@ class MainActivity : AbstractActivity() {
     }
 
     /**
-     * Receives data (ItemDto) from search results list UI and sends to ViewModel to add to cart.
+     * Receives data (ItemDto)
+     * from search results list UI and sends to MainViewModel to add to cart list in CartManager.
      */
     private fun onItemAddToCart(itemData: ItemDto) {
         mainViewModel.addItemToCart(itemData)
