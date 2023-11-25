@@ -23,7 +23,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainAdapter: MainAdapter = MainAdapter { }
+    private var mainAdapter: MainAdapter = MainAdapter { itemData -> onItemAddToCart(itemData) }
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
 
@@ -127,6 +127,13 @@ class MainActivity : AbstractActivity() {
         }
     }
 
+    /**
+     * Receives data (ItemDto) from search results list UI and sends to ViewModel to add to cart.
+     */
+    private fun onItemAddToCart(itemData: ItemDto) {
+        mainViewModel.addItemToCart(itemData)
+    }
+
     private fun showSnackbar() {
         AndesSnackbar(
             this,
@@ -160,6 +167,8 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun updateQuantityOfItems(itemsOnCart: MutableList<ItemDto>) {
-        binding!!.pipMainHeaderCartPill.text = itemsOnCart.size.toString()
+        binding?.let {
+            it.pipMainHeaderCartPill.text = itemsOnCart.size.toString()
+        }
     }
 }

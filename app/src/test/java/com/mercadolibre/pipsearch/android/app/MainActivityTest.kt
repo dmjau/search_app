@@ -21,6 +21,7 @@ import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import com.mercadolibre.pipsearch.android.app.ui.view.CartActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
@@ -29,10 +30,12 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,6 +61,17 @@ class MainActivityTest {
 
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
+    private lateinit var cartManager: CartManager
+
+    @Before
+    fun setup() {
+        cartManager = CartManager
+    }
+
+    @After
+    fun tearDown() {
+        cartManager.resetState()
+    }
 
     @Test
     fun testMainActivityInstance() {
@@ -417,6 +431,42 @@ class MainActivityTest {
             // then
             assertEquals(2, reflectionSelectedItems.value!!.size)
             assertEquals("2", reflectionBinding.pipMainHeaderCartPill.text)
+        }
+    }
+
+    @Test
+    fun testMainActivityAddItemDataOnCart() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            val mockItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+
+            // call viewmodel.addItemToCart(itemData) in the MainActivity
+            val onItemToAddToCartMethod =
+                activity.javaClass.getDeclaredMethod("onItemAddToCart", ItemDto::class.java)
+            onItemToAddToCartMethod.isAccessible = true
+
+            // when
+            onItemToAddToCartMethod.invoke(activity, mockItem1)
+
+            var reflectionItemsOnCart =
+                ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                    viewModel,
+                    "_selectedItems"
+                )
+
+            // then first item was added
+            assertEquals(1, reflectionItemsOnCart.value!!.size)
+
+            // when
+            onItemToAddToCartMethod.invoke(activity, mockItem2)
+
+            reflectionItemsOnCart = ReflectionHelpers.getField(viewModel, "_selectedItems")
+
+            // then second item was added
+            assertEquals(2, reflectionItemsOnCart.value!!.size)
         }
     }
 }
