@@ -7,6 +7,7 @@ import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
@@ -159,5 +160,27 @@ class CartViewModelTest {
 
         // then
         assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
+    }
+
+    @Test
+    fun testCartViewModelCallOnCleared() {
+        // given
+        val cartManagerMock = mockk<CartManager>(relaxed = true)
+        val viewModelWithMock = CartViewModel(cartManagerMock)
+        val observer = mockk<Observer<MutableList<ItemDto>>>(relaxUnitFun = true)
+
+        viewModelWithMock.selectedItems.observeForever(observer)
+
+        verify {
+            observer.onChanged(any())
+        }
+
+        // when
+        viewModelWithMock.onCleared()
+
+        // then
+        verify {
+            cartManagerMock.itemsOnCart.removeObserver(any())
+        }
     }
 }

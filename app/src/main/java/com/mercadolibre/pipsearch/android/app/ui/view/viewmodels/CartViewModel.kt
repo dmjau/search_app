@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.domain.CartManager
 
-class CartViewModel : ViewModel() {
-
-    private val cartManager = CartManager
+class CartViewModel(private val cartManager: CartManager = CartManager) : ViewModel() {
 
     private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
     val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
@@ -28,7 +26,7 @@ class CartViewModel : ViewModel() {
         }
     }
 
-    override fun onCleared() {
+    public override fun onCleared() {
         cartManager.itemsOnCart.removeObserver(itemsObserver)
         super.onCleared()
     }
