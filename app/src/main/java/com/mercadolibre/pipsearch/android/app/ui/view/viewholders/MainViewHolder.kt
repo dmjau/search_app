@@ -29,19 +29,20 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
             image.setImageURI(itemData.thumbnail)
             price.text = itemData.price.toString()
             title.text = itemData.title
-            showMarketText(market, itemData.tags)
+            showMarketFields(itemData.tags)
             buttomAddToCart.setOnClickListener {
                 onItemDataClickListener(itemData)
             }
         }
     }
 
-    private fun showMarketText(view: AndesTextView, tags: List<String>) {
+    private fun showMarketFields(tags: List<String>) {
         if (verifyMarketTag(tags)) {
             showButtonAddToCart()
-            view.visibility = View.VISIBLE
+            showMarketText()
         } else {
-            view.visibility = View.GONE
+            hideButtonAddToCart()
+            hideMarketText()
         }
     }
 
@@ -49,5 +50,17 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
 
     private fun showButtonAddToCart() {
         binding.buttomAddToCart.visibility = View.VISIBLE
+    }
+
+    private fun hideButtonAddToCart() {
+        binding.buttomAddToCart.visibility = View.GONE
+    }
+
+    private fun showMarketText() {
+        binding.market.visibility = View.VISIBLE
+    }
+
+    private fun hideMarketText() {
+        binding.market.visibility = View.GONE
     }
 }
