@@ -14,7 +14,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBi
 class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
-    private var cartAdapter: CartAdapter = CartAdapter { }
+    private var cartAdapter: CartAdapter = CartAdapter { itemDto -> onItemDelete(itemDto) }
     private val cartViewModel: CartViewModel by viewModels()
     private var itemsOnCart: List<ItemDto> = mutableListOf()
 
@@ -83,6 +83,14 @@ class CartActivity : AppCompatActivity() {
     private fun showListOfItems() {
         cartAdapter.setItems(itemsOnCart)
         showRecyclerViewHideBaseScreen()
+    }
+
+    /**
+     * Receives data (ItemDto)
+     * from cart list UI and sends to CartViewModel to remove on the cart list in CartManager.
+     */
+    private fun onItemDelete(item: ItemDto) {
+        cartViewModel.removeItemFromCart(item)
     }
 
     /**

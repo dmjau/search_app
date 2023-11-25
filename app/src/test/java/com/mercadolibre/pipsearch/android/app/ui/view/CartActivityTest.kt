@@ -6,15 +6,18 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.launchActivity
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.CartViewModel
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -28,6 +31,17 @@ class CartActivityTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: CartViewModel
+    private lateinit var cartManager: CartManager
+
+    @Before
+    fun setup() {
+        cartManager = CartManager
+    }
+
+    @After
+    fun tearDown() {
+        cartManager.resetState()
+    }
 
     @Test
     fun testCartActivityInstance() {
@@ -161,10 +175,9 @@ class CartActivityTest {
 
             // add items on the list
             val itemsOnCart: MutableList<ItemDto> = mutableListOf()
-            val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
-            val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTags)
+            val mockItem1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", emptyList())
 
-            itemsOnCart.add(itemTest1)
+            itemsOnCart.add(mockItem1)
 
             ReflectionHelpers.setField(activity, "itemsOnCart", itemsOnCart)
 
@@ -194,6 +207,32 @@ class CartActivityTest {
             // then
             assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
+        }
+    }
+
+    @Test
+    fun testDeleteItem() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            val mockItem1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", emptyList())
+            cartManager.addItemToCart(mockItem1)
+
+            var reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+
+            // initial list
+            assertEquals(1, reflectionItemsOnTheList.size)
+
+            val onItemDeleteMethod = activity.javaClass.getDeclaredMethod("onItemDelete", ItemDto::class.java)
+            onItemDeleteMethod.isAccessible = true
+
+            // when
+            onItemDeleteMethod.invoke(activity, mockItem1)
+
+            reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
+
+            // then
+            assertEquals(0, reflectionItemsOnTheList.size)
         }
     }
 }
