@@ -6,7 +6,7 @@ import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 
 object CartManager {
 
-    private val _itemsOnCart: MutableLiveData<MutableList<ItemDto>> = MutableLiveData()
+    private var _itemsOnCart: MutableLiveData<MutableList<ItemDto>> = MutableLiveData()
     val itemsOnCart: LiveData<MutableList<ItemDto>> = _itemsOnCart
 
     fun addItemToCart(item: ItemDto) {
