@@ -3,12 +3,15 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mercadolibre.pipsearch.android.app.ui.view.adapters.CartAdapter
 import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBinding
 
 class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
+    private var cartAdapter: CartAdapter = CartAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +22,7 @@ class CartActivity : AppCompatActivity() {
         setTitleHeader()
         setBaseScreen()
         setBackToMainActivityListener()
+        initRecyclerViewAndAdapter()
     }
 
     /**
@@ -46,6 +50,7 @@ class CartActivity : AppCompatActivity() {
     private fun setBaseTitle(title: Int) {
         binding!!.pipCartBodyTitle.text = getString(title)
     }
+
     private fun setBaseSubtitle(subtitle: Int) {
         binding!!.pipCartBodySubtitle.text = getString(subtitle)
     }
@@ -53,5 +58,15 @@ class CartActivity : AppCompatActivity() {
     private fun showBaseScreenHideRecyclerView() {
         binding!!.pipCartBodyRecyclerContainer.visibility = View.GONE
         binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
+    }
+
+    /**
+     * Init recycler view and adapter.
+     */
+    private fun initRecyclerViewAndAdapter() {
+        with(binding!!.pipCartBodyRecyclerContainer) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = cartAdapter
+        }
     }
 }
