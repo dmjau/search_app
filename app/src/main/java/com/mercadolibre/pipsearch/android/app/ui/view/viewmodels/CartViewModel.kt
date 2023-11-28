@@ -6,18 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 
 class CartViewModel : ViewModel() {
-
-    private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-    val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
+    var selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+        private set
 
     fun removeItemFromCart(item: ItemDto) {
-        _selectedItems.value?.let {
+        selectedItems.value?.let {
             it.remove(item)
-            _selectedItems.postValue(it)
+            selectedItems.postValue(it)
         }
-    }
-
-    fun setInitialSelectedItems(itemsList: MutableList<ItemDto>) {
-        _selectedItems.postValue(itemsList)
     }
 }
