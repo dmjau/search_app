@@ -222,7 +222,7 @@ class MainViewModelTest {
         val mockMutableLiveDataSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
         mockMutableLiveDataSelectedItems.postValue(mockItemsList)
 
-        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "_selectedItems")
+        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
         // before add item
         assertEquals(emptyList<ItemDto>(), reflectionSelectedItems.value)
