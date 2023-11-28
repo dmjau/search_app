@@ -52,7 +52,7 @@ class CartViewModelTest {
         val mockMutableLiveDataSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
         mockMutableLiveDataSelectedItems.postValue(mockItemsList)
 
-        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "_selectedItems")
+        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "selectedItems")
 
         // before delete items
         assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
@@ -76,7 +76,7 @@ class CartViewModelTest {
         mockItemsList.add(mockItem1)
         mockItemsList.add(mockItem2)
 
-        var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "_selectedItems")
+        var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "selectedItems")
 
         // before delete items
         assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
@@ -87,25 +87,29 @@ class CartViewModelTest {
 
 
         // when added items in the cart manager
-        ReflectionHelpers.setField(viewModel, "_selectedItems", mockMutableLiveDataSelectedItems)
-        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "_selectedItems")
+        ReflectionHelpers.setField(viewModel, "selectedItems", mockMutableLiveDataSelectedItems)
+        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
 
         // then
         assertEquals(mockItem1, reflectionSelectedItems.value!![0])
         assertEquals(mockItem2, reflectionSelectedItems.value!![1])
+        assertEquals(mockItem1, viewModel.selectedItems.value!![0])
+        assertEquals(mockItem2, viewModel.selectedItems.value!![1])
 
         // when remove item1
         viewModel.removeItemFromCart(mockItem1)
 
         // when
         assertEquals(mockItem2, reflectionSelectedItems.value!![0])
+        assertEquals(mockItem2, viewModel.selectedItems.value!![0])
 
         // when remove item2
         viewModel.removeItemFromCart(mockItem2)
 
-        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "_selectedItems")
+        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
 
         assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
+        assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
     }
 
     @Test
@@ -113,7 +117,7 @@ class CartViewModelTest {
         // given
         val mockItemToDelete = ItemDto("Item 1", 10.0, "test1", emptyList())
 
-        var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "_selectedItems")
+        var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "selectedItems")
 
         // before delete items
         assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
@@ -122,41 +126,21 @@ class CartViewModelTest {
         val mockMutableLiveDataNullSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(null)
 
         // set null mutable list
-        ReflectionHelpers.setField(viewModel, "_selectedItems", mockMutableLiveDataNullSelectedItems)
+        ReflectionHelpers.setField(viewModel, "selectedItems", mockMutableLiveDataNullSelectedItems)
 
-        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "_selectedItems")
+        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
 
         // then
         assertNull(reflectionSelectedItems.value)
+        assertNull(viewModel.selectedItems.value)
 
         // when remove item1
         viewModel.removeItemFromCart(mockItemToDelete)
 
-        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "_selectedItems")
+        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
 
         // then
         assertNull(reflectionSelectedItems.value)
-    }
-
-    @Test
-    fun testPublicVariableSelectedItems() {
-        // given
-        val mockItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
-        val mockItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
-        val mockItemsList = mutableListOf<ItemDto>()
-        mockItemsList.add(mockItem1)
-        mockItemsList.add(mockItem2)
-
-        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<List<ItemDto>>>(viewModel, "_selectedItems")
-
-        // before delete items
-        assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
-        assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
-
-        // when
-        viewModel.setInitialSelectedItems(mockItemsList)
-
-        // then
-        assertEquals(mockItemsList, viewModel.selectedItems.value)
+        assertNull(viewModel.selectedItems.value)
     }
 }
