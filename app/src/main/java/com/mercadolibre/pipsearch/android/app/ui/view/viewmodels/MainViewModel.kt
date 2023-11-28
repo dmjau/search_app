@@ -37,6 +37,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-    val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
+    var selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+        private set
 }
