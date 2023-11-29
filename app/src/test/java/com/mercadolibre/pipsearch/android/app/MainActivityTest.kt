@@ -397,8 +397,7 @@ class MainActivityTest {
             val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
             val mutableListItemsOnCart: MutableList<ItemDto> = mutableListOf()
 
-            val reflectionMutableLiveDataSelectedItems =
-                ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+            val reflectionMutableLiveDataSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
             // then
             assertEquals("0", reflectionBinding.pipMainHeaderCartPill.text)
@@ -407,16 +406,13 @@ class MainActivityTest {
             mutableListItemsOnCart.add(mockItem1)
             reflectionMutableLiveDataSelectedItems.value = mutableListItemsOnCart
 
-            ReflectionHelpers.setField(viewModel, "_selectedItems", reflectionMutableLiveDataSelectedItems)
+            ReflectionHelpers.setField(viewModel, "selectedItems", reflectionMutableLiveDataSelectedItems)
 
-            var reflectionSelectedItems =
-                ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
-                    viewModel,
-                    "_selectedItems"
-                )
+            var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
             // then
             assertEquals(1, reflectionSelectedItems.value!!.size)
+            assertEquals(1, viewModel.selectedItems.value!!.size)
             assertEquals("1", reflectionBinding.pipMainHeaderCartPill.text)
 
             // added second item
@@ -424,12 +420,13 @@ class MainActivityTest {
             mutableListItemsOnCart.add(mockItem2)
             reflectionMutableLiveDataSelectedItems.value = mutableListItemsOnCart
 
-            ReflectionHelpers.setField(viewModel, "_selectedItems", reflectionMutableLiveDataSelectedItems)
+            ReflectionHelpers.setField(viewModel, "selectedItems", reflectionMutableLiveDataSelectedItems)
 
-            reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "_selectedItems")
+            reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
 
             // then
             assertEquals(2, reflectionSelectedItems.value!!.size)
+            assertEquals(2, viewModel.selectedItems.value!!.size)
             assertEquals("2", reflectionBinding.pipMainHeaderCartPill.text)
         }
     }
