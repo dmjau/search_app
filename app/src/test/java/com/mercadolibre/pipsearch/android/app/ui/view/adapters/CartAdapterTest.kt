@@ -9,8 +9,8 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Test
+import org.robolectric.util.ReflectionHelpers
 
 
 class CartAdapterTest : AbstractRobolectricTest() {
@@ -21,7 +21,7 @@ class CartAdapterTest : AbstractRobolectricTest() {
         super.setUp()
         Fresco.initialize(context)
 
-        this.cartAdapter = CartAdapter { }
+        this.cartAdapter = CartAdapter()
     }
 
     @Test
@@ -89,5 +89,19 @@ class CartAdapterTest : AbstractRobolectricTest() {
 
         // then
         verify { mockCartViewHolder.bind(any(), any()) }
+    }
+
+    @Test
+    fun testSetOnItemDataClickListener() {
+        // given
+        val mockListener: (ItemDto) -> Unit = mockk()
+
+        // when
+        cartAdapter.setOnItemDataClickListener(mockListener)
+
+
+        val reflectionOnItemDataClickListener = ReflectionHelpers.getField<((ItemDto) -> Unit)?>(cartAdapter, "onItemDataClickListener")
+
+        assertEquals(mockListener, reflectionOnItemDataClickListener)
     }
 }
