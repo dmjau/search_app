@@ -26,7 +26,7 @@ class CartViewHolderTest : AbstractRobolectricTest() {
     }
 
     @Test
-    fun TestInstanceMainViewHolder() {
+    fun testInstanceMainViewHolder() {
         // given
         val cartViewHolder = CartViewHolder.instance(layoutInflater, parent)
 
@@ -36,7 +36,7 @@ class CartViewHolderTest : AbstractRobolectricTest() {
     }
 
     @Test
-    fun TestBindViewInCartViewHolder() {
+    fun testBindViewInCartViewHolder() {
         // given
         TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
             val cartViewHolder = CartViewHolder.instance(layoutInflater, parent)
@@ -58,7 +58,7 @@ class CartViewHolderTest : AbstractRobolectricTest() {
     }
 
     @Test
-    fun TestReturnItemDataWhenButtonIsClicked() {
+    fun testReturnItemDataWhenButtonIsClicked() {
         // given
         TestResourceParser.getTestResourceObject(itemDataFull, ItemDto::class.java).let { data ->
             val cartViewHolder = CartViewHolder.instance(layoutInflater, parent)

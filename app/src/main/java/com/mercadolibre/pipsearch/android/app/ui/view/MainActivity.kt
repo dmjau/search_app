@@ -23,7 +23,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainAdapter: MainAdapter = MainAdapter { }
+    private var mainAdapter: MainAdapter = MainAdapter()
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
 
