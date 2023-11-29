@@ -14,13 +14,9 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBi
 class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
-<<<<<<< HEAD
-    private var cartAdapter: CartAdapter = CartAdapter { }
+    private var cartAdapter: CartAdapter = CartAdapter()
     private val cartViewModel: CartViewModel by viewModels()
     private var itemsOnCart: List<ItemDto> = mutableListOf()
-=======
-    private var cartAdapter: CartAdapter = CartAdapter()
->>>>>>> feature/refactor_main_view_holder_and_fix_details
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
