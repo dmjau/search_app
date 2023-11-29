@@ -14,7 +14,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppCartActivityBi
 class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
-    private var cartAdapter: CartAdapter = CartAdapter { }
+    private var cartAdapter: CartAdapter = CartAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
