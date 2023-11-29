@@ -23,7 +23,7 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 class MainActivity : AbstractActivity() {
 
     private var binding: PipSearchAppMainActivityBinding? = null
-    private var mainAdapter: MainAdapter = MainAdapter { itemData -> onItemAddToCart(itemData) }
+    private var mainAdapter: MainAdapter = MainAdapter()
     private val mainViewModel: MainViewModel by viewModels()
     private var listOfItems: List<ItemDto> = emptyList()
 
@@ -37,6 +37,7 @@ class MainActivity : AbstractActivity() {
         setBaseScreen()
         linkedWithCartActivity()
         initRecyclerViewAndAdapter()
+        setAdapterCallback()
         observes()
     }
 
@@ -83,6 +84,19 @@ class MainActivity : AbstractActivity() {
         startActivity(Intent(this, CartActivity::class.java))
     }
 
+    private fun setAdapterCallback() {
+        mainAdapter.setOnItemDataClickListener { itemData ->
+            onItemAddToCart(itemData)
+        }
+    }
+
+    /**
+     * Receives data (ItemDto) from search results list UI and sends to ViewModel to add to cart.
+     */
+    private fun onItemAddToCart(itemData: ItemDto) {
+        mainViewModel.addItemToCart(itemData)
+    }
+
     /**
      * Observes livedata variables from view model.
      */
@@ -125,14 +139,6 @@ class MainActivity : AbstractActivity() {
             validateText(text) -> mainViewModel.fetchResults(text)
             else -> showSnackbar()
         }
-    }
-
-    /**
-     * Receives data (ItemDto)
-     * from search results list UI and sends to MainViewModel to add to cart list in CartManager.
-     */
-    private fun onItemAddToCart(itemData: ItemDto) {
-        mainViewModel.addItemToCart(itemData)
     }
 
     private fun showSnackbar() {
