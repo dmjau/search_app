@@ -11,6 +11,7 @@ import io.mockk.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
+import org.robolectric.util.ReflectionHelpers
 
 
 class MainAdapterTest : AbstractRobolectricTest() {
@@ -21,7 +22,7 @@ class MainAdapterTest : AbstractRobolectricTest() {
         super.setUp()
         Fresco.initialize(context)
 
-        this.mainAdapter = MainAdapter { }
+        this.mainAdapter = MainAdapter()
     }
 
     @Test
@@ -72,8 +73,8 @@ class MainAdapterTest : AbstractRobolectricTest() {
         )
 
         // then
-        val expectedClassName = "com.mercadolibre.pipsearch.android.app.ui.view.viewholders.MainViewHolder"
-        assertEquals(expectedClassName, mainViewHolder.javaClass.canonicalName)
+        val expectedType = MainViewHolder::class.javaObjectType
+        assertEquals(expectedType, mainViewHolder.javaClass)
     }
 
     @Test
@@ -95,5 +96,19 @@ class MainAdapterTest : AbstractRobolectricTest() {
 
         // then
         verify { mockMainViewHolder.bind(any(), any()) }
+    }
+
+    @Test
+    fun testSetOnItemDataClickListener() {
+        // given
+        val mockListener: (ItemDto) -> Unit = mockk()
+
+        // when
+        mainAdapter.setOnItemDataClickListener(mockListener)
+
+
+        val reflectionOnItemDataClickListener = ReflectionHelpers.getField<((ItemDto) -> Unit)?>(mainAdapter, "onItemDataClickListener")
+
+        assertEquals(mockListener, reflectionOnItemDataClickListener)
     }
 }
