@@ -10,7 +10,6 @@ import io.mockk.unmockkAll
 import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,61 +52,69 @@ class CartManagerTest {
     @Test
     fun testCartManagerAddItemToCart() {
         // given
-        val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
-        val mockItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+        val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+        val testItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
 
         // when added first item
-        cartManager.addItemToCart(mockItem1)
+        cartManager.addItemToCart(testItem1)
 
-        var reflectionListItemsOnCart = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
+        var reflectionListItemsOnCart =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                cartManager,
+                "itemsOnCart"
+            )
 
         // then
         assertEquals(1, reflectionListItemsOnCart.value!!.size)
-        assertEquals(mockItem1, cartManager.itemsOnCart.value!![0])
+        assertEquals(testItem1, cartManager.itemsOnCart.value!![0])
 
         // when added second item
-        cartManager.addItemToCart(mockItem2)
+        cartManager.addItemToCart(testItem2)
 
-        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
+        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "itemsOnCart")
 
         // then
         assertEquals(2, reflectionListItemsOnCart.value!!.size)
-        assertEquals(mockItem2, cartManager.itemsOnCart.value!![1])
+        assertEquals(testItem2, cartManager.itemsOnCart.value!![1])
     }
 
     @Test
     fun testCartManagerAddItemToCartAndRemoveItemFromCart() {
         // given
-        val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
-        val mockItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+        val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+        val testItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
 
         // when added first item
-        cartManager.addItemToCart(mockItem1)
+        cartManager.addItemToCart(testItem1)
 
-        var reflectionListItemsOnCart = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
+        var reflectionListItemsOnCart =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                cartManager,
+                "itemsOnCart"
+            )
 
         // then
         assertEquals(1, reflectionListItemsOnCart.value!!.size)
-        assertEquals(mockItem1, cartManager.itemsOnCart.value!![0])
+        assertEquals(testItem1, cartManager.itemsOnCart.value!![0])
 
         // when added second item
-        cartManager.addItemToCart(mockItem2)
+        cartManager.addItemToCart(testItem2)
 
-        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
+        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "itemsOnCart")
 
         // then
         assertEquals(2, reflectionListItemsOnCart.value!!.size)
-        assertEquals(mockItem2, cartManager.itemsOnCart.value!![1])
+        assertEquals(testItem2, cartManager.itemsOnCart.value!![1])
 
         // when remove first item
-        cartManager.removeItemFromCart(mockItem1)
+        cartManager.removeItemFromCart(testItem1)
 
         // then
         assertEquals(1, reflectionListItemsOnCart.value!!.size)
-        assertEquals(mockItem2, cartManager.itemsOnCart.value!![0])
+        assertEquals(testItem2, cartManager.itemsOnCart.value!![0])
 
         // when remove second item
-        cartManager.removeItemFromCart(mockItem2)
+        cartManager.removeItemFromCart(testItem2)
 
         // then
         assertEquals(0, reflectionListItemsOnCart.value!!.size)
@@ -117,10 +124,10 @@ class CartManagerTest {
     @Test
     fun testCartManagerUpdateLiveDataObservers() {
         // given
-        val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+        val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
 
         val mockMutableListOfItems: MutableList<ItemDto> = mutableListOf()
-        mockMutableListOfItems.add(mockItem1)
+        mockMutableListOfItems.add(testItem1)
 
         cartManager.itemsOnCart.observeForever(mockObserver)
 
@@ -130,9 +137,13 @@ class CartManagerTest {
         }
 
         // when
-        cartManager.addItemToCart(mockItem1)
+        cartManager.addItemToCart(testItem1)
 
-        var reflectionListItemsOnCart = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
+        var reflectionListItemsOnCart =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                cartManager,
+                "itemsOnCart"
+            )
 
         // then
         assertEquals(1, reflectionListItemsOnCart.value!!.size)
@@ -143,9 +154,9 @@ class CartManagerTest {
         }
 
         // when
-        cartManager.removeItemFromCart(mockItem1)
+        cartManager.removeItemFromCart(testItem1)
 
-        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "_itemsOnCart")
+        reflectionListItemsOnCart = ReflectionHelpers.getField(cartManager, "itemsOnCart")
 
         // then
         assertEquals(0, reflectionListItemsOnCart.value!!.size)
@@ -162,12 +173,16 @@ class CartManagerTest {
     @Test
     fun testCartManagerRemoveItemInEmptyCartList() {
         // given
-        val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+        val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
 
         // when added first item
-        cartManager.removeItemFromCart(mockItem1)
+        cartManager.removeItemFromCart(testItem1)
 
-        val reflectionListItemsOnCart = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(cartManager, "_itemsOnCart")
+        val reflectionListItemsOnCart =
+            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
+                cartManager,
+                "itemsOnCart"
+            )
 
         // then
         assertEquals(0, reflectionListItemsOnCart.value!!.size)
