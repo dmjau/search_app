@@ -3,17 +3,21 @@ package com.mercadolibre.pipsearch.android.app.ui.view.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.ui.view.viewholders.MainViewHolder
 
 class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 
     private var listOfItems: List<ItemDto> = emptyList()
+    private var onItemDataClickListener: ((ItemDto) -> Unit)? = null
 
     fun setItems(items: List<ItemDto>) {
         this.listOfItems = items
         notifyDataSetChanged()
+    }
+
+    fun setOnItemDataClickListener(listener: (ItemDto) -> Unit) {
+        this.onItemDataClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -25,6 +29,6 @@ class MainAdapter : RecyclerView.Adapter<MainViewHolder>() {
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val itemData = listOfItems[position]
-        holder.bind(itemData)
+        holder.bind(itemData, onItemDataClickListener)
     }
 }

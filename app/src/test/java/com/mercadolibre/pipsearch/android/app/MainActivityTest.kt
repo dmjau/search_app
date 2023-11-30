@@ -83,8 +83,7 @@ class MainActivityTest {
     fun testMainActivityInstanceBinding() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
             assertNotNull(reflectionActivityBinding)
@@ -96,8 +95,7 @@ class MainActivityTest {
     fun testMainActivityBindingSetListener() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
             assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
@@ -109,8 +107,7 @@ class MainActivityTest {
     fun testMainActivityNotSetListenerWithoutBinding() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            var reflectionActivityBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            var reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
             assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
@@ -156,11 +153,7 @@ class MainActivityTest {
             sendTextToSearchMethod.invoke(activity, text)
 
             // then
-            val reflectionAfterFetchResults =
-                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
-                    viewModel,
-                    "_searchResults"
-                )
+            val reflectionAfterFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
             // then
             assertNotNull(reflectionAfterFetchResults.value)
@@ -181,11 +174,7 @@ class MainActivityTest {
                 mockRepository.getAll(any())
             } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
-            val reflectionBeforeFetchResults =
-                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
-                    viewModel,
-                    "_searchResults"
-                )
+            val reflectionBeforeFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
             // verification before call viewmodel.fetchResults()
             assertNull(reflectionBeforeFetchResults.value)
@@ -199,11 +188,7 @@ class MainActivityTest {
             sendTextToSearchMethod.invoke(activity, text)
 
             // then
-            val reflectionAfterFetchResults =
-                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
-                    viewModel,
-                    "_searchResults"
-                )
+            val reflectionAfterFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
             // then
             assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
@@ -224,11 +209,7 @@ class MainActivityTest {
                 mockRepository.getAll(any())
             } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
-            val reflectionBeforeFetchResults =
-                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
-                    viewModel,
-                    "_searchResults"
-                )
+            val reflectionBeforeFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
             // verification before call viewmodel.fetchResults()
             assertNull(reflectionBeforeFetchResults.value)
@@ -242,11 +223,7 @@ class MainActivityTest {
             sendTextToSearchMethod.invoke(activity, text)
 
             // then
-            val reflectionAfterFetchResults =
-                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
-                    viewModel,
-                    "_searchResults"
-                )
+            val reflectionAfterFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
             // then
             assertEquals(reflectionBeforeFetchResults, reflectionAfterFetchResults)
@@ -257,11 +234,13 @@ class MainActivityTest {
     fun testMainActivitySetBaseScreenTitle() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionBinding =
-            ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
-            assertEquals("Surfing Mercado Libre", reflectionBinding.pipMainBodyTitle.text.toString())
+            assertEquals(
+                "Surfing Mercado Libre",
+                reflectionBinding.pipMainBodyTitle.text.toString()
+            )
         }
     }
 
@@ -269,8 +248,7 @@ class MainActivityTest {
     fun testMainActivityShowBaseScreenAndHideRecyclerView() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
             assertEquals(GONE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
@@ -282,8 +260,7 @@ class MainActivityTest {
     fun testMainActivityCreateViewWithMainAdapterAndRecyclerView() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             val reflectionMainAdapter = ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
 
@@ -325,8 +302,7 @@ class MainActivityTest {
     fun testMainActivityShowRecyclerViewAndHideBaseScreen() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            var reflectionBinding =
-                ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            var reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // asserts before init show recycler
             assertEquals(GONE, reflectionBinding.pipMainBodyRecyclerContainer.visibility)
@@ -349,8 +325,7 @@ class MainActivityTest {
     @Test
     fun testMainActivityIntentStartCartActivityWhenIconIsClicked() {
         // when
-        Espresso.onView(ViewMatchers.withId(R.id.pip_main_header_cart_icon))
-            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.pip_main_header_cart_icon)).perform(ViewActions.click())
 
         // then
         Intents.intended(IntentMatchers.hasComponent(ComponentName(InstrumentationRegistry.getInstrumentation().context, CartActivity::class.java)))
