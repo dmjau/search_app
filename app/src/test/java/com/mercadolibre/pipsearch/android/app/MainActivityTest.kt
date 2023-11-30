@@ -339,7 +339,7 @@ class MainActivityTest {
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
             viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
 
-            val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
             val mutableListItemsOnCart: MutableList<ItemDto> = mutableListOf()
 
             val reflectionMutableLiveDataSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
@@ -348,7 +348,7 @@ class MainActivityTest {
             assertEquals("0", reflectionBinding.pipMainHeaderCartPill.text)
 
             // added first item
-            mutableListItemsOnCart.add(mockItem1)
+            mutableListItemsOnCart.add(testItem1)
             reflectionMutableLiveDataSelectedItems.value = mutableListItemsOnCart
 
             ReflectionHelpers.setField(viewModel, "selectedItems", reflectionMutableLiveDataSelectedItems)
@@ -361,8 +361,8 @@ class MainActivityTest {
             assertEquals("1", reflectionBinding.pipMainHeaderCartPill.text)
 
             // added second item
-            val mockItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
-            mutableListItemsOnCart.add(mockItem2)
+            val testItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+            mutableListItemsOnCart.add(testItem2)
             reflectionMutableLiveDataSelectedItems.value = mutableListItemsOnCart
 
             ReflectionHelpers.setField(viewModel, "selectedItems", reflectionMutableLiveDataSelectedItems)
