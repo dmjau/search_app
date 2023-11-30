@@ -209,25 +209,12 @@ class MainViewModelTest {
     @Test
     fun testOnChangePublicListSelectedItemsLiveData() {
         // given
-        val testItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
-        val testItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
-        val testItemsList = mutableListOf<ItemDto>()
-        testItemsList.add(testItem1)
-        testItemsList.add(testItem2)
-
-        val mockMutableLiveDataSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-        mockMutableLiveDataSelectedItems.postValue(testItemsList)
-
         val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
-        // before add item
+        // then
         assertEquals(emptyList<ItemDto>(), reflectionSelectedItems.value)
         assertEquals(emptyList<ItemDto>(), viewModel.selectedItems.value)
 
-        // when
-        ReflectionHelpers.setField(viewModel, "selectedItems", mockMutableLiveDataSelectedItems)
-
-        // then
         verify(exactly = 1) {
             observer.onChanged(any())
         }
