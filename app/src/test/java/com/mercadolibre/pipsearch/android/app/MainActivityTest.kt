@@ -332,6 +332,19 @@ class MainActivityTest {
     }
 
     @Test
+    fun testInitialQuantityItemsOnCartWhenStartMainActivity() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+
+            // then
+            assertEquals("0", reflectionBinding.pipMainHeaderCartPill.text)
+        }
+    }
+
+    @Test
     fun testUpdateViewQuantityItemsOnCartFromMainViewModel() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
