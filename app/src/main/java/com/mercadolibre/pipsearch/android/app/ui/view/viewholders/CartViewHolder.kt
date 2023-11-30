@@ -15,11 +15,20 @@ class CartViewHolder(private val binding: PipSearchAppCartListItemBinding) : Rec
         }
     }
 
-    fun bind(itemData: ItemDto) {
+    fun bind(
+        itemData: ItemDto,
+        onItemDataClickListener: ((ItemDto) -> Unit)?
+    ) {
         binding.apply {
             image.setImageURI(itemData.thumbnail)
             price.text = itemData.price.toString()
             title.text = itemData.title
+
+            buttomDelete.setOnClickListener {
+                onItemDataClickListener?.let { listener ->
+                    listener(itemData)
+                }
+            }
         }
     }
 }
