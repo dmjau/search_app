@@ -62,10 +62,10 @@ class MainViewModelTest {
     fun testFetchResultsShouldUpdateSearchResultsOnSuccessResponse() =
         testDispatcher.runBlockingTest {
             // given
-            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
                 mockRepository.getAll(any())
-            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
             val reflectionBeforeFetchResults =
                 ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
@@ -154,10 +154,10 @@ class MainViewModelTest {
     @Test
     fun testGetSearchResultsOnSuccessResponse() = testDispatcher.runBlockingTest {
         // given
-        val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+        val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
             mockRepository.getAll(any())
-        } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+        } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
         // when
         viewModel.fetchResults("test")
@@ -167,7 +167,7 @@ class MainViewModelTest {
         // then
         assertNotNull(searchResult)
         assertEquals("Item 1", searchResult.value!!.results[0].title)
-        assertEquals(mockItem, searchResult.value!!.results[0])
+        assertEquals(testItem, searchResult.value!!.results[0])
     }
 
     @Test
@@ -209,14 +209,14 @@ class MainViewModelTest {
     @Test
     fun testOnChangePublicListSelectedItemsLiveData() {
         // given
-        val mockItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
-        val mockItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
-        val mockItemsList = mutableListOf<ItemDto>()
-        mockItemsList.add(mockItem1)
-        mockItemsList.add(mockItem2)
+        val testItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
+        val testItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
+        val testItemsList = mutableListOf<ItemDto>()
+        testItemsList.add(testItem1)
+        testItemsList.add(testItem2)
 
         val mockMutableLiveDataSelectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-        mockMutableLiveDataSelectedItems.postValue(mockItemsList)
+        mockMutableLiveDataSelectedItems.postValue(testItemsList)
 
         val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
