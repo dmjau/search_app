@@ -15,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -43,6 +44,11 @@ class MainViewModelTest {
         ReflectionHelpers.setField(viewModel, "repository", mockRepository)
 
         cartManager = CartManager
+    }
+
+    @After
+    fun tearDown() {
+        cartManager.resetState()
     }
 
     @Test
