@@ -135,7 +135,11 @@ class MainActivityTest {
                 mockRepository.getAll(any())
             } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
 
-            val reflectionBeforeFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
+            val reflectionBeforeFetchResults =
+                ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
+                    viewModel,
+                    "_searchResults"
+                )
 
             // verification before call viewmodel.fetchResults()
             assertNull(reflectionBeforeFetchResults.value)
@@ -233,7 +237,10 @@ class MainActivityTest {
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
-            assertEquals("Surfing Mercado Libre", reflectionBinding.pipMainBodyTitle.text.toString())
+            assertEquals(
+                "Surfing Mercado Libre",
+                reflectionBinding.pipMainBodyTitle.text.toString()
+            )
         }
     }
 
