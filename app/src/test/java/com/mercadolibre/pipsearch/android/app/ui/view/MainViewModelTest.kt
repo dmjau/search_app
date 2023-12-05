@@ -214,11 +214,7 @@ class MainViewModelTest {
         // given
         val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
 
-        var reflectionSelectedItems =
-            ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(
-                viewModel,
-                "_selectedItems"
-            )
+        var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
         // before add item
         assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
@@ -226,11 +222,7 @@ class MainViewModelTest {
         // when
         viewModel.addItemToCart(testItem)
 
-        reflectionSelectedItems =
-            ReflectionHelpers.getField(
-                viewModel,
-                "_selectedItems"
-            )
+        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
 
         // then
         assertEquals(testItem, reflectionSelectedItems.value!![0])
@@ -250,5 +242,30 @@ class MainViewModelTest {
 
         // then
         assertEquals(testItem, viewModel.selectedItems.value!![0])
+    }
+
+    @Test
+    fun testUpdateListItemsOnCartFromPublicValItemsOnCart() {
+        // given
+        val testItem1 = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+        val testItem2 = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+
+        // before add item
+        assertEquals(0, viewModel.selectedItems.value!!.size)
+        assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
+
+        // when
+        viewModel.addItemToCart(testItem1)
+
+        // then
+        assertEquals(1, viewModel.selectedItems.value!!.size)
+        assertEquals(testItem1, viewModel.selectedItems.value!![0])
+
+        // when
+        viewModel.addItemToCart(testItem2)
+
+        // then
+        assertEquals(2, viewModel.selectedItems.value!!.size)
+        assertEquals(testItem2, viewModel.selectedItems.value!![1])
     }
 }

@@ -1,28 +1,21 @@
 package com.mercadolibre.pipsearch.android.app.domain
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 
 object CartManager : ManagerInterface {
 
-    var itemsOnCart: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+    var itemsOnCart: MutableList<ItemDto> = mutableListOf()
         private set
 
     override fun addItemToCart(item: ItemDto) {
-        val currentList = itemsOnCart.value!!
-        currentList.add(item)
-        itemsOnCart.postValue(currentList)
+        itemsOnCart.add(item)
     }
 
     override fun removeItemFromCart(item: ItemDto) {
-        val currentList = itemsOnCart.value!!
-        currentList.remove(item)
-        itemsOnCart.postValue(currentList)
+        itemsOnCart.remove(item)
     }
 
     override fun resetState() {
-        val currentList = mutableListOf<ItemDto>()
-        itemsOnCart.postValue(currentList)
+        itemsOnCart = mutableListOf()
     }
 }
