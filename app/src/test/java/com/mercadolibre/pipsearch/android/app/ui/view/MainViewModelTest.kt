@@ -6,6 +6,7 @@ import com.mercadolibre.android.restclient.model.RestClientResult
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -14,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -32,6 +34,7 @@ class MainViewModelTest {
     private val testDispatcher = TestCoroutineDispatcher()
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
+    private lateinit var cartManager: CartManager
 
     @Before
     fun setup() {
@@ -39,16 +42,23 @@ class MainViewModelTest {
         viewModel = MainViewModel()
 
         ReflectionHelpers.setField(viewModel, "repository", mockRepository)
+
+        cartManager = CartManager
+    }
+
+    @After
+    fun tearDown() {
+        cartManager.resetState()
     }
 
     @Test
-    fun `fetchResults should update searchResults on success response`() =
+    fun testFetchResultsShouldUpdateSearchResultsOnSuccessResponse() =
         testDispatcher.runBlockingTest {
             // given
-            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
                 mockRepository.getAll(any())
-            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
             val reflectionBeforeFetchResults =
                 ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
@@ -73,7 +83,7 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `fetchResults should update errorResult on error response`() =
+    fun testFetchResultsShouldUpdateErrorResultOnErrorResponse() =
         testDispatcher.runBlockingTest {
             // given
             val errorMessage = "Error message"
@@ -104,7 +114,7 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `fetchResults should update exceptionResult on exception response`() =
+    fun testFetchResultsShouldUpdateExceptionResultOnExceptionResponse() =
         testDispatcher.runBlockingTest {
             // given
             val exceptionMessage = "Exception message"
@@ -135,12 +145,12 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `Get searchResults on success response`() = testDispatcher.runBlockingTest {
+    fun testGetSearchResultsOnSuccessResponse() = testDispatcher.runBlockingTest {
         // given
-        val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+        val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
         coEvery {
             mockRepository.getAll(any())
-        } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+        } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
         // when
         viewModel.fetchResults("test")
@@ -150,11 +160,11 @@ class MainViewModelTest {
         // then
         assertNotNull(searchResult)
         assertEquals("Item 1", searchResult.value!!.results[0].title)
-        assertEquals(mockItem, searchResult.value!!.results[0])
+        assertEquals(testItem, searchResult.value!!.results[0])
     }
 
     @Test
-    fun `Get errorResult on error response`() = testDispatcher.runBlockingTest {
+    fun testGetErrorResultOnErrorResponse() = testDispatcher.runBlockingTest {
         // given
         val errorMessage = "Error message"
         coEvery {
@@ -172,7 +182,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `Get exceptionResult on exception response`() = testDispatcher.runBlockingTest {
+    fun testGetExceptionResultOnExceptionResponse() = testDispatcher.runBlockingTest {
         // given
         val exceptionMessage = "Exception message"
         coEvery {
@@ -187,5 +197,75 @@ class MainViewModelTest {
         // then
         assertNotNull(exceptionResult)
         assertEquals("Exception message", exceptionResult.value)
+    }
+
+    @Test
+    fun testInitializeSelectedItemsLiveData() {
+        // given
+        val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+        // then
+        assertEquals(emptyList<ItemDto>(), reflectionSelectedItems.value)
+        assertEquals(emptyList<ItemDto>(), viewModel.selectedItems.value)
+    }
+
+    @Test
+    fun testSetItemsInTheListSelectedItems() {
+        // given
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+
+        var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+        // before add item
+        assertEquals(mutableListOf<ItemDto>(), reflectionSelectedItems.value)
+
+        // when
+        viewModel.addItemToCart(testItem)
+
+        reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
+
+        // then
+        assertEquals(testItem, reflectionSelectedItems.value!![0])
+        assertEquals(testItem, viewModel.selectedItems.value!![0])
+    }
+
+    @Test
+    fun testGetListItemsOnCartFromPublicValItemsOnCart() {
+        // given
+        val testItem = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+
+        // before add item
+        assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
+
+        // when
+        viewModel.addItemToCart(testItem)
+
+        // then
+        assertEquals(testItem, viewModel.selectedItems.value!![0])
+    }
+
+    @Test
+    fun testUpdateListItemsOnCartFromPublicValItemsOnCart() {
+        // given
+        val testItem1 = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+        val testItem2 = ItemDto("Item Test 1", 10.0, "test_item_image", emptyList())
+
+        // before add item
+        assertEquals(0, viewModel.selectedItems.value!!.size)
+        assertEquals(mutableListOf<ItemDto>(), viewModel.selectedItems.value)
+
+        // when
+        viewModel.addItemToCart(testItem1)
+
+        // then
+        assertEquals(1, viewModel.selectedItems.value!!.size)
+        assertEquals(testItem1, viewModel.selectedItems.value!![0])
+
+        // when
+        viewModel.addItemToCart(testItem2)
+
+        // then
+        assertEquals(2, viewModel.selectedItems.value!!.size)
+        assertEquals(testItem2, viewModel.selectedItems.value!![1])
     }
 }

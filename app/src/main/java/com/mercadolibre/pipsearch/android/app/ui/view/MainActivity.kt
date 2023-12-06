@@ -37,7 +37,7 @@ class MainActivity : AbstractActivity() {
         setBaseScreen()
         linkedWithCartActivity()
         initRecyclerViewAndAdapter()
-        observe()
+        observes()
     }
 
     /**
@@ -86,16 +86,21 @@ class MainActivity : AbstractActivity() {
     /**
      * Observes livedata variables from view model.
      */
-    private fun observe() {
-        observeSerachResults()
+    private fun observes() {
+        observeSearchResults()
+        observeItemsOnCart()
     }
 
-    private fun observeSerachResults() {
-        mainViewModel.searchResults.observe(
-            this
-        ) {
+    private fun observeSearchResults() {
+        mainViewModel.searchResults.observe(this) {
             listOfItems = it.results
             showListOfItems()
+        }
+    }
+
+    private fun observeItemsOnCart() {
+        mainViewModel.selectedItems.observe(this) {
+            updateQuantityOfItems(it)
         }
     }
 
@@ -112,8 +117,8 @@ class MainActivity : AbstractActivity() {
     }
 
     /**
-     * Receive text from Searchbox UI.
-     * Verify if it is too long or it is blank and send to search or show error message.
+     * Receives text from Searchbox UI.
+     * Verify if text is too long or it is blank and sends to search or show error message.
      */
     private fun sendTextToSearch(text: String) {
         when {
@@ -152,5 +157,9 @@ class MainActivity : AbstractActivity() {
     private fun showBaseScreenHideRecyclerView() {
         binding!!.pipMainBodyRecyclerContainer.visibility = View.GONE
         binding!!.pipMainBodyImageContainer.visibility = View.VISIBLE
+    }
+
+    private fun updateQuantityOfItems(itemsOnCart: MutableList<ItemDto>) {
+        binding!!.pipMainHeaderCartPill.text = itemsOnCart.size.toString()
     }
 }

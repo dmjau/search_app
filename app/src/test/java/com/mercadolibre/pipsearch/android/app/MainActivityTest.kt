@@ -330,4 +330,62 @@ class MainActivityTest {
         // then
         Intents.intended(IntentMatchers.hasComponent(ComponentName(InstrumentationRegistry.getInstrumentation().context, CartActivity::class.java)))
     }
+
+    @Test
+    fun testInitialQuantityItemsOnCartWhenStartMainActivity() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+
+            // then
+            assertEquals("0", reflectionBinding.pipMainHeaderCartPill.text)
+        }
+    }
+
+    @Test
+    fun testUpdateViewQuantityItemsOnCartFromMainViewModel() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+
+            val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            val mutableListItemsOnCart: MutableList<ItemDto> = mutableListOf()
+
+            val reflectionMutableLiveDataSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+            // then
+            assertEquals("0", reflectionBinding.pipMainHeaderCartPill.text)
+
+            // added first item
+            mutableListItemsOnCart.add(testItem1)
+            reflectionMutableLiveDataSelectedItems.value = mutableListItemsOnCart
+
+            ReflectionHelpers.setField(viewModel, "selectedItems", reflectionMutableLiveDataSelectedItems)
+
+            var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+            // then
+            assertEquals(1, reflectionSelectedItems.value!!.size)
+            assertEquals(1, viewModel.selectedItems.value!!.size)
+            assertEquals("1", reflectionBinding.pipMainHeaderCartPill.text)
+
+            // added second item
+            val testItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+            mutableListItemsOnCart.add(testItem2)
+            reflectionMutableLiveDataSelectedItems.value = mutableListItemsOnCart
+
+            ReflectionHelpers.setField(viewModel, "selectedItems", reflectionMutableLiveDataSelectedItems)
+
+            reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
+
+            // then
+            assertEquals(2, reflectionSelectedItems.value!!.size)
+            assertEquals(2, viewModel.selectedItems.value!!.size)
+            assertEquals("2", reflectionBinding.pipMainHeaderCartPill.text)
+        }
+    }
 }
