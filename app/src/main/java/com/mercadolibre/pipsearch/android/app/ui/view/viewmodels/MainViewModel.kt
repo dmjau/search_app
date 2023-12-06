@@ -30,10 +30,6 @@ class MainViewModel : ViewModel() {
     var selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
         private set
 
-    init {
-        updateItemsOnCart()
-    }
-
     fun updateItemsOnCart() {
         selectedItems.postValue(cartManager.itemsOnCart)
     }
