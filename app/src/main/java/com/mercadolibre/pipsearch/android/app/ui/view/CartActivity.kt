@@ -27,8 +27,17 @@ class CartActivity : AppCompatActivity() {
         setTitleHeader()
         setBackToMainActivityListener()
         initRecyclerViewAndAdapter()
+        initItemsOnCartVariable()
         observe()
     }
+
+    /**
+     * Set base screen with initial title and subtitle.
+     */
+    private fun initItemsOnCartVariable() {
+        cartViewModel.updateItemsOnCart()
+    }
+
 
     /**
      * Set base screen with initial title and subtitle.
