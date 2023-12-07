@@ -249,14 +249,15 @@ class CartActivityTest {
         launchActivity<CartActivity>().onActivity { activity ->
 
             val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
-            var reflectionItemsOnTheList =
-                ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
+            var reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
 
             // initial list
             assertEquals(0, reflectionItemsOnTheList.size)
 
             // when
             cartManager.addItemToCart(mockItem1)
+            viewModel.updateItemsOnCart()
 
             reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
 

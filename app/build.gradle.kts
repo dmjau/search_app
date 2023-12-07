@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.misc.appCompat)
     implementation(libs.misc.recyclerView)
     implementation(libs.misc.fresco)
+    implementation(libs.misc.frescoConfig)
+    implementation(libs.misc.fontConfig)
+    implementation(libs.misc.andesConfig)
 
     // Mercadolibre Libs
     implementation(libs.meli.commonsCore)

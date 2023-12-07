@@ -41,6 +41,11 @@ class MainActivity : AbstractActivity() {
         observes()
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.updateItemsOnCart()
+    }
+
     /**
      * Instance and init searchbox listeners.
      */

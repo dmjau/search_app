@@ -25,18 +25,13 @@ class MainViewModel : ViewModel() {
         _exceptionOrErrorResult.postValue(throwable.message)
     }
 
-    private val _selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
-    private val itemsObserver: Observer<MutableList<ItemDto>> = Observer { itemsOnCart ->
-        _selectedItems.postValue(itemsOnCart)
-    }
-
-
     val searchResults: LiveData<ScreenItemsDto> = _searchResults
     val exceptionOrErrorResult: LiveData<String> = _exceptionOrErrorResult
-    val selectedItems: LiveData<MutableList<ItemDto>> = _selectedItems
+    var selectedItems: MutableLiveData<MutableList<ItemDto>> = MutableLiveData(mutableListOf())
+        private set
 
-    init {
-        cartManager.itemsOnCart.observeForever(itemsObserver)
+    fun updateItemsOnCart() {
+        selectedItems.postValue(cartManager.itemsOnCart)
     }
 
     fun fetchResults(textToSearch: String) {
@@ -53,10 +48,6 @@ class MainViewModel : ViewModel() {
 
     fun addItemToCart(item: ItemDto) {
         cartManager.addItemToCart(item)
-    }
-
-    override fun onCleared() {
-        cartManager.itemsOnCart.removeObserver(itemsObserver)
-        super.onCleared()
+        updateItemsOnCart()
     }
 }

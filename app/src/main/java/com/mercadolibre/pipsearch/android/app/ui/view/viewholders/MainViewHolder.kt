@@ -30,13 +30,21 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
             price.text = itemData.price.toString()
             title.text = itemData.title
 
-            showMarketFields(itemData.tags)
+            checkNullTagsList(itemData.tags)
 
             buttomAddToCart.setOnClickListener {
                 onItemDataClickListener?.let { listener ->
                     listener(itemData)
                 }
             }
+        }
+    }
+
+    private fun checkNullTagsList(tags: List<String>?) {
+        if (tags == null) {
+            showButtonAddToCart()
+        } else {
+            showMarketFields(tags)
         }
     }
 

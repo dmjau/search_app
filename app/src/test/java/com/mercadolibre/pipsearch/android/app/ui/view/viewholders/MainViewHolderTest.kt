@@ -20,6 +20,7 @@ class MainViewHolderTest : AbstractRobolectricTest() {
     private val layoutInflater = LayoutInflater.from(parent.context)
     private val itemDataFull = "item_data_full.json"
     private val itemDataWithoutTags = "item_data_without_tags.json"
+    private val itemDataNullTags = "item_data_null_tags.json"
 
     @Before
     override fun setUp() {
@@ -146,6 +147,30 @@ class MainViewHolderTest : AbstractRobolectricTest() {
 
                 // then
                 assertEquals(itemDataFromView, data)
+            }
+        }
+    }
+
+    @Test
+    fun testBindViewWithNullTagsListShowButtonAddToCart() {
+        // given
+        TestResourceParser.getTestResourceObject(itemDataNullTags, ItemDto::class.java).let { data ->
+            val mainViewHolder = MainViewHolder.instance(layoutInflater, parent)
+
+            // when
+            mainViewHolder.bind(data!!) { }
+
+            ReflectionHelpers.getField<PipSearchAppMainListItemBinding>(mainViewHolder, "binding").let { binding ->
+
+                // then
+                assertEquals("Cerveza Heineken Rubia", binding.title.text.toString())
+                assertEquals("12885.6", binding.price.text.toString())
+                assertEquals("$", binding.iconPrice.text.toString())
+                assertNotNull(binding.image)
+                assertNotNull(binding.image.drawable)
+                assertNotNull(binding.image.controller)
+                assertEquals(View.GONE, binding.market.visibility)
+                assertEquals(View.VISIBLE, binding.buttomAddToCart.visibility)
             }
         }
     }
