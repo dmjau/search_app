@@ -223,11 +223,15 @@ class CartActivityTest {
         launchActivity<CartActivity>().onActivity { activity ->
 
             val mockItem1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", emptyList())
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
+
             cartManager.addItemToCart(mockItem1)
+            viewModel.updateItemsOnCart()
 
             var reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
 
             // initial list
+            assertEquals(1, viewModel.selectedItems.value!!.size)
             assertEquals(1, reflectionItemsOnTheList.size)
 
             val onItemDeleteMethod = activity.javaClass.getDeclaredMethod("onItemDelete", ItemDto::class.java)
@@ -239,6 +243,7 @@ class CartActivityTest {
             reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
 
             // then
+            assertEquals(0, viewModel.selectedItems.value!!.size)
             assertEquals(0, reflectionItemsOnTheList.size)
         }
     }
