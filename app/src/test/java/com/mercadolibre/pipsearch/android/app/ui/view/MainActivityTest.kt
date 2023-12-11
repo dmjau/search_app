@@ -1,4 +1,4 @@
-package com.mercadolibre.pipsearch.android.app
+package com.mercadolibre.pipsearch.android.app.ui.view
 
 import android.content.ComponentName
 import android.view.View.GONE
@@ -22,8 +22,6 @@ import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
 import com.mercadolibre.pipsearch.android.app.domain.CartManager
-import com.mercadolibre.pipsearch.android.app.ui.view.CartActivity
-import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
 import com.mercadolibre.pipsearch.android.app.ui.view.adapters.MainAdapter
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBinding

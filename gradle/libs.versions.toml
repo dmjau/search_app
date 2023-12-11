@@ -25,6 +25,9 @@ configurationManager = "8.+"
 appCompat = "1.3.1"
 recyclerViewVersion = "1.2.1"
 frescoVersion = "2.4.0"
+mlConfigVersion = "34.16.0"
+mlFrescoConfigVersionDevelop = "develop-34.+"
+mlFontConfigVersionDevelop = "develop-34.+"
 
 ##################################################################################
 # Test libs
@@ -68,6 +71,9 @@ meli-testingCore = { module ="com.mercadolibre.android.testing:core", version.re
 misc-appCompat = { module ="androidx.appcompat:appcompat", version.ref = "appCompat" }
 misc-recyclerView = { module ="androidx.recyclerview:recyclerview", version.ref = "recyclerViewVersion" }
 misc-fresco = { module ="com.facebook.fresco:fresco", version.ref = "frescoVersion" }
+misc-frescoConfig = { module ="com.mercadolibre.android.configuration.provider:fresco-configurator", version.ref = "mlFrescoConfigVersionDevelop" }
+misc-fontConfig = { module ="com.mercadolibre.android.configuration.provider:font-configurator", version.ref = "mlFontConfigVersionDevelop" }
+misc-andesConfig = { module ="com.mercadolibre.android.configuration.provider:andes-configurator", version.ref = "mlConfigVersion" }
 
 ##################################################################################
 # Test libs
