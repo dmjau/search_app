@@ -37,7 +37,13 @@ class MainActivity : AbstractActivity() {
         setBaseScreen()
         linkedWithCartActivity()
         initRecyclerViewAndAdapter()
+        setAdapterCallback()
         observes()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainViewModel.updateItemsOnCart()
     }
 
     /**
@@ -81,6 +87,19 @@ class MainActivity : AbstractActivity() {
 
     private fun setIntentAndStartCartActivity() {
         startActivity(Intent(this, CartActivity::class.java))
+    }
+
+    private fun setAdapterCallback() {
+        mainAdapter.setOnItemDataClickListener { itemData ->
+            onItemAddToCart(itemData)
+        }
+    }
+
+    /**
+     * Receives data (ItemDto) from search results list UI and sends to ViewModel to add to cart.
+     */
+    private fun onItemAddToCart(itemData: ItemDto) {
+        mainViewModel.addItemToCart(itemData)
     }
 
     /**

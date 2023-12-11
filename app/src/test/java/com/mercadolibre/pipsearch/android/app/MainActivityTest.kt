@@ -21,6 +21,7 @@ import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.app.data.model.ScreenItemsDto
 import com.mercadolibre.pipsearch.android.app.data.repository.SearchItemsRepository
+import com.mercadolibre.pipsearch.android.app.domain.CartManager
 import com.mercadolibre.pipsearch.android.app.ui.view.CartActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.MainActivity
 import com.mercadolibre.pipsearch.android.app.ui.view.viewmodels.MainViewModel
@@ -29,10 +30,12 @@ import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainActivityBi
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,6 +61,17 @@ class MainActivityTest {
 
     private val mockRepository = mockk<SearchItemsRepository>(relaxed = true)
     private lateinit var viewModel: MainViewModel
+    private lateinit var cartManager: CartManager
+
+    @Before
+    fun setup() {
+        cartManager = CartManager
+    }
+
+    @After
+    fun tearDown() {
+        cartManager.resetState()
+    }
 
     @Test
     fun testMainActivityInstance() {
@@ -83,11 +97,11 @@ class MainActivityTest {
     fun testMainActivityInstanceBinding() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
-            assertNotNull(reflectionActivityBinding)
-            assertNotNull(reflectionActivityBinding.root)
+            assertNotNull(reflectionBinding)
+            assertNotNull(reflectionBinding.root)
         }
     }
 
@@ -95,11 +109,11 @@ class MainActivityTest {
     fun testMainActivityBindingSetListener() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            val reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
             // then
-            assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
-            assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+            assertNotNull(reflectionBinding.pipMainHeaderSearchbox.onSearchListener)
+            assertTrue(reflectionBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
         }
     }
 
@@ -107,17 +121,17 @@ class MainActivityTest {
     fun testMainActivityNotSetListenerWithoutBinding() {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
-            var reflectionActivityBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
+            var reflectionBinding = ReflectionHelpers.getField<PipSearchAppMainActivityBinding>(activity, "binding")
 
-            assertNotNull(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener)
-            assertTrue(reflectionActivityBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
+            assertNotNull(reflectionBinding.pipMainHeaderSearchbox.onSearchListener)
+            assertTrue(reflectionBinding.pipMainHeaderSearchbox.onSearchListener is AndesSearchbox.OnSearchListener)
 
             // when
             ReflectionHelpers.setField(activity, "binding", null)
-            reflectionActivityBinding = ReflectionHelpers.getField(activity, "binding")
+            reflectionBinding = ReflectionHelpers.getField(activity, "binding")
 
             // then
-            assertNull(reflectionActivityBinding)
+            assertNull(reflectionBinding)
         }
     }
 
@@ -130,10 +144,10 @@ class MainActivityTest {
             ReflectionHelpers.setField(viewModel, "repository", mockRepository)
 
             // set mockResponse
-            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
                 mockRepository.getAll(any())
-            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
             val reflectionBeforeFetchResults =
                 ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(
@@ -169,10 +183,10 @@ class MainActivityTest {
             ReflectionHelpers.setField(viewModel, "repository", mockRepository)
 
             // set mockResponse
-            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
                 mockRepository.getAll(any())
-            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
             val reflectionBeforeFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
@@ -204,10 +218,10 @@ class MainActivityTest {
             ReflectionHelpers.setField(viewModel, "repository", mockRepository)
 
             // set mockResponse
-            val mockItem = ItemDto("Item 1", 10.0, "test", emptyList())
+            val testItem = ItemDto("Item 1", 10.0, "test", emptyList())
             coEvery {
                 mockRepository.getAll(any())
-            } returns RestClientResult.Success(ScreenItemsDto(listOf(mockItem)))
+            } returns RestClientResult.Success(ScreenItemsDto(listOf(testItem)))
 
             val reflectionBeforeFetchResults = ReflectionHelpers.getField<MutableLiveData<ScreenItemsDto>>(viewModel, "_searchResults")
 
@@ -275,10 +289,10 @@ class MainActivityTest {
         // given
         launchActivity<MainActivity>().onActivity { activity ->
             // set mockResponse
-            val mockItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
-            val mockItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
-            val mockListOfResults = listOf(mockItem1, mockItem2)
-            ReflectionHelpers.setField(activity, "listOfItems", mockListOfResults)
+            val testItem1 = ItemDto("Item 1", 10.0, "test1", emptyList())
+            val testItem2 = ItemDto("Item 2", 20.0, "test2", emptyList())
+            val testListOfResults = listOf(testItem1, testItem2)
+            ReflectionHelpers.setField(activity, "listOfItems", testListOfResults)
 
             val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems")
             showListOfItemsMethod.isAccessible = true
@@ -289,12 +303,12 @@ class MainActivityTest {
             val reflectionAdapter = ReflectionHelpers.getField<MainAdapter>(activity, "mainAdapter")
 
             // then
-            assertEquals(mockListOfResults.count(), reflectionAdapter.itemCount)
+            assertEquals(testListOfResults.count(), reflectionAdapter.itemCount)
 
             val reflectionListOftemsAdpater = ReflectionHelpers.getField<List<ItemDto>>(reflectionAdapter, "listOfItems")
 
             // then
-            assertEquals(mockListOfResults, reflectionListOftemsAdpater)
+            assertEquals(testListOfResults, reflectionListOftemsAdpater)
         }
     }
 
@@ -386,6 +400,39 @@ class MainActivityTest {
             assertEquals(2, reflectionSelectedItems.value!!.size)
             assertEquals(2, viewModel.selectedItems.value!!.size)
             assertEquals("2", reflectionBinding.pipMainHeaderCartPill.text)
+        }
+    }
+
+    @Test
+    fun testMainActivityAddItemDataOnCart() {
+        // given
+        launchActivity<MainActivity>().onActivity { activity ->
+
+            viewModel = ViewModelProvider(activity).get(MainViewModel::class.java)
+            val testItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
+            val testItem2 = ItemDto("Item 2", 20.0, "test_2", emptyList())
+
+            // call viewmodel.addItemToCart(itemData) in the MainActivity
+            val onItemToAddToCartMethod = activity.javaClass.getDeclaredMethod("onItemAddToCart", ItemDto::class.java)
+            onItemToAddToCartMethod.isAccessible = true
+
+            // when
+            onItemToAddToCartMethod.invoke(activity, testItem1)
+
+            var reflectionItemsOnCart = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+            // then first item was added
+            assertEquals(1, reflectionItemsOnCart.value!!.size)
+            assertEquals(1, viewModel.selectedItems.value!!.size)
+
+            // when
+            onItemToAddToCartMethod.invoke(activity, testItem2)
+
+            reflectionItemsOnCart = ReflectionHelpers.getField(viewModel, "selectedItems")
+
+            // then second item was added
+            assertEquals(2, reflectionItemsOnCart.value!!.size)
+            assertEquals(2, viewModel.selectedItems.value!!.size)
         }
     }
 }
