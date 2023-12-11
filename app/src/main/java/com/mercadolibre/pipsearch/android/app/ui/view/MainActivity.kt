@@ -179,8 +179,6 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun updateQuantityOfItems(itemsOnCart: MutableList<ItemDto>) {
-        binding?.let {
-            it.pipMainHeaderCartPill.text = itemsOnCart.size.toString()
-        }
+        binding!!.pipMainHeaderCartPill.text = itemsOnCart.size.toString()
     }
 }
