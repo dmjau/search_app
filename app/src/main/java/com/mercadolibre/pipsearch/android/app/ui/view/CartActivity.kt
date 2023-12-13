@@ -16,7 +16,6 @@ class CartActivity : AppCompatActivity() {
     private var binding: PipSearchAppCartActivityBinding? = null
     private var cartAdapter: CartAdapter = CartAdapter()
     private val cartViewModel: CartViewModel by viewModels()
-    private var itemsOnCart: List<ItemDto> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,19 +77,14 @@ class CartActivity : AppCompatActivity() {
 
     private fun checkCartIsEmpty(itemList: List<ItemDto>) {
         if (itemList.isNotEmpty()) {
-            setItemsList(itemList)
+            showListOfItems(itemList)
         } else {
             setBaseScreen()
         }
     }
 
-    private fun setItemsList(itemList: List<ItemDto>) {
-        itemsOnCart = itemList
-        showListOfItems()
-    }
-
-    private fun showListOfItems() {
-        cartAdapter.setItems(itemsOnCart)
+    private fun showListOfItems(itemList: List<ItemDto>) {
+        cartAdapter.setItems(itemList)
         showRecyclerViewHideBaseScreen()
     }
 

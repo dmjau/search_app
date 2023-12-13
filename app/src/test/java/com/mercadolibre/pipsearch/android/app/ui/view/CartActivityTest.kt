@@ -3,6 +3,7 @@ package com.mercadolibre.pipsearch.android.app.ui.view
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.launchActivity
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
@@ -133,27 +134,54 @@ class CartActivityTest {
             val mockCartAdapter = mockk<CartAdapter>(relaxed = true)
             ReflectionHelpers.setField(activity, "cartAdapter", mockCartAdapter)
 
-            val reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
-
-            // initial list
-            assertEquals(0, reflectionItemsOnTheList.size)
-
             // add items on the list
-            val itemsOnCart: MutableList<ItemDto> = mutableListOf()
+            val testItemsOnCart: MutableList<ItemDto> = mutableListOf()
             val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
             val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTags)
             val itemTest2 = ItemDto("itemTest 2", 2222.0, "https://test_image_item_test_2.jpg", listOfTags)
 
-            itemsOnCart.add(itemTest1)
-            itemsOnCart.add(itemTest2)
+            testItemsOnCart.add(itemTest1)
+            testItemsOnCart.add(itemTest2)
 
-            ReflectionHelpers.setField(activity, "itemsOnCart", itemsOnCart)
-
-            val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems")
+            val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems", List::class.java)
             showListOfItemsMethod.isAccessible = true
 
             // when
-            showListOfItemsMethod.invoke(activity)
+            showListOfItemsMethod.invoke(activity, testItemsOnCart)
+
+            // then
+            verify {
+                mockCartAdapter.setItems(any())
+            }
+        }
+    }
+
+    @Test
+    fun testSetItemsOnCartAdapterWhenChangeItemsOnCart() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
+
+            val mockCartAdapter = mockk<CartAdapter>(relaxed = true)
+            ReflectionHelpers.setField(activity, "cartAdapter", mockCartAdapter)
+
+            val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+            // initial list
+            assertEquals(0, reflectionSelectedItems.value!!.size)
+
+            verify(inverse = true) {
+                mockCartAdapter.setItems(any())
+            }
+
+            // add items on the cart list
+            val listOfTagsTest = listOf("tag_1_test", "tag_1_test", "tag_1_test")
+            val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTagsTest)
+            cartManager.addItemToCart(itemTest1)
+
+            // when
+            viewModel.updateItemsOnCart()
 
             // then
             verify {
@@ -167,26 +195,24 @@ class CartActivityTest {
         // given
         launchActivity<CartActivity>().onActivity { activity ->
 
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
-            val reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+            val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
             // initial list
-            assertEquals(0, reflectionItemsOnTheList.size)
+            assertEquals(0, reflectionSelectedItems.value!!.size)
 
-            // add items on the list
-            val itemsOnCart: MutableList<ItemDto> = mutableListOf()
-            val listOfTags = listOf("tag_1_test", "tag_1_test", "tag_1_test")
-            val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTags)
+            // then
+            assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
+            assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
 
-            itemsOnCart.add(itemTest1)
-
-            ReflectionHelpers.setField(activity, "itemsOnCart", itemsOnCart)
-
-            val showListOfItemsMethod = activity.javaClass.getDeclaredMethod("showListOfItems")
-            showListOfItemsMethod.isAccessible = true
+            // add items on the cart list
+            val listOfTagsTest = listOf("tag_1_test", "tag_1_test", "tag_1_test")
+            val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTagsTest)
+            cartManager.addItemToCart(itemTest1)
 
             // when
-            showListOfItemsMethod.invoke(activity)
+            viewModel.updateItemsOnCart()
 
             // then
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
@@ -199,37 +225,16 @@ class CartActivityTest {
         // given
         launchActivity<CartActivity>().onActivity { activity ->
 
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
             val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
-            val reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
+            val reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
 
             // initial list
-            assertEquals(0, reflectionItemsOnTheList.size)
+            assertEquals(0, reflectionSelectedItems.value!!.size)
 
             // then
             assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
-        }
-    }
-
-    @Test
-    fun testCheckCartIsNotEmpty() {
-        // given
-        launchActivity<CartActivity>().onActivity { activity ->
-
-            val mockItem1 = ItemDto("Item 1", 10.0, "test_1", emptyList())
-            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
-            var reflectionItemsOnTheList = ReflectionHelpers.getField<MutableList<ItemDto>>(activity, "itemsOnCart")
-
-            // initial list
-            assertEquals(0, reflectionItemsOnTheList.size)
-
-            // when
-            cartManager.addItemToCart(mockItem1)
-            viewModel.updateItemsOnCart()
-
-            reflectionItemsOnTheList = ReflectionHelpers.getField(activity, "itemsOnCart")
-
-            assertEquals(1, reflectionItemsOnTheList.size)
         }
     }
 }
