@@ -16,7 +16,6 @@ class CartActivity : AppCompatActivity() {
     private var binding: PipSearchAppCartActivityBinding? = null
     private var cartAdapter: CartAdapter = CartAdapter()
     private val cartViewModel: CartViewModel by viewModels()
-    private var itemsOnCart: List<ItemDto> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,7 @@ class CartActivity : AppCompatActivity() {
         initRecyclerViewAndAdapter()
         setAdapterCallback()
         initItemsOnCartVariable()
-        observe()
+        observeCurrentItemsOnCartList()
     }
 
     /**
@@ -68,7 +67,7 @@ class CartActivity : AppCompatActivity() {
     /**
      * Set observe on list items.
      */
-    private fun observe() {
+    private fun observeCurrentItemsOnCartList() {
         cartViewModel.selectedItems.observe(
             { lifecycle },
             {
@@ -77,21 +76,16 @@ class CartActivity : AppCompatActivity() {
         )
     }
 
-    private fun checkCartIsEmpty(itemList: List<ItemDto>) {
-        if (itemList.isNotEmpty()) {
-            setItemsList(itemList)
-        } else {
+    private fun checkCartIsEmpty(itemList: List<ItemDto>?) {
+        if (itemList.isNullOrEmpty()) {
             setBaseScreen()
+        } else {
+            showListOfItems(itemList)
         }
     }
 
-    private fun setItemsList(itemList: List<ItemDto>) {
-        itemsOnCart = itemList
-        showListOfItems()
-    }
-
-    private fun showListOfItems() {
-        cartAdapter.setItems(itemsOnCart)
+    private fun showListOfItems(itemList: List<ItemDto>) {
+        cartAdapter.setItems(itemList)
         showRecyclerViewHideBaseScreen()
     }
 
