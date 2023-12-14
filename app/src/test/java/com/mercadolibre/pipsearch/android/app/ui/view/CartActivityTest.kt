@@ -16,6 +16,7 @@ import io.mockk.verify
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -233,6 +234,31 @@ class CartActivityTest {
             assertEquals(0, reflectionSelectedItems.value!!.size)
 
             // then
+            assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
+            assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
+        }
+    }
+
+    @Test
+    fun testShowBaseScreenIfListOfItemsOnCartIsNull() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
+            val reflectionBinding = ReflectionHelpers.getField<PipSearchAppCartActivityBinding>(activity, "binding")
+            var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+            // initial list
+            assertEquals(0, reflectionSelectedItems.value!!.size)
+
+            // when
+            ReflectionHelpers.setField(cartManager, "itemsOnCart", null)
+            viewModel.updateItemsOnCart()
+
+            reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
+
+            // then
+            assertNull(reflectionSelectedItems.value)
             assertEquals(GONE, reflectionBinding.pipCartBodyRecyclerContainer.visibility)
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
         }

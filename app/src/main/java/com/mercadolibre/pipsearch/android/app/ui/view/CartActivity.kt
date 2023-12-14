@@ -27,7 +27,7 @@ class CartActivity : AppCompatActivity() {
         setBackToMainActivityListener()
         initRecyclerViewAndAdapter()
         initItemsOnCartVariable()
-        observe()
+        observeCurrentItemsOnCartList()
     }
 
     /**
@@ -66,7 +66,7 @@ class CartActivity : AppCompatActivity() {
     /**
      * Set observe on list items.
      */
-    private fun observe() {
+    private fun observeCurrentItemsOnCartList() {
         cartViewModel.selectedItems.observe(
             { lifecycle },
             {
@@ -75,11 +75,11 @@ class CartActivity : AppCompatActivity() {
         )
     }
 
-    private fun checkCartIsEmpty(itemList: List<ItemDto>) {
-        if (itemList.isNotEmpty()) {
-            showListOfItems(itemList)
-        } else {
+    private fun checkCartIsEmpty(itemList: List<ItemDto>?) {
+        if (itemList.isNullOrEmpty()) {
             setBaseScreen()
+        } else {
+            showListOfItems(itemList)
         }
     }
 
