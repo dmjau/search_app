@@ -4,9 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mercadolibre.android.andesui.color.AndesColor
-import com.mercadolibre.android.andesui.textview.AndesTextView
-import com.mercadolibre.pipsearch.android.R
 import com.mercadolibre.pipsearch.android.app.data.model.ItemDto
 import com.mercadolibre.pipsearch.android.databinding.PipSearchAppMainListItemBinding
 
@@ -30,13 +27,21 @@ class MainViewHolder(private val binding: PipSearchAppMainListItemBinding) : Rec
             price.text = itemData.price.toString()
             title.text = itemData.title
 
-            showMarketFields(itemData.tags)
+            validateTagList(itemData.tags)
 
             buttomAddToCart.setOnClickListener {
                 onItemDataClickListener?.let { listener ->
                     listener(itemData)
                 }
             }
+        }
+    }
+
+    private fun validateTagList(tags: List<String>?) {
+        if (tags == null) {
+            showButtonAddToCart()
+        } else {
+            showMarketFields(tags)
         }
     }
 

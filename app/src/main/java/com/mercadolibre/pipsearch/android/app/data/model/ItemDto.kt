@@ -7,5 +7,5 @@ data class ItemDto(
     val title: String,
     val price: Double,
     val thumbnail: String,
-    val tags: List<String>
+    val tags: List<String>?
 )

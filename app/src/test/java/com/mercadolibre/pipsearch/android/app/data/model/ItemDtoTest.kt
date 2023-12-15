@@ -1,6 +1,7 @@
 package com.mercadolibre.pipsearch.android.app.data.model
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class ItemDtoTest {
@@ -21,5 +22,23 @@ class ItemDtoTest {
         assertEquals(1234.0, itemTest.price, 0.0)
         assertEquals("https://test_item_image.jpg", itemTest.thumbnail)
         assertEquals(listOfTags, itemTest.tags)
+    }
+
+    @Test
+    fun `Item DTO parses ok with tag null`() {
+        // given
+        val listOfTags = null
+        val itemTest = ItemDto(
+            "title dto item test",
+            1234.0,
+            "https://test_item_image.jpg",
+            listOfTags
+        )
+
+        // then
+        assertEquals("title dto item test", itemTest.title)
+        assertEquals(1234.0, itemTest.price, 0.0)
+        assertEquals("https://test_item_image.jpg", itemTest.thumbnail)
+        assertNull( itemTest.tags)
     }
 }

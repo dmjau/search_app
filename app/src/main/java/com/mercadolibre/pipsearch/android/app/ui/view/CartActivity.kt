@@ -15,6 +15,7 @@ class CartActivity : AppCompatActivity() {
 
     private var binding: PipSearchAppCartActivityBinding? = null
     private var cartAdapter: CartAdapter = CartAdapter()
+    private val cartViewModel: CartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +24,19 @@ class CartActivity : AppCompatActivity() {
         setContentView(binding!!.root)
 
         setTitleHeader()
-        setBaseScreen()
         setBackToMainActivityListener()
         initRecyclerViewAndAdapter()
+        initItemsOnCartVariable()
+        observeCurrentItemsOnCartList()
     }
+
+    /**
+     * Set base screen with initial title and subtitle.
+     */
+    private fun initItemsOnCartVariable() {
+        cartViewModel.updateItemsOnCart()
+    }
+
 
     /**
      * Set base screen with initial title and subtitle.
@@ -41,6 +51,41 @@ class CartActivity : AppCompatActivity() {
         binding!!.pipCartHeaderBack.setOnClickListener {
             finish()
         }
+    }
+
+    /**
+     * Init recycler view and adapter.
+     */
+    private fun initRecyclerViewAndAdapter() {
+        with(binding!!.pipCartBodyRecyclerContainer) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = cartAdapter
+        }
+    }
+
+    /**
+     * Set observe on list items.
+     */
+    private fun observeCurrentItemsOnCartList() {
+        cartViewModel.selectedItems.observe(
+            { lifecycle },
+            {
+                checkCartIsEmpty(it)
+            }
+        )
+    }
+
+    private fun checkCartIsEmpty(itemList: List<ItemDto>?) {
+        if (itemList.isNullOrEmpty()) {
+            setBaseScreen()
+        } else {
+            showListOfItems(itemList)
+        }
+    }
+
+    private fun showListOfItems(itemList: List<ItemDto>) {
+        cartAdapter.setItems(itemList)
+        showRecyclerViewHideBaseScreen()
     }
 
     /**
@@ -63,13 +108,11 @@ class CartActivity : AppCompatActivity() {
         binding!!.pipCartBodyImageContainer.visibility = View.VISIBLE
     }
 
-    /**
-     * Init recycler view and adapter.
-     */
-    private fun initRecyclerViewAndAdapter() {
-        with(binding!!.pipCartBodyRecyclerContainer) {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = cartAdapter
+    private fun showRecyclerViewHideBaseScreen() {
+        binding!!.pipCartBodyRecyclerContainer.apply {
+            this.removeAllViews()
+            this.visibility = View.VISIBLE
         }
+        binding!!.pipCartBodyImageContainer.visibility = View.GONE
     }
 }
