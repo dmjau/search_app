@@ -271,4 +271,40 @@ class CartActivityTest {
             assertEquals(VISIBLE, reflectionBinding.pipCartBodyImageContainer.visibility)
         }
     }
+
+    @Test
+    fun testOnItemDelete() {
+        // given
+        launchActivity<CartActivity>().onActivity { activity ->
+
+            viewModel = ViewModelProvider(activity).get(CartViewModel::class.java)
+
+            var reflectionSelectedItems = ReflectionHelpers.getField<MutableLiveData<MutableList<ItemDto>>>(viewModel, "selectedItems")
+
+            // initial list
+            assertEquals(0, reflectionSelectedItems.value!!.size)
+
+            // add items on the cart list
+            val listOfTagsTest = listOf("tag_1_test", "tag_1_test", "tag_1_test")
+            val itemTest1 = ItemDto("itemTest 1", 1111.0, "https://test_image_item_test_1.jpg", listOfTagsTest)
+
+            cartManager.addItemToCart(itemTest1)
+            viewModel.updateItemsOnCart()
+
+            reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
+
+            assertEquals(1, reflectionSelectedItems.value!!.size)
+
+            val onItemDeleteMethod = activity.javaClass.getDeclaredMethod("onItemDelete", ItemDto::class.java)
+            onItemDeleteMethod.isAccessible = true
+
+            // when
+            onItemDeleteMethod.invoke(activity, itemTest1)
+
+            reflectionSelectedItems = ReflectionHelpers.getField(viewModel, "selectedItems")
+
+            // then
+            assertEquals(0, reflectionSelectedItems.value!!.size)
+        }
+    }
 }
