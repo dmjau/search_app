@@ -46,24 +46,9 @@ espressoVersion = "3.4.0"
 # Plugins
 ##################################################################################
 misc-buildGradle = { module = "com.android.tools.build:gradle", version.ref = "gradleBuildToolsVersion" }
-misc-meliBasePlugin = { module = "com.mercadolibre.android.gradle:baseplugin", version.ref = "meliPluginGradleVersion" }
-misc-meliBaseApp = { module = "com.mercadolibre.android.gradle:app", version.ref = "meliPluginGradleVersion" }
 misc-mavenGradle = { module = "com.github.dcendents:android-maven-gradle-plugin", version.ref = "androidMavenGradlePlugin" }
 misc-kotlinGradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinVersion" }
 misc-dexCountGradlePlugin = { module = "com.getkeepsafe.dexcount:dexcount-gradle-plugin", version.ref = "dexCountPluginVersion" }
-
-##################################################################################
-# Everest
-##################################################################################
-meli-everest = { module = "com.mercadolibre.android.everest:platform", version.ref = "everestVersion" }
-
-##################################################################################
-# Meli libs
-##################################################################################
-meli-commonsCore = { module ="com.mercadolibre.android.commons:core", version.ref = "commons"}
-meli-commonsUtils = { module ="com.mercadolibre.android.commons:utils", version.ref = "commons"}
-meli-configurationManager = { module ="com.mercadolibre.android:configuration-manager", version.ref = "configurationManager"}
-meli-testingCore = { module ="com.mercadolibre.android.testing:core", version.ref = "testing"}
 
 ##################################################################################
 # Misc libs

@@ -66,11 +66,6 @@ dependencies {
     implementation(libs.misc.fontConfig)
     implementation(libs.misc.andesConfig)
 
-    // Mercadolibre Libs
-    implementation(libs.meli.commonsCore)
-    implementation(libs.meli.commonsUtils)
-    implementation(libs.meli.configurationManager)
-
     // Everest force
     api(enforcedPlatform(libs.meli.everest))
     // Everest bundles
@@ -79,7 +74,6 @@ dependencies {
     implementation(everestLibs.bundles.core)
 
     // Unit testing dependencies
-    testImplementation(libs.meli.testingCore)
     testImplementation(libs.misc.mockkTest)
     testImplementation(libs.misc.roboelectricTest)
     testImplementation(libs.misc.kotlinCoroutinesTest)
